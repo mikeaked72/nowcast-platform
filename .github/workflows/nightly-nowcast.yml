@@ -1,0 +1,62 @@
+name: Nightly nowcast refresh
+
+on:
+  schedule:
+    - cron: '15 21 * * 0-4'
+  workflow_dispatch:
+    inputs:
+      countries:
+        description: 'Comma-separated country codes to refresh'
+        required: false
+        default: 'us,au'
+
+jobs:
+  nightly-refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+
+      - name: Resolve countries
+        id: countries
+        run: |
+          INPUT_COUNTRIES="${{ github.event.inputs.countries }}"
+          if [ -z "$INPUT_COUNTRIES" ]; then INPUT_COUNTRIES="us,au"; fi
+          echo "countries=$INPUT_COUNTRIES" >> "$GITHUB_OUTPUT"
+
+      - name: Run overnight publish pipeline
+        run: |
+          python scripts/run_all_countries.py --countries "${{ steps.countries.outputs.countries }}" --publish-dir site/data
+
+      - name: Validate published outputs
+        run: |
+          python scripts/validate_outputs.py --countries "${{ steps.countries.outputs.countries }}" --publish-dir site/data
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Wrangler
+        run: npm install --global wrangler
+
+      - name: Deploy to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_PAGES_PROJECT: ${{ secrets.CLOUDFLARE_PAGES_PROJECT }}
+        run: |
+          wrangler pages deploy site --project-name "$CLOUDFLARE_PAGES_PROJECT" --branch main
