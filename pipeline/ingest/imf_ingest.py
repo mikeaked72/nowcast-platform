@@ -245,11 +245,17 @@ DM_COUNTRIES = ["US", "GB", "AU", "JP", "DE", "FR", "CA", "CH", "NZ"]
 
 ALL_COUNTRIES = EM_COUNTRIES + DM_COUNTRIES
 
-# FRED-MD equivalent indicators in IFS terms
-IFS_INDICATORS = [
+# FRED-MD equivalent indicators in IMF SDMX terms.
+# Keep the default production catalog limited to validated SDMX 2.1 keys.
+ACTIVE_IFS_INDICATORS = [
     # (local_suffix, freq, indicator_code, description)
     ("CPI",          "M", "PCPI_IX",           "Consumer prices, all items, index"),
     ("CPI_PCT",      "M", "PCPI_PC_CP_A_PT",   "CPI % change YoY"),
+]
+
+DISCOVERY_IFS_INDICATORS = [
+    # These legacy IFS-style concepts need current SDMX 2.1 codelist mapping
+    # before they should run in the default production update.
     ("POLICY_RATE",  "M", "FPOLM_PA",          "Policy rate / money market rate"),
     ("LENDING_RATE", "M", "FILR_PA",           "Lending rate"),
     ("DEPOSIT_RATE", "M", "FIDR_PA",           "Deposit rate"),
@@ -264,7 +270,7 @@ IFS_INDICATORS = [
 
 # Full catalog: cross-product of countries × indicators
 IMF_CATALOG = []
-for suffix, freq, ind, desc in IFS_INDICATORS:
+for suffix, freq, ind, desc in ACTIVE_IFS_INDICATORS:
     IMF_CATALOG.append({
         "suffix": suffix,
         "freq": freq,

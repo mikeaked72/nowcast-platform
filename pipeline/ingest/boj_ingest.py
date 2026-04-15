@@ -176,6 +176,36 @@ def fetch_flatfile(category: str, label: str | None = None) -> pd.DataFrame | No
 
 # ── curated catalog ───────────────────────────────────────────────────────────
 
+def fetch_flatfile_series(category: str, row_code: str, label: str) -> pd.DataFrame | None:
+    """
+    Download a BoJ flat-file package and extract one wide-row series to
+    normalized date,value form for the processed panel.
+    """
+    df = fetch_flatfile(category, label=f"{label}_package")
+    if df is None or df.empty:
+        return None
+
+    code_col = df.columns[0]
+    match = df[df[code_col].astype(str) == row_code]
+    if match.empty:
+        print(f"  [ERROR] BoJ flatfile {category}: row code {row_code} not found", file=sys.stderr)
+        return None
+
+    row = match.iloc[0]
+    date_cols = [col for col in df.columns if str(col).isdigit() and len(str(col)) == 6]
+    out = pd.DataFrame({
+        "date": pd.to_datetime([f"{str(col)[:4]}-{str(col)[4:]}-01" for col in date_cols], errors="coerce"),
+        "value": pd.to_numeric([row[col] for col in date_cols], errors="coerce"),
+    }).dropna()
+    if out.empty:
+        return None
+
+    out["date"] = out["date"].dt.strftime("%Y-%m-%d")
+    out_path = RAW_BOJ / f"{label}.csv"
+    out.to_csv(out_path, index=False)
+    return out
+
+
 BOJ_SERIES = [
     # (local_id, series_code, freq, description)
     ("JP_CALL_RATE",      "MADR1Z@D",        "D", "Japan call rate (uncollateralised overnight)"),
@@ -187,6 +217,11 @@ BOJ_SERIES = [
 
 BOJ_FLATFILES = [
     ("JP_BOJ_PR",     "pr", "BoJ price data (flat file)"),
+]
+
+BOJ_FLATFILE_SERIES = [
+    ("JP_CGPI", "pr", "PRCG20_2200000000", "Japan Corporate Goods Price Index, all commodities"),
+    ("JP_CURRENT_ACCOUNT", "bp", "BPBP6JYNCB", "Japan current account balance"),
 ]
 
 
@@ -219,3 +254,12 @@ if __name__ == "__main__":
             print(f"    OK: {df.shape[0]:,} rows, {df.shape[1]} cols")
         else:
             print(f"    FAILED")
+
+    print("\n[BoJ flat-file series]")
+    for local_id, cat, row_code, desc in BOJ_FLATFILE_SERIES:
+        print(f"  {local_id:20} {desc}")
+        df = fetch_flatfile_series(cat, row_code, label=local_id)
+        if df is not None and not df.empty:
+            print(f"    OK: {df.shape[0]:,} rows")
+        else:
+            print("    FAILED")

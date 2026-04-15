@@ -114,6 +114,47 @@ def _record(manifest, local_id, df, source_str):
     return True
 
 
+def _mark_skipped(manifest, local_id, source_str, reason):
+    existing = manifest["series"].get(local_id, {})
+    manifest["series"][local_id] = {
+        "last_updated": now_utc(),
+        "rows": int(existing.get("rows") or 0),
+        "start": existing.get("start"),
+        "end": existing.get("end"),
+        "source": source_str,
+        "status": "SKIPPED",
+        "reason": reason,
+    }
+
+
+def _mark_inactive_catalog_entries(manifest):
+    if imf is not None:
+        active_imf = {f"IMF_EM_{entry['suffix']}" for entry in imf.IMF_CATALOG}
+        for suffix, *_ in getattr(imf, "DISCOVERY_IFS_INDICATORS", []):
+            local_id = f"IMF_EM_{suffix}"
+            if local_id not in active_imf and local_id in manifest["series"]:
+                _mark_skipped(manifest, local_id, "imf:discovery", "Held for SDMX codelist discovery")
+
+    if buba is not None:
+        active_buba = {local_id for local_id, *_ in buba.BUBA_SERIES}
+        for local_id, info in list(manifest["series"].items()):
+            if str(info.get("source", "")).startswith("buba:") and local_id not in active_buba:
+                _mark_skipped(manifest, local_id, info.get("source", "buba:inactive"), "Removed from active Bundesbank catalog")
+
+    if bdf is None:
+        for local_id, info in list(manifest["series"].items()):
+            if str(info.get("source", "")).startswith("bdf:"):
+                _mark_skipped(manifest, local_id, info.get("source", "bdf:skipped"), "BDF credentials not configured")
+
+    if boj is not None:
+        active_boj = {local_id for local_id, *_ in getattr(boj, "BOJ_SERIES", [])}
+        active_boj.update(local_id for local_id, *_ in getattr(boj, "BOJ_FLATFILES", []))
+        active_boj.update(local_id for local_id, *_ in getattr(boj, "BOJ_FLATFILE_SERIES", []))
+        for local_id, info in list(manifest["series"].items()):
+            if str(info.get("source", "")).startswith("boj:") and local_id not in active_boj:
+                _mark_skipped(manifest, local_id, info.get("source", "boj:inactive"), "Removed from active BoJ catalog")
+
+
 def _json_date(value):
     if value is None:
         return None
@@ -129,6 +170,7 @@ def _json_date(value):
 
 def main():
     manifest = load_manifest()
+    _mark_inactive_catalog_entries(manifest)
     ok, fail = [], []
 
     print("International data ingestion (Phase 3)")
@@ -301,6 +343,17 @@ def main():
                 print("FAILED")
 
     # ── IMF IFS (no auth — EM monthly/quarterly macro) ──────────────────────
+        print("\n[Bank of Japan - Flat-file series]")
+        for local_id, cat, row_code, desc in getattr(boj, "BOJ_FLATFILE_SERIES", []):
+            print(f"  {local_id:20} ...", end=" ", flush=True)
+            df = boj.fetch_flatfile_series(cat, row_code, label=local_id)
+            if _record(manifest, local_id, df, f"boj:flatfile:{cat}:{row_code}"):
+                ok.append(local_id)
+                print(f"OK ({df.shape[0]:,})")
+            else:
+                fail.append(local_id)
+                print("FAILED")
+
     if imf is not None:
         print("\n[IMF IFS — Emerging Markets]")
         for entry in imf.IMF_CATALOG:

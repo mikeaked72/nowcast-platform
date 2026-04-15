@@ -11,18 +11,18 @@ Multi-country macroeconomic data pipeline for signal research. Builds a harmonis
 | ABS | Australia | `abs_ingest.py` | 19 configured dataflows | DONE after live catalogue remap |
 | ECB | Euro Area | `ecb_ingest.py` | policy rates, FX, HICP, GDP, credit | DONE |
 | Eurostat | Europe | `eurostat_ingest.py` | GDP, trade, HICP, PPI, unemployment | DONE for core European panel |
-| Bundesbank | Germany | `bundesbank_ingest.py` | 2y/5y/10y/30y yields | PARTIAL: credit keys pending |
+| Bundesbank | Germany | `bundesbank_ingest.py` | 2y/5y/10y/30y yields | DONE for yield curve; credit keys pending |
 | INSEE | France | `insee_ingest.py` | 0 series | Script written, never run |
 | BdF | France | `bdf_ingest.py` | 0 public series | Requires `BDF_CLIENT_ID`/`BDF_CLIENT_SECRET` |
 | DESTATIS | Germany | `destatis_ingest.py` | 0 series | Script written, never run |
 | ONS + BoE | UK | `ons_ingest.py` | ONS public routes + BoE rates | PARTIAL: some BoE curve keys pending |
 | StatCan | Canada | `statcan_ingest.py` | CPI, unemployment, rates, yields | DONE |
-| BoJ | Japan | `boj_ingest.py` | CGPI flat-file package | PARTIAL: legacy API keys pending |
+| BoJ | Japan | `boj_ingest.py` | CGPI and current account flat-file series | PARTIAL: legacy API keys pending |
 | e-Stat | Japan | `estat_ingest.py` | 0 series | Script written, never run |
-| IMF | Global | `imf_ingest.py` | CPI and CPI percent-change panels | PARTIAL: migrated to current SDMX 2.1 API |
+| IMF | Global | `imf_ingest.py` | CPI and CPI percent-change panels | DONE for CPI; other concepts in discovery |
 | World Bank | Global | `worldbank_ingest.py` | structural annual indicators | DONE |
 
-**Processed layer:** daily, weekly, monthly, quarterly, and annual parquet panels build from the available raw data. Latest dimensions are daily 18,730 x 28; weekly 3,092 x 1; monthly 2,424 x 148; quarterly 206 x 63; annual 36 x 437.
+**Processed layer:** daily, weekly, monthly, quarterly, and annual parquet panels build from the available raw data. Latest dimensions are daily 18,730 x 28; weekly 3,092 x 1; monthly 2,424 x 154; quarterly 206 x 63; annual 36 x 437.
 
 ## Directory Structure
 

@@ -82,21 +82,25 @@ As of the expanded integrated run on 2026-04-15:
   DNK, NOR, and CHE.
 - IMF: migrated from the retired/refused `dataservices.imf.org` route to the
   current SDMX 2.1 endpoint. Monthly CPI index and CPI percent-change panels now
-  download for 21 emerging-market and G20-style country codes.
-- Bundesbank: German government yield keys were repaired against the current
-  BBSIS term-structure flow. Household and NFC credit keys still need a current
-  catalogue match.
+  run in production for 21 emerging-market and G20-style country codes; other
+  IMF concepts are held as discovery candidates until their SDMX 2.1 codelists
+  are mapped.
+- Bundesbank: German 2y, 5y, 10y, and 30y government yield keys were repaired
+  against the current BBSIS term-structure flow and now flow into the processed
+  monthly panel. Household and NFC credit keys still need a current catalogue
+  match.
 - Banque de France: the ingestor now uses structured logging and skips cleanly
   without credentials. Set `BDF_CLIENT_ID` and `BDF_CLIENT_SECRET` to enable the
   authenticated API.
-- BoJ: the legacy API keys are still unresolved, but current public flat-file
-  discovery works for the CGPI package.
-- International public sources: 179 series downloaded and 27 failures recorded
+- BoJ: the legacy API keys are still unresolved, but public flat-file packages
+  now produce normalized monthly `JP_CGPI` and `JP_CURRENT_ACCOUNT` series.
+- International public sources: 181 series downloaded, 16 active failures
+  recorded, and 16 inactive discovery/credential-gated entries marked skipped
   without aborting the run.
 - Processed layer: daily, weekly, monthly, quarterly, and annual parquet files
   build successfully from available raw data.
 - Latest processed dimensions: daily 18,730 x 28; weekly 3,092 x 1; monthly
-  2,424 x 148; quarterly 206 x 63; annual 36 x 437.
+  2,424 x 154; quarterly 206 x 63; annual 36 x 437.
 
 ## Known Follow-Ups
 
