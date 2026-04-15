@@ -1,0 +1,755 @@
+{
+  "generated_at": "2026-04-15T14:20:45+00:00",
+  "providers": {
+    "imf": {
+      "status": "OK",
+      "count": 164,
+      "matches": [
+        {
+          "id": "MFS_MA",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Monetary Aggregates"
+        },
+        {
+          "id": "FDI",
+          "agency": "IMF.MCM",
+          "name": "Financial Development Index (FDI)"
+        },
+        {
+          "id": "BOP_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Balance of Payments (BOP) 2026 January"
+        },
+        {
+          "id": "FSI_COUNTRY_METADATA_TABLE_2",
+          "agency": "IMF.STA",
+          "name": "Financial Soundness Indicators (FSI), Country Metadata Table 2"
+        },
+        {
+          "id": "BOP_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Balance of Payments (BOP) 2026 February"
+        },
+        {
+          "id": "MFS_FMP",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS): Financial Market Prices"
+        },
+        {
+          "id": "CPI_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Consumer Price Index (CPI) 2026 January"
+        },
+        {
+          "id": "FSICDM",
+          "agency": "IMF.STA",
+          "name": "Financial Soundness Indicators (FSI), Concentration and Distribution Measures"
+        },
+        {
+          "id": "MFS_IR_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Interest Rate 2026 January"
+        },
+        {
+          "id": "CPI",
+          "agency": "IMF.STA",
+          "name": "Consumer Price Index (CPI)"
+        },
+        {
+          "id": "MFS_CBS",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Central Bank Data"
+        },
+        {
+          "id": "MFS_CBS_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Central Bank Data 2026 February"
+        },
+        {
+          "id": "FSIBSIS",
+          "agency": "IMF.STA",
+          "name": "Financial Soundness Indicators (FSI), Balance Sheet, Income Statement and Memorandum Series"
+        },
+        {
+          "id": "MFS_NSRF",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS),  Non-Standard Data"
+        },
+        {
+          "id": "MFS_OFC",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Other Financial Corporations"
+        },
+        {
+          "id": "MFS_FC_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Financial Corporations 2026 January"
+        },
+        {
+          "id": "CPI_WCA",
+          "agency": "IMF.STA",
+          "name": "Consumer Price Index (CPI), World and Country Aggregates (CPI_WCA)"
+        },
+        {
+          "id": "MFS_FC_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Financial Corporations 2026 February"
+        },
+        {
+          "id": "MFS_MA_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Monetary Aggregates 2026 February"
+        },
+        {
+          "id": "MFS_ODC",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Other Depository Corporations"
+        },
+        {
+          "id": "FAS",
+          "agency": "IMF.STA",
+          "name": "Financial Access Survey (FAS)"
+        },
+        {
+          "id": "CPI_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Consumer Price Index (CPI) 2026 February"
+        },
+        {
+          "id": "MFS_CBS_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Central Bank Data 2026 January"
+        },
+        {
+          "id": "MFS_IR_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Interest Rate 2026 February"
+        },
+        {
+          "id": "MFS_ODC_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Other Depository Corporations 2026 January"
+        },
+        {
+          "id": "MFS_FMP_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Financial Market Prices 2026 February"
+        },
+        {
+          "id": "PIP",
+          "agency": "IMF.STA",
+          "name": "Portfolio Investment Positions by Counterpart Economy (formerly CPIS)"
+        },
+        {
+          "id": "BOP",
+          "agency": "IMF.STA",
+          "name": "Balance of Payments (BOP)"
+        },
+        {
+          "id": "MFS_OFC_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Other Financial Corporations 2026 February"
+        },
+        {
+          "id": "MFS_DC",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Depository Corporations"
+        },
+        {
+          "id": "MFS_IR",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Interest Rate"
+        },
+        {
+          "id": "BOP_AGG",
+          "agency": "IMF.STA",
+          "name": "Balance of Payments and International Investment Position Statistics (BOP/IIP), World and Country Group Aggregates"
+        },
+        {
+          "id": "MFS_DC_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Depository Corporations 2026 February"
+        },
+        {
+          "id": "MFS_ODC_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Other Depository Corporations 2026 February"
+        },
+        {
+          "id": "CPI_WCA_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Consumer Price Index (CPI), World and Country Aggregates (CPI_WCA) 2026 January"
+        },
+        {
+          "id": "MFS_OFC_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Other Financial Corporations 2026 January"
+        },
+        {
+          "id": "MFS_DC_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Depository Corporations 2026 January"
+        },
+        {
+          "id": "MFS_FC",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Financial Corporations"
+        },
+        {
+          "id": "CPI_WCA_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Consumer Price Index (CPI), World and Country Aggregates (CPI_WCA) 2026 February "
+        },
+        {
+          "id": "MFS_MA_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Monetary Aggregates 2026 January "
+        },
+        {
+          "id": "MFS_FMP_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Financial Market Prices 2026 January "
+        },
+        {
+          "id": "FSIC",
+          "agency": "IMF.STA",
+          "name": "Financial Soundness Indicators (FSI), Core and Additional Indicators"
+        }
+      ]
+    },
+    "ecb": {
+      "status": "OK",
+      "count": 212,
+      "matches": [
+        {
+          "id": "BSI",
+          "agency": "ECB",
+          "name": "Balance Sheet Items"
+        },
+        {
+          "id": "EXR",
+          "agency": "ECB",
+          "name": "Exchange Rates"
+        },
+        {
+          "id": "FM",
+          "agency": "ECB",
+          "name": "Financial market data"
+        },
+        {
+          "id": "HICP",
+          "agency": "ECB",
+          "name": "Indices of Consumer Prices"
+        },
+        {
+          "id": "ICP",
+          "agency": "ECB",
+          "name": "Indices of Consumer prices"
+        },
+        {
+          "id": "MIR",
+          "agency": "ECB",
+          "name": "MFI Interest Rate Statistics"
+        },
+        {
+          "id": "STS",
+          "agency": "ECB",
+          "name": "Short-Term Statistics"
+        },
+        {
+          "id": "BSI_PUB",
+          "agency": "ECB.DISS",
+          "name": "Balance Sheet Items - Published series"
+        },
+        {
+          "id": "EXR_PUB",
+          "agency": "ECB.DISS",
+          "name": "Exchange Rates - Published series"
+        },
+        {
+          "id": "FM_PUB",
+          "agency": "ECB.DISS",
+          "name": "Financial market data - Published series"
+        },
+        {
+          "id": "ICPF_PUB",
+          "agency": "ECB.DISS",
+          "name": "Insurance Corporations & Pension Funds Statistics - Published series"
+        },
+        {
+          "id": "ICP_PUB",
+          "agency": "ECB.DISS",
+          "name": "Indices of Consumer prices - Published series"
+        },
+        {
+          "id": "JDF_BSI_MFI_BALANCE_SHEET",
+          "agency": "ECB.DISS",
+          "name": "Aggregated balance sheet of euro area monetary financial institutions, excluding the Eurosystem (millions of euro)"
+        },
+        {
+          "id": "JDF_BSI_MFI_DOMESTIC_CROSS_BORDER",
+          "agency": "ECB.DISS",
+          "name": "Domestic and cross-border positions of euro area monetary financial institutions, excluding the Eurosystem (EUR billions, outstanding amounts at end of period)"
+        },
+        {
+          "id": "JDF_BSI_MFI_GROWTH_RATES",
+          "agency": "ECB.DISS",
+          "name": "Growth rates for the national contributions to the aggregated balance sheet of euro area monetary financial institutions(annual growth rates at end of period)"
+        },
+        {
+          "id": "JDF_EXR_HCI_CPI",
+          "agency": "ECB.DISS",
+          "name": "Harmonised competitiveness indicators based on consumer price indices (period averages - index 1999 Q1=100)"
+        },
+        {
+          "id": "JDF_EXR_HCI_GDP",
+          "agency": "ECB.DISS",
+          "name": "Harmonised competitiveness indicators based on GDP deflators (period averages - index 1999 Q1=100)"
+        },
+        {
+          "id": "JDF_EXR_HCI_ULCT",
+          "agency": "ECB.DISS",
+          "name": "Harmonised competitiveness indicators based on unit labour costs indices for the total economy (period averages - index 1999 Q1=100)"
+        },
+        {
+          "id": "JDF_ICPF_PENSION_FUNDS",
+          "agency": "ECB.DISS",
+          "name": "Aggregated balance sheet of euro area insurance corporations and pension funds(EUR millions, outstanding amounts at the end of the period)"
+        },
+        {
+          "id": "JDF_ICP_COICOP_ANR",
+          "agency": "ECB.DISS",
+          "name": "HICP - Annual percentage changes, breakdown by purpose of consumption(percentage change)"
+        },
+        {
+          "id": "JDF_ICP_COICOP_INW",
+          "agency": "ECB.DISS",
+          "name": "HICP - Expenditure weights, breakdown by purpose of consumption(Parts per 1000. HICP total = 1000)"
+        },
+        {
+          "id": "JDF_ICP_COICOP_INX",
+          "agency": "ECB.DISS",
+          "name": "HICP - Indices, breakdown by purpose of consumption(2015=100)"
+        },
+        {
+          "id": "JDF_ICP_ECONOMIC_ACTIVITIES_ANR",
+          "agency": "ECB.DISS",
+          "name": "HICP - Annual percentage changes, breakdown by type of product (mainly used by the ECB)(percentage change)"
+        },
+        {
+          "id": "JDF_ICP_ECONOMIC_ACTIVITIES_INW",
+          "agency": "ECB.DISS",
+          "name": "HICP -  Expenditure weights, breakdown by type of product (mainly used by the ECB)(Parts per 1000. HICP total = 1000)"
+        },
+        {
+          "id": "JDF_ICP_ECONOMIC_ACTIVITIES_INX",
+          "agency": "ECB.DISS",
+          "name": "HICP - Indices, breakdown by type of product (mainly used by the ECB)(2015=100)"
+        },
+        {
+          "id": "JDF_MIR_MFI_INTEREST_RATES",
+          "agency": "ECB.DISS",
+          "name": "Euro area and national MFI interest rates (MIR)(percentages per annum ; rates on new business as average of the period ; rates on outstanding amounts as end-of-period, unless otherwise indicated)"
+        },
+        {
+          "id": "JDF_MNA_A_GDP_GROWTH_QOQ",
+          "agency": "ECB.DISS",
+          "name": "Quarter-on-quarter volume growth of GDP and expenditure components(quarter-on-quarter percentage changes)"
+        },
+        {
+          "id": "JDF_MNA_B_GDP_GROWTH_YOY",
+          "agency": "ECB.DISS",
+          "name": "Year-on-year volume growth of GDP and expenditure components(annual percentage changes)"
+        },
+        {
+          "id": "JDF_MNA_C_GDP_CONTRIBUTIONS_QOQ",
+          "agency": "ECB.DISS",
+          "name": "Contributions to quarter-on-quarter volume growth of GDP and expenditure components(contributions to quarter-on-quarter percentage changes of GDP in percentage points)"
+        },
+        {
+          "id": "JDF_MNA_D_GDP_CONTRIBUTIONS_YOY",
+          "agency": "ECB.DISS",
+          "name": "Contributions to year-on-year volume growth of GDP and expenditure components(contributions to annual percentage changes of GDP in percentage points)"
+        },
+        {
+          "id": "JDF_PUB_BSI_CROSS_BORDER_POSITIONS",
+          "agency": "ECB.DISS",
+          "name": "JDF_PUB_BSI_CROSS_BORDER_POSITIONS - Published series"
+        },
+        {
+          "id": "JDF_PUB_BSI_MFI_BALANCE_SHEET",
+          "agency": "ECB.DISS",
+          "name": "JDF_PUB_BSI_MFI_BALANCE_SHEET - Published series"
+        },
+        {
+          "id": "JDF_PUB_MIR_BANK_INTEREST_RATES",
+          "agency": "ECB.DISS",
+          "name": "JDF_PUB_MIR_BANK_INTEREST_RATES - Published series"
+        },
+        {
+          "id": "LFSI_PUB",
+          "agency": "ECB.DISS",
+          "name": "Labour Force Survey - Published series"
+        },
+        {
+          "id": "MIR_PUB",
+          "agency": "ECB.DISS",
+          "name": "MFI Interest Rate Statistics - Published series"
+        },
+        {
+          "id": "MNA_PUB",
+          "agency": "ECB.DISS",
+          "name": "National accounts, Main aggregates (Eurostat ESA2010 TP, table 1) - Published series"
+        },
+        {
+          "id": "MOBILE_BSI",
+          "agency": "ECB.DISS",
+          "name": "Euro area monetary aggregates"
+        },
+        {
+          "id": "MOBILE_EXR",
+          "agency": "ECB.DISS",
+          "name": "Exchange rates"
+        },
+        {
+          "id": "MOBILE_ICP",
+          "agency": "ECB.DISS",
+          "name": "Inflation"
+        },
+        {
+          "id": "MOBILE_KEY_1",
+          "agency": "ECB.DISS",
+          "name": "Key euro area indicators (ICP)"
+        },
+        {
+          "id": "MOBILE_KEY_2",
+          "agency": "ECB.DISS",
+          "name": "Key euro area indicators (BSI)"
+        },
+        {
+          "id": "MOBILE_KEY_5",
+          "agency": "ECB.DISS",
+          "name": "Key euro area indicators (STS)"
+        },
+        {
+          "id": "MOBILE_KEY_6",
+          "agency": "ECB.DISS",
+          "name": "Key euro area indicators (EXR)"
+        },
+        {
+          "id": "MOBILE_KEY_8",
+          "agency": "ECB.DISS",
+          "name": "Key euro area indicators (FM)"
+        },
+        {
+          "id": "MOBILE_MIR",
+          "agency": "ECB.DISS",
+          "name": "Bank interest rates"
+        },
+        {
+          "id": "STS_PUB",
+          "agency": "ECB.DISS",
+          "name": "Short-Term Statistics - Published series"
+        },
+        {
+          "id": "MNA",
+          "agency": "ESTAT",
+          "name": "National accounts, Main aggregates (Eurostat ESA2010 TP, table 1)"
+        },
+        {
+          "id": "ICPF",
+          "agency": "EUROSTAT",
+          "name": "Insurance Corporations & Pension Funds Statistics"
+        },
+        {
+          "id": "LFSI",
+          "agency": "EUROSTAT",
+          "name": "Labour Force Survey"
+        }
+      ]
+    },
+    "eurostat": {
+      "status": "OK",
+      "count": 8191,
+      "matches": [
+        {
+          "id": "LFST_R_LFUR2GACU",
+          "agency": "ESTAT",
+          "name": "Unemployment rates by country of birth and degree of urbanisation"
+        },
+        {
+          "id": "LFST_R_LFUR2GAN",
+          "agency": "ESTAT",
+          "name": "Unemployment rates by citizenship and NUTS 2 region"
+        },
+        {
+          "id": "MED_AG42",
+          "agency": "ESTAT",
+          "name": "Annual aquaculture production - live weight in tonnes"
+        },
+        {
+          "id": "MED_ECET",
+          "agency": "ESTAT",
+          "name": "International trade by SITC - 1 000 EUR"
+        },
+        {
+          "id": "MED_EN22",
+          "agency": "ESTAT",
+          "name": "Production des d\u00e9chets par secteur d'activit\u00e9"
+        },
+        {
+          "id": "MED_PS421",
+          "agency": "ESTAT",
+          "name": "Unemployment rate"
+        },
+        {
+          "id": "MED_PS422",
+          "agency": "ESTAT",
+          "name": "Unemployment rate by education level"
+        },
+        {
+          "id": "MET_10R_3GDP",
+          "agency": "ESTAT",
+          "name": "Bruttoinlandsprodukt (BIP) zu laufenden Marktpreisen nach Metropolregionen"
+        },
+        {
+          "id": "MET_10R_3PGDP",
+          "agency": "ESTAT",
+          "name": "Bev\u00f6lkerung im Jahresdurchschnitt zur Berechnung des BIP nach Metropolregionen"
+        },
+        {
+          "id": "TET00003",
+          "agency": "ESTAT",
+          "name": "Exports of goods and services in % of GDP"
+        },
+        {
+          "id": "TET00004",
+          "agency": "ESTAT",
+          "name": "Imports of goods and services in % of GDP"
+        },
+        {
+          "id": "TGS00046",
+          "agency": "ESTAT",
+          "name": "Production of cow's milk on farms by NUTS 2 region"
+        },
+        {
+          "id": "TIN00086",
+          "agency": "ESTAT",
+          "name": "Percentage change of value added by ICT sector at current prices"
+        },
+        {
+          "id": "TIPSNA15",
+          "agency": "ESTAT",
+          "name": "Gross domestic product (GDP) at market prices - quarterly data"
+        },
+        {
+          "id": "TIPSNA30",
+          "agency": "ESTAT",
+          "name": "Terms of Trade nach Positionen - Ver\u00e4nderung in % \u00fcber 5\u00a0Jahre"
+        },
+        {
+          "id": "TIPSNA40",
+          "agency": "ESTAT",
+          "name": "Real GDP per capita"
+        },
+        {
+          "id": "TIPSNA50",
+          "agency": "ESTAT",
+          "name": "Residential construction - annual data, % of GDP"
+        },
+        {
+          "id": "TIPSNF10",
+          "agency": "ESTAT",
+          "name": "Net lending (+) /net borrowing (-), by sub-sector - current prices, million units of national currency"
+        },
+        {
+          "id": "TIPSPC20",
+          "agency": "ESTAT",
+          "name": "Private sector credit flow, consolidated - % GDP"
+        },
+        {
+          "id": "TIPSPC23",
+          "agency": "ESTAT",
+          "name": "Private sector credit flow: debt securities by sectors, consolidated - % of GDP"
+        },
+        {
+          "id": "NAIDA_10_GDP",
+          "agency": "ESTAT",
+          "name": "BIP und Hauptkomponenten - internationale Datenkooperation Jahresdaten"
+        },
+        {
+          "id": "NAIDQ_10_GDP",
+          "agency": "ESTAT",
+          "name": "GDP and main aggregates - international data cooperation quarterly data"
+        },
+        {
+          "id": "NAIO_10_CP15",
+          "agency": "ESTAT",
+          "name": "Supply table at basic prices incl. transformation into purchasers' prices"
+        },
+        {
+          "id": "NAIO_10_CP1620",
+          "agency": "ESTAT",
+          "name": "Table of trade and transport margins"
+        },
+        {
+          "id": "NAIO_10_CP1700",
+          "agency": "ESTAT",
+          "name": "Symmetric input-output table at basic prices (product by product)"
+        },
+        {
+          "id": "NAIO_10_FCP_II2",
+          "agency": "ESTAT",
+          "name": "EU inter-country input-output table at basic prices, industry by industry (2014-2017)"
+        },
+        {
+          "id": "NAIO_10_FCP_II3",
+          "agency": "ESTAT",
+          "name": "EU inter-country input-output table at basic prices, industry by industry (2018-2021)"
+        },
+        {
+          "id": "NAIO_10_FCP_IP1",
+          "agency": "ESTAT",
+          "name": "EU inter-country input-output table at basic prices, product by product (2010-2013)"
+        },
+        {
+          "id": "NAIO_10_FCP_U2",
+          "agency": "ESTAT",
+          "name": "EU inter-country use table at basic prices (2014-2017)"
+        },
+        {
+          "id": "NAIO_10_FCP_U3",
+          "agency": "ESTAT",
+          "name": "EU inter-country use table at basic prices (2018-2021)"
+        },
+        {
+          "id": "NAIO_10_PYP15",
+          "agency": "ESTAT",
+          "name": "Supply table at basic prices incl. transformation into purchasers' prices (previous years prices)"
+        },
+        {
+          "id": "NAIO_10_PYP16",
+          "agency": "ESTAT",
+          "name": "Use table at purchasers' prices (previous years prices)"
+        },
+        {
+          "id": "NAIO_10_PYP1700",
+          "agency": "ESTAT",
+          "name": "Symmetric input-output table at basic prices (product by product) (previous years prices)"
+        },
+        {
+          "id": "NAMA_10R_2GDP",
+          "agency": "ESTAT",
+          "name": "Bruttoinlandsprodukt (BIP) zu laufenden Marktpreisen nach NUTS-2-Region"
+        },
+        {
+          "id": "NAMA_10R_3GDP",
+          "agency": "ESTAT",
+          "name": "Bruttoinlandsprodukt (BIP) zu laufenden Marktpreisen nach NUTS-3-Region"
+        },
+        {
+          "id": "NAMA_10R_3GDP$DV_1562",
+          "agency": "ESTAT",
+          "name": "Produit int\u00e9rieur brut (PIB) aux prix courants du march\u00e9 par r\u00e9gion NUTS 3"
+        },
+        {
+          "id": "NAMA_10R_3POPGDP",
+          "agency": "ESTAT",
+          "name": "Bev\u00f6lkerung im Jahresdurchschnitt zur Berechnung des BIP (Tausend Personen), nach NUTS-3-Region"
+        },
+        {
+          "id": "NAMA_10_GDP",
+          "agency": "ESTAT",
+          "name": "Bruttoinlandsprodukt (BIP) und wichtigste Komponenten (Wertsch\u00f6pfung, Ausgaben und Einkommen)"
+        },
+        {
+          "id": "NAMA_10_PC",
+          "agency": "ESTAT",
+          "name": "Gross domestic product (GDP) and main components per capita"
+        },
+        {
+          "id": "NAMA_10_PC$DV_648",
+          "agency": "ESTAT",
+          "name": "Gross domestic product (GDP) and main components per capita"
+        },
+        {
+          "id": "NAMQ_10_GDP",
+          "agency": "ESTAT",
+          "name": "Gross domestic product (GDP) and main components (output, expenditure and income)"
+        },
+        {
+          "id": "NAMQ_10_PC",
+          "agency": "ESTAT",
+          "name": "Gross domestic product (GDP) and main components per capita"
+        },
+        {
+          "id": "NRG_CHP_CPFE",
+          "agency": "ESTAT",
+          "name": "Capacit\u00e9s, production, combustibles utilis\u00e9s et \u00e9conomies d\u2019\u00e9nergie en mode cog\u00e9n\u00e9ration (PCCE) par type d\u2019installation, technologie de production et niveau d\u2019\u00e9conomies d\u2019\u00e9nergie primaire"
+        },
+        {
+          "id": "NRG_CHP_N",
+          "agency": "ESTAT",
+          "name": "Nombre d\u2019unit\u00e9s en mode cog\u00e9n\u00e9ration (PCCE) par type d\u2019installation, technologie de production et niveau d\u2019\u00e9conomies d\u2019\u00e9nergie primaire"
+        },
+        {
+          "id": "NRG_DHDC_CPL",
+          "agency": "ESTAT",
+          "name": "Capacit\u00e9s, productions et pertes dans les r\u00e9seaux de temp\u00e9rature urbains par type de r\u00e9seau et type d\u2019installation"
+        },
+        {
+          "id": "HTEC_TRD_TOT4",
+          "agency": "ESTAT",
+          "name": "Total high-tech trade - million euro, % of total (from 2007, SITC Rev. 4)"
+        },
+        {
+          "id": "NRG_INF_EPCRW",
+          "agency": "ESTAT",
+          "name": "Capacit\u00e9s de production d'\u00e9lectricit\u00e9 \u00e0 partir des sources d'\u00e9nergie renouvelables et de d\u00e9chets"
+        },
+        {
+          "id": "NRG_INF_LBPC",
+          "agency": "ESTAT",
+          "name": "Capacit\u00e9s de production de biocombustibles liquides"
+        },
+        {
+          "id": "NRG_PC_205",
+          "agency": "ESTAT",
+          "name": "Electricity prices for non-household consumers - bi-annual data (from 2007 onwards)"
+        },
+        {
+          "id": "NRG_PC_205_H",
+          "agency": "ESTAT",
+          "name": "Electricity prices for industrial consumers - bi-annual data (until 2007)"
+        }
+      ]
+    },
+    "boj": {
+      "status": "OK",
+      "download_links": [
+        "https://www.stat-search.boj.or.jp/info/bis1-1_q_en.zip",
+        "https://www.stat-search.boj.or.jp/info/bis1-2_q_en.zip",
+        "https://www.stat-search.boj.or.jp/info/bis2-1_q_en.zip",
+        "https://www.stat-search.boj.or.jp/info/bis2-2_q_en.zip",
+        "https://www.stat-search.boj.or.jp/info/bp_m_en.zip",
+        "https://www.stat-search.boj.or.jp/info/cgpi_m_en.zip",
+        "https://www.stat-search.boj.or.jp/info/cgpiren_m_en.zip",
+        "https://www.stat-search.boj.or.jp/info/co.zip",
+        "https://www.stat-search.boj.or.jp/info/colease.zip",
+        "https://www.stat-search.boj.or.jp/info/fof.zip",
+        "https://www.stat-search.boj.or.jp/info/fof2_en.zip",
+        "https://www.stat-search.boj.or.jp/info/iip_cy_en.zip",
+        "https://www.stat-search.boj.or.jp/info/qiip_q_en.zip",
+        "https://www.stat-search.boj.or.jp/info/regbp_q_en.zip",
+        "https://www.stat-search.boj.or.jp/info/sppi_m_en.zip",
+        "https://www.stat-search.boj.or.jp/info/sppi_q_en.zip"
+      ],
+      "count": 16
+    },
+    "bundesbank": {
+      "status": "OK",
+      "probe": "BBSIS term-structure data endpoint",
+      "bytes": 581
+    }
+  }
+}

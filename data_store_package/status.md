@@ -48,6 +48,12 @@ The same sequence can be run with:
 Raw downloads are written to `store/raw/<source>/` and are ignored by git.
 Processed parquet outputs are written to `store/processed/` and are also ignored.
 `store/manifest.json` is the lightweight committed status record.
+Source-discovery outputs are committed under `specs/`:
+
+- `candidate_mappings.csv` records provisional country/concept/source mappings,
+  their flow/key, units, frequency, live probe status, and notes.
+- `source_discovery_summary.json` records provider metadata probes such as
+  dataflow catalogues and BoJ public download links.
 
 Current processed files:
 
@@ -104,3 +110,24 @@ As of the expanded integrated run on 2026-04-15:
 - Extend the shared `--dry-run`, retry/backoff, and structured logging helper
   to any lower-priority ingestors that still use their original direct request
   loops.
+
+## Source Discovery
+
+Before adding a new series to a production ingestor, refresh and inspect the
+candidate mapping table:
+
+```powershell
+.\.venv\Scripts\python.exe pipeline\discover_sources.py
+```
+
+Use source filters for focused work:
+
+```powershell
+.\.venv\Scripts\python.exe pipeline\discover_sources.py --sources imf,bundesbank
+```
+
+Promotion rule: a candidate with `test_status=OK` is only technically
+reachable. It should be promoted into an ingestor only after confirming the
+concept, frequency, units, release timeliness, and revision behaviour. IMF and
+World Bank candidates are fallback/coverage sources unless a direct national or
+central-bank source is unavailable.
