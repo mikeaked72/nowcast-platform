@@ -122,7 +122,7 @@
       "status": "OK"
     },
     "EA_EMPLOYMENT": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -131,7 +131,7 @@
       "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_BUILD_PERMITS": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -140,7 +140,7 @@
       "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_INDPRO": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -149,7 +149,7 @@
       "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_INDPRO_MFG": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -158,7 +158,7 @@
       "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_RETAIL": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -167,7 +167,7 @@
       "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_NEW_ORDERS": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -224,7 +224,7 @@
       "status": "OK"
     },
     "EA_CONS_CONF": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -377,28 +377,31 @@
       "status": "OK"
     },
     "UK_GILT_2Y": {
-      "last_updated": "2026-04-15T14:40:48Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
-      "source": "boe:IUDMNB4",
-      "status": "ERROR"
+      "source": "boe:discovery",
+      "status": "SKIPPED",
+      "reason": "Held for Bank of England IADB code discovery"
     },
     "UK_GILT_5Y": {
-      "last_updated": "2026-04-15T14:40:49Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
-      "source": "boe:IUDMNB9",
-      "status": "ERROR"
+      "source": "boe:discovery",
+      "status": "SKIPPED",
+      "reason": "Held for Bank of England IADB code discovery"
     },
     "UK_GILT_30Y": {
-      "last_updated": "2026-04-15T14:40:50Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
-      "source": "boe:IUDMNC4",
-      "status": "ERROR"
+      "source": "boe:discovery",
+      "status": "SKIPPED",
+      "reason": "Held for Bank of England IADB code discovery"
     },
     "UK_MORT_RATE": {
       "last_updated": "2026-04-15T14:40:51Z",
@@ -449,7 +452,7 @@
       "status": "OK"
     },
     "DE_BUND_3M": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -490,23 +493,25 @@
       "status": "OK"
     },
     "DE_HH_LOANS": {
-      "last_updated": "2026-04-15T14:41:02Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
       "source": "buba:BBKRT.M.U.NS.A.A.A.AB.A.A.PUR.A.A",
-      "status": "ERROR"
+      "status": "SKIPPED",
+      "reason": "Removed from active Bundesbank catalog"
     },
     "DE_NFC_LOANS": {
-      "last_updated": "2026-04-15T14:41:03Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
       "source": "buba:BBKRT.M.U.NS.A.A.A.NF.A.A.PUR.A.A",
-      "status": "ERROR"
+      "status": "SKIPPED",
+      "reason": "Removed from active Bundesbank catalog"
     },
     "FR_OAT_10Y": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -515,7 +520,7 @@
       "reason": "BDF credentials not configured"
     },
     "FR_HH_LOANS": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -524,7 +529,7 @@
       "reason": "BDF credentials not configured"
     },
     "FR_NFC_LOANS": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -533,36 +538,40 @@
       "reason": "BDF credentials not configured"
     },
     "JP_CALL_RATE": {
-      "last_updated": "2026-04-15T14:41:04Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
       "source": "boj:MADR1Z@D",
-      "status": "ERROR"
+      "status": "SKIPPED",
+      "reason": "Removed from active BoJ catalog"
     },
     "JP_TIBOR_3M": {
-      "last_updated": "2026-04-15T14:41:04Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
       "source": "boj:IR02'TIBORDD3M@D",
-      "status": "ERROR"
+      "status": "SKIPPED",
+      "reason": "Removed from active BoJ catalog"
     },
     "JP_MONETARY_BASE": {
-      "last_updated": "2026-04-15T14:41:05Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
       "source": "boj:MD01'MABASE1@M",
-      "status": "ERROR"
+      "status": "SKIPPED",
+      "reason": "Removed from active BoJ catalog"
     },
     "JP_M2": {
-      "last_updated": "2026-04-15T14:41:05Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
       "source": "boj:MD02'M2@M",
-      "status": "ERROR"
+      "status": "SKIPPED",
+      "reason": "Removed from active BoJ catalog"
     },
     "JP_CGPI": {
       "last_updated": "2026-04-15T14:41:07Z",
@@ -573,7 +582,7 @@
       "status": "OK"
     },
     "JP_BOJ_IR": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -582,7 +591,7 @@
       "reason": "Removed from active BoJ catalog"
     },
     "JP_BOJ_MD": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -615,7 +624,7 @@
       "status": "OK"
     },
     "IMF_EM_POLICY_RATE": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -624,7 +633,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_LENDING_RATE": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -633,7 +642,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_DEPOSIT_RATE": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -642,7 +651,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_TBILL_RATE": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -651,7 +660,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_FX_USD": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -660,7 +669,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_REER": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -669,7 +678,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_BROAD_MONEY": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -678,7 +687,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_GDP_NOM": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -687,7 +696,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_GDP_REAL": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -696,7 +705,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_UNEMP": {
-      "last_updated": "2026-04-15T14:48:19Z",
+      "last_updated": "2026-04-15T14:51:48Z",
       "rows": 0,
       "start": null,
       "end": null,

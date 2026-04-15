@@ -111,10 +111,13 @@ BUBA_SERIES = [
     ("DE_BUND_30Y",  "BBSIS", "M.I.ZST.ZI.EUR.S1311.B.A604.R30XX.R.A.A._Z._Z.A", "DE 30-year Bund yield"),
 
     # ── Group 5: Money & Credit (legacy DE M-aggregates) ────────────────────
+]
+
+BUBA_DISCOVERY_SERIES = [
     ("DE_HH_LOANS",  "BBKRT", "BBKRT.M.U.NS.A.A.A.AB.A.A.PUR.A.A",
-        "DE household loans (legacy)"),
+        "DE household loans (legacy; needs current codelist mapping)"),
     ("DE_NFC_LOANS", "BBKRT", "BBKRT.M.U.NS.A.A.A.NF.A.A.PUR.A.A",
-        "DE non-financial corp loans (legacy)"),
+        "DE non-financial corp loans (legacy; needs current codelist mapping)"),
 ]
 
 

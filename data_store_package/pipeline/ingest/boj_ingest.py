@@ -206,7 +206,9 @@ def fetch_flatfile_series(category: str, row_code: str, label: str) -> pd.DataFr
     return out
 
 
-BOJ_SERIES = [
+BOJ_SERIES = []
+
+BOJ_DISCOVERY_SERIES = [
     # (local_id, series_code, freq, description)
     ("JP_CALL_RATE",      "MADR1Z@D",        "D", "Japan call rate (uncollateralised overnight)"),
     ("JP_TIBOR_3M",       "IR02'TIBORDD3M@D","D", "Japan TIBOR 3-month daily"),

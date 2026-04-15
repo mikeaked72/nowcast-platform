@@ -148,6 +148,12 @@ def _mark_inactive_catalog_entries(manifest):
             if local_id not in active_eurostat and local_id in manifest["series"]:
                 _mark_skipped(manifest, local_id, "eurostat:discovery", "Held for Eurostat SDMX codelist discovery")
 
+    if ons is not None:
+        active_boe = {local_id for local_id, *_ in getattr(ons, "UK_BOE_SERIES", [])}
+        for local_id, *_ in getattr(ons, "UK_BOE_DISCOVERY_SERIES", []):
+            if local_id not in active_boe and local_id in manifest["series"]:
+                _mark_skipped(manifest, local_id, "boe:discovery", "Held for Bank of England IADB code discovery")
+
     if bdf is None:
         for local_id, info in list(manifest["series"].items()):
             if str(info.get("source", "")).startswith("bdf:"):
