@@ -1,14 +1,44 @@
 {
-  "generated_at": "2026-04-15T14:20:45+00:00",
+  "generated_at": "2026-04-15T21:59:01+00:00",
   "providers": {
     "imf": {
       "status": "OK",
-      "count": 164,
+      "count": 163,
       "matches": [
         {
-          "id": "MFS_MA",
+          "id": "MFS_FMP",
           "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Monetary Aggregates"
+          "name": "Monetary and Financial Statistics (MFS): Financial Market Prices"
+        },
+        {
+          "id": "MFS_CBS",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Central Bank Data"
+        },
+        {
+          "id": "MFS_OFC",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Other Financial Corporations"
+        },
+        {
+          "id": "FSIC",
+          "agency": "IMF.STA",
+          "name": "Financial Soundness Indicators (FSI), Core and Additional Indicators"
+        },
+        {
+          "id": "MFS_FC_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Financial Corporations 2026 January"
+        },
+        {
+          "id": "MFS_NSRF",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS),  Non-Standard Data"
+        },
+        {
+          "id": "CPI",
+          "agency": "IMF.STA",
+          "name": "Consumer Price Index (CPI)"
         },
         {
           "id": "FDI",
@@ -16,29 +46,119 @@
           "name": "Financial Development Index (FDI)"
         },
         {
-          "id": "BOP_2026_JAN_VINTAGE",
+          "id": "FAS",
           "agency": "IMF.STA",
-          "name": "Balance of Payments (BOP) 2026 January"
+          "name": "Financial Access Survey (FAS)"
         },
         {
-          "id": "FSI_COUNTRY_METADATA_TABLE_2",
+          "id": "CPI_WCA_2026_FEB_VINTAGE",
           "agency": "IMF.STA",
-          "name": "Financial Soundness Indicators (FSI), Country Metadata Table 2"
+          "name": "Consumer Price Index (CPI), World and Country Aggregates (CPI_WCA) 2026 February "
         },
         {
-          "id": "BOP_2026_FEB_VINTAGE",
+          "id": "MFS_FC",
           "agency": "IMF.STA",
-          "name": "Balance of Payments (BOP) 2026 February"
+          "name": "Monetary and Financial Statistics (MFS), Financial Corporations"
         },
         {
-          "id": "MFS_FMP",
+          "id": "MFS_MA_2026_JAN_VINTAGE",
           "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS): Financial Market Prices"
+          "name": "Monetary and Financial Statistics (MFS), Monetary Aggregates 2026 January "
+        },
+        {
+          "id": "MFS_ODC_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Other Depository Corporations 2026 February"
+        },
+        {
+          "id": "MFS_DC_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Depository Corporations 2026 January"
         },
         {
           "id": "CPI_2026_JAN_VINTAGE",
           "agency": "IMF.STA",
           "name": "Consumer Price Index (CPI) 2026 January"
+        },
+        {
+          "id": "MFS_OFC_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Other Financial Corporations 2026 January"
+        },
+        {
+          "id": "FSIBSIS",
+          "agency": "IMF.STA",
+          "name": "Financial Soundness Indicators (FSI), Balance Sheet, Income Statement and Memorandum Series"
+        },
+        {
+          "id": "CPI_WCA_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Consumer Price Index (CPI), World and Country Aggregates (CPI_WCA) 2026 January"
+        },
+        {
+          "id": "MFS_CBS_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Central Bank Data 2026 February"
+        },
+        {
+          "id": "MFS_MA",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Monetary Aggregates"
+        },
+        {
+          "id": "BOP_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Balance of Payments (BOP) 2026 January"
+        },
+        {
+          "id": "MFS_DC_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Depository Corporations 2026 February"
+        },
+        {
+          "id": "BOP_AGG",
+          "agency": "IMF.STA",
+          "name": "Balance of Payments and International Investment Position Statistics (BOP/IIP), World and Country Group Aggregates"
+        },
+        {
+          "id": "CPI_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Consumer Price Index (CPI) 2026 February"
+        },
+        {
+          "id": "MFS_ODC_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Other Depository Corporations 2026 January"
+        },
+        {
+          "id": "MFS_OFC_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Other Financial Corporations 2026 February"
+        },
+        {
+          "id": "PIP",
+          "agency": "IMF.STA",
+          "name": "Portfolio Investment Positions by Counterpart Economy (formerly CPIS)"
+        },
+        {
+          "id": "MFS_IR_2026_FEB_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Interest Rate 2026 February"
+        },
+        {
+          "id": "MFS_FMP_2026_JAN_VINTAGE",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Financial Market Prices 2026 January "
+        },
+        {
+          "id": "MFS_IR",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Interest Rate"
+        },
+        {
+          "id": "MFS_DC",
+          "agency": "IMF.STA",
+          "name": "Monetary and Financial Statistics (MFS), Depository Corporations"
         },
         {
           "id": "FSICDM",
@@ -51,39 +171,19 @@
           "name": "Monetary and Financial Statistics (MFS), Interest Rate 2026 January"
         },
         {
-          "id": "CPI",
+          "id": "MFS_FC_2026_FEB_VINTAGE",
           "agency": "IMF.STA",
-          "name": "Consumer Price Index (CPI)"
+          "name": "Monetary and Financial Statistics (MFS), Financial Corporations 2026 February"
         },
         {
-          "id": "MFS_CBS",
+          "id": "BOP_2026_FEB_VINTAGE",
           "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Central Bank Data"
+          "name": "Balance of Payments (BOP) 2026 February"
         },
         {
-          "id": "MFS_CBS_2026_FEB_VINTAGE",
+          "id": "FSI_COUNTRY_METADATA_TABLE_2",
           "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Central Bank Data 2026 February"
-        },
-        {
-          "id": "FSIBSIS",
-          "agency": "IMF.STA",
-          "name": "Financial Soundness Indicators (FSI), Balance Sheet, Income Statement and Memorandum Series"
-        },
-        {
-          "id": "MFS_NSRF",
-          "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS),  Non-Standard Data"
-        },
-        {
-          "id": "MFS_OFC",
-          "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Other Financial Corporations"
-        },
-        {
-          "id": "MFS_FC_2026_JAN_VINTAGE",
-          "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Financial Corporations 2026 January"
+          "name": "Financial Soundness Indicators (FSI), Country Metadata Table 2"
         },
         {
           "id": "CPI_WCA",
@@ -91,14 +191,9 @@
           "name": "Consumer Price Index (CPI), World and Country Aggregates (CPI_WCA)"
         },
         {
-          "id": "MFS_FC_2026_FEB_VINTAGE",
+          "id": "BOP",
           "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Financial Corporations 2026 February"
-        },
-        {
-          "id": "MFS_MA_2026_FEB_VINTAGE",
-          "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Monetary Aggregates 2026 February"
+          "name": "Balance of Payments (BOP)"
         },
         {
           "id": "MFS_ODC",
@@ -106,114 +201,19 @@
           "name": "Monetary and Financial Statistics (MFS), Other Depository Corporations"
         },
         {
-          "id": "FAS",
-          "agency": "IMF.STA",
-          "name": "Financial Access Survey (FAS)"
-        },
-        {
-          "id": "CPI_2026_FEB_VINTAGE",
-          "agency": "IMF.STA",
-          "name": "Consumer Price Index (CPI) 2026 February"
-        },
-        {
           "id": "MFS_CBS_2026_JAN_VINTAGE",
           "agency": "IMF.STA",
           "name": "Monetary and Financial Statistics (MFS), Central Bank Data 2026 January"
         },
         {
-          "id": "MFS_IR_2026_FEB_VINTAGE",
+          "id": "MFS_MA_2026_FEB_VINTAGE",
           "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Interest Rate 2026 February"
-        },
-        {
-          "id": "MFS_ODC_2026_JAN_VINTAGE",
-          "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Other Depository Corporations 2026 January"
+          "name": "Monetary and Financial Statistics (MFS), Monetary Aggregates 2026 February"
         },
         {
           "id": "MFS_FMP_2026_FEB_VINTAGE",
           "agency": "IMF.STA",
           "name": "Monetary and Financial Statistics (MFS), Financial Market Prices 2026 February"
-        },
-        {
-          "id": "PIP",
-          "agency": "IMF.STA",
-          "name": "Portfolio Investment Positions by Counterpart Economy (formerly CPIS)"
-        },
-        {
-          "id": "BOP",
-          "agency": "IMF.STA",
-          "name": "Balance of Payments (BOP)"
-        },
-        {
-          "id": "MFS_OFC_2026_FEB_VINTAGE",
-          "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Other Financial Corporations 2026 February"
-        },
-        {
-          "id": "MFS_DC",
-          "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Depository Corporations"
-        },
-        {
-          "id": "MFS_IR",
-          "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Interest Rate"
-        },
-        {
-          "id": "BOP_AGG",
-          "agency": "IMF.STA",
-          "name": "Balance of Payments and International Investment Position Statistics (BOP/IIP), World and Country Group Aggregates"
-        },
-        {
-          "id": "MFS_DC_2026_FEB_VINTAGE",
-          "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Depository Corporations 2026 February"
-        },
-        {
-          "id": "MFS_ODC_2026_FEB_VINTAGE",
-          "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Other Depository Corporations 2026 February"
-        },
-        {
-          "id": "CPI_WCA_2026_JAN_VINTAGE",
-          "agency": "IMF.STA",
-          "name": "Consumer Price Index (CPI), World and Country Aggregates (CPI_WCA) 2026 January"
-        },
-        {
-          "id": "MFS_OFC_2026_JAN_VINTAGE",
-          "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Other Financial Corporations 2026 January"
-        },
-        {
-          "id": "MFS_DC_2026_JAN_VINTAGE",
-          "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Depository Corporations 2026 January"
-        },
-        {
-          "id": "MFS_FC",
-          "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Financial Corporations"
-        },
-        {
-          "id": "CPI_WCA_2026_FEB_VINTAGE",
-          "agency": "IMF.STA",
-          "name": "Consumer Price Index (CPI), World and Country Aggregates (CPI_WCA) 2026 February "
-        },
-        {
-          "id": "MFS_MA_2026_JAN_VINTAGE",
-          "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Monetary Aggregates 2026 January "
-        },
-        {
-          "id": "MFS_FMP_2026_JAN_VINTAGE",
-          "agency": "IMF.STA",
-          "name": "Monetary and Financial Statistics (MFS), Financial Market Prices 2026 January "
-        },
-        {
-          "id": "FSIC",
-          "agency": "IMF.STA",
-          "name": "Financial Soundness Indicators (FSI), Core and Additional Indicators"
         }
       ]
     },
@@ -470,7 +470,7 @@
     },
     "eurostat": {
       "status": "OK",
-      "count": 8191,
+      "count": 8201,
       "matches": [
         {
           "id": "LFST_R_LFUR2GACU",
@@ -516,61 +516,6 @@
           "id": "MET_10R_3PGDP",
           "agency": "ESTAT",
           "name": "Bev\u00f6lkerung im Jahresdurchschnitt zur Berechnung des BIP nach Metropolregionen"
-        },
-        {
-          "id": "TET00003",
-          "agency": "ESTAT",
-          "name": "Exports of goods and services in % of GDP"
-        },
-        {
-          "id": "TET00004",
-          "agency": "ESTAT",
-          "name": "Imports of goods and services in % of GDP"
-        },
-        {
-          "id": "TGS00046",
-          "agency": "ESTAT",
-          "name": "Production of cow's milk on farms by NUTS 2 region"
-        },
-        {
-          "id": "TIN00086",
-          "agency": "ESTAT",
-          "name": "Percentage change of value added by ICT sector at current prices"
-        },
-        {
-          "id": "TIPSNA15",
-          "agency": "ESTAT",
-          "name": "Gross domestic product (GDP) at market prices - quarterly data"
-        },
-        {
-          "id": "TIPSNA30",
-          "agency": "ESTAT",
-          "name": "Terms of Trade nach Positionen - Ver\u00e4nderung in % \u00fcber 5\u00a0Jahre"
-        },
-        {
-          "id": "TIPSNA40",
-          "agency": "ESTAT",
-          "name": "Real GDP per capita"
-        },
-        {
-          "id": "TIPSNA50",
-          "agency": "ESTAT",
-          "name": "Residential construction - annual data, % of GDP"
-        },
-        {
-          "id": "TIPSNF10",
-          "agency": "ESTAT",
-          "name": "Net lending (+) /net borrowing (-), by sub-sector - current prices, million units of national currency"
-        },
-        {
-          "id": "TIPSPC20",
-          "agency": "ESTAT",
-          "name": "Private sector credit flow, consolidated - % GDP"
-        },
-        {
-          "id": "TIPSPC23",
-          "agency": "ESTAT",
-          "name": "Private sector credit flow: debt securities by sectors, consolidated - % of GDP"
         },
         {
           "id": "NAIDA_10_GDP",
@@ -663,16 +608,6 @@
           "name": "Bruttoinlandsprodukt (BIP) und wichtigste Komponenten (Wertsch\u00f6pfung, Ausgaben und Einkommen)"
         },
         {
-          "id": "NAMA_10_PC",
-          "agency": "ESTAT",
-          "name": "Gross domestic product (GDP) and main components per capita"
-        },
-        {
-          "id": "NAMA_10_PC$DV_648",
-          "agency": "ESTAT",
-          "name": "Gross domestic product (GDP) and main components per capita"
-        },
-        {
           "id": "NAMQ_10_GDP",
           "agency": "ESTAT",
           "name": "Gross domestic product (GDP) and main components (output, expenditure and income)"
@@ -698,11 +633,6 @@
           "name": "Capacit\u00e9s, productions et pertes dans les r\u00e9seaux de temp\u00e9rature urbains par type de r\u00e9seau et type d\u2019installation"
         },
         {
-          "id": "HTEC_TRD_TOT4",
-          "agency": "ESTAT",
-          "name": "Total high-tech trade - million euro, % of total (from 2007, SITC Rev. 4)"
-        },
-        {
           "id": "NRG_INF_EPCRW",
           "agency": "ESTAT",
           "name": "Capacit\u00e9s de production d'\u00e9lectricit\u00e9 \u00e0 partir des sources d'\u00e9nergie renouvelables et de d\u00e9chets"
@@ -721,6 +651,76 @@
           "id": "NRG_PC_205_H",
           "agency": "ESTAT",
           "name": "Electricity prices for industrial consumers - bi-annual data (until 2007)"
+        },
+        {
+          "id": "NRG_TI_COIFPM",
+          "agency": "ESTAT",
+          "name": "Importations en p\u00e9trole brut par champ de production - donn\u00e9es mensuelles"
+        },
+        {
+          "id": "PRC_HICP_ADMP",
+          "agency": "ESTAT",
+          "name": "Indice des prix \u00e0 la consommation harmonis\u00e9 (IPCH) - ECOICOP ver.2 \u2013 composition des prix administr\u00e9s"
+        },
+        {
+          "id": "PRC_HICP_AIND",
+          "agency": "ESTAT",
+          "name": "HVPI - J\u00e4hrliche Daten (Durchschnittsindex und Ver\u00e4nderungsrate) (1996-2025)"
+        },
+        {
+          "id": "PRC_HICP_AIND$DV_2561",
+          "agency": "ESTAT",
+          "name": "IPCH - donn\u00e9es annuelles (indice moyen et taux de variation) (1996-2025)"
+        },
+        {
+          "id": "PRC_HICP_AIND$DV_2581",
+          "agency": "ESTAT",
+          "name": "HVPI - J\u00e4hrliche Daten (Durchschnittsindex und Ver\u00e4nderungsrate) (1996-2025)"
+        },
+        {
+          "id": "PRC_HICP_AIND$DV_3126",
+          "agency": "ESTAT",
+          "name": "HVPI - J\u00e4hrliche Daten (Durchschnittsindex und Ver\u00e4nderungsrate)"
+        },
+        {
+          "id": "PRC_HICP_AINR",
+          "agency": "ESTAT",
+          "name": "Indice des prix \u00e0 la consommation harmonis\u00e9 (IPCH) - ECOICOP ver.2 - indices et taux de variation, donn\u00e9es annuelles"
+        },
+        {
+          "id": "PRC_HICP_AINR$DV_3361",
+          "agency": "ESTAT",
+          "name": "Harmonisierter Verbraucherpreisindex - ECOICOP ver.2 - Index und Ver\u00e4nderungsrate, J\u00e4hrliche Daten"
+        },
+        {
+          "id": "PRC_HICP_AINR$DV_3388",
+          "agency": "ESTAT",
+          "name": "Harmonisierter Verbraucherpreisindex - ECOICOP ver.2 - Index und Ver\u00e4nderungsrate, J\u00e4hrliche Daten"
+        },
+        {
+          "id": "PRC_HICP_AINR$DV_3402",
+          "agency": "ESTAT",
+          "name": "Harmonised index of consumer prices (HICP) - ECOICOP ver.2 - indices and rates of change, annual data"
+        },
+        {
+          "id": "PRC_HICP_APC",
+          "agency": "ESTAT",
+          "name": "HICP - administered prices (composition) (2001-2025)"
+        },
+        {
+          "id": "PRC_HICP_CANN",
+          "agency": "ESTAT",
+          "name": "HICP at constant tax rates - monthly data (annual rate of change) (2003-2025)"
+        },
+        {
+          "id": "PRC_HICP_CIND",
+          "agency": "ESTAT",
+          "name": "HVPI zu konstanten Steuers\u00e4tzen - Monatliche Daten (Index) (2002-2025)"
+        },
+        {
+          "id": "PRC_HICP_CMON",
+          "agency": "ESTAT",
+          "name": "HICP at constant tax rates - monthly data (monthly rate of change) (2002-2025)"
         }
       ]
     },

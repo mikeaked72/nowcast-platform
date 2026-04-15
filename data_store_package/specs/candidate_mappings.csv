@@ -19,3 +19,8 @@ EA,inflation,ecb,ICP,M.U2.N.000000.4.ANR,monthly,percent_yoy,preferred,OK,12,202
 EA,real_gdp,eurostat,namq_10_gdp,Q.CLV15_MEUR.SCA.B1GQ.EA20,quarterly,million_eur_chained,preferred,OK,4,2025-Q1,2025-Q4,2026-04-15T14:18:20+00:00,"Euro area real GDP, chained volumes."
 EA,unemployment,eurostat,une_rt_m,M.SA.TOTAL.PC_ACT.T.EA20,monthly,percent,preferred,OK,14,2025-01,2026-02,2026-04-15T14:18:22+00:00,Eurostat monthly unemployment rate.
 DEU,industrial_production,eurostat,sts_inpr_m,TBD,monthly,index,discovery,NEEDS_KEY,,,,2026-04-15T14:18:23+00:00,Flow candidate only; discover current dimensions before testing. Flow discovered but no dimension key has been selected yet.
+GBR,government_yield_5y,boe,IADB,IUDSNZC,daily,percent_pa,preferred,OK,323,2025-01-02,2026-04-13,2026-04-15T21:58:58+00:00,Verified Bank of England IADB zero-coupon yield key.
+GBR,government_yield_10y,boe,IADB,IUDMNZC,daily,percent_pa,preferred,OK,323,2025-01-02,2026-04-13,2026-04-15T21:58:59+00:00,Verified Bank of England IADB zero-coupon yield key.
+GBR,government_yield_20y,boe,IADB,IUDLNZC,daily,percent_pa,candidate,OK,323,2025-01-02,2026-04-13,2026-04-15T21:59:00+00:00,Verified Bank of England IADB zero-coupon yield key; fills long-tenor curve until a current 30y key is identified.
+GBR,government_yield_2y,boe,IADB,TBD,daily,percent_pa,discovery,NEEDS_KEY,,,,2026-04-15T21:59:01+00:00,Current IADB 2y code still needs discovery. Flow discovered but no dimension key has been selected yet.
+GBR,government_yield_30y,boe,IADB,TBD,daily,percent_pa,discovery,NEEDS_KEY,,,,2026-04-15T21:59:01+00:00,Current IADB 30y code still needs discovery. Flow discovered but no dimension key has been selected yet.

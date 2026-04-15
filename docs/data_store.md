@@ -94,12 +94,12 @@ As of the expanded integrated run on 2026-04-15:
   authenticated API.
 - BoJ: the legacy API keys are still unresolved, but public flat-file packages
   now produce normalized monthly `JP_CGPI` and `JP_CURRENT_ACCOUNT` series.
-- International public sources: 181 series downloaded, no active production
-  failures recorded, and 32 inactive discovery/credential-gated entries marked skipped
+- International public sources: 183 series downloaded, no active production
+  failures recorded, and 31 inactive discovery/credential-gated entries marked skipped
   without aborting the run.
 - Processed layer: daily, weekly, monthly, quarterly, and annual parquet files
   build successfully from available raw data.
-- Latest processed dimensions: daily 18,730 x 28; weekly 3,092 x 1; monthly
+- Latest processed dimensions: daily 18,730 x 30; weekly 3,092 x 1; monthly
   2,424 x 154; quarterly 206 x 63; annual 36 x 437.
 
 ## Known Follow-Ups
@@ -109,7 +109,7 @@ As of the expanded integrated run on 2026-04-15:
 - Find current Bundesbank credit-series keys for household and NFC lending.
 - Replace legacy BoJ API codes with current API or flat-file packages for money,
   policy-rate, and balance-sheet concepts.
-- Find current Bank of England IADB codes for UK 2y, 5y, and 30y gilt yields.
+- Find current Bank of England IADB codes for UK 2y and 30y gilt yields.
 - Remap Eurostat discovery concepts for employment, production, retail,
   building permits, new orders, and consumer confidence against current SDMX
   codelists.

@@ -95,6 +95,11 @@ SEED_CANDIDATES = [
     Candidate("JPN", "current_account", "boj_flatfile", "flatfile", "https://www.stat-search.boj.or.jp/info/bp_m_en.zip", "monthly", "jpy", "candidate", notes="Current public BoP flat-file package; inspect columns before promotion."),
     Candidate("JPN", "policy_rate", "boj_api", "search", "MADR1Z@D", "daily", "percent_pa", "discovery", notes="Legacy API code currently fails; replace with current API or flat-file package."),
     Candidate("JPN", "money_base", "boj_api", "search", "MD01'MABASE1@M", "monthly", "jpy", "discovery", notes="Legacy API code currently fails; replace with current API or flat-file package."),
+    Candidate("GBR", "government_yield_5y", "boe", "IADB", "IUDSNZC", "daily", "percent_pa", "preferred", notes="Verified Bank of England IADB zero-coupon yield key."),
+    Candidate("GBR", "government_yield_10y", "boe", "IADB", "IUDMNZC", "daily", "percent_pa", "preferred", notes="Verified Bank of England IADB zero-coupon yield key."),
+    Candidate("GBR", "government_yield_20y", "boe", "IADB", "IUDLNZC", "daily", "percent_pa", "candidate", notes="Verified Bank of England IADB zero-coupon yield key; fills long-tenor curve until a current 30y key is identified."),
+    Candidate("GBR", "government_yield_2y", "boe", "IADB", "TBD", "daily", "percent_pa", "discovery", "NEEDS_KEY", notes="Current IADB 2y code still needs discovery."),
+    Candidate("GBR", "government_yield_30y", "boe", "IADB", "TBD", "daily", "percent_pa", "discovery", "NEEDS_KEY", notes="Current IADB 30y code still needs discovery."),
     Candidate("EA", "policy_rate", "ecb", "FM", "D.U2.EUR.4F.KR.DFR.LEV", "daily", "percent_pa", "preferred", notes="ECB deposit facility rate."),
     Candidate("EA", "exchange_rate", "ecb", "EXR", "D.USD.EUR.SP00.A", "daily", "usd_per_eur", "preferred", notes="ECB EUR/USD reference rate."),
     Candidate("EA", "inflation", "ecb", "ICP", "M.U2.N.000000.4.ANR", "monthly", "percent_yoy", "preferred", notes="Euro area HICP all-items annual rate."),
@@ -116,6 +121,11 @@ def read_candidates(path: Path) -> list[Candidate]:
         reader = csv.DictReader(f)
         for row in reader:
             rows.append(Candidate(**{k: row.get(k, "") for k in FIELDNAMES}))
+    existing = {(r.country, r.concept, r.source, r.flow, r.series_key) for r in rows}
+    for candidate in SEED_CANDIDATES:
+        key = (candidate.country, candidate.concept, candidate.source, candidate.flow, candidate.series_key)
+        if key not in existing:
+            rows.append(Candidate(**asdict(candidate)))
     return rows
 
 
@@ -232,6 +242,20 @@ def candidate_url(candidate: Candidate) -> tuple[str, dict, dict]:
         )
     if source == "boj_flatfile":
         return (candidate.series_key, {}, headers)
+    if source == "boe":
+        return (
+            "https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp",
+            {
+                "csv.x": "yes",
+                "Datefrom": "01/Jan/2025",
+                "Dateto": "",
+                "SeriesCodes": candidate.series_key,
+                "UsingCodes": "Y",
+                "VPD": "Y",
+                "VFD": "N",
+            },
+            headers,
+        )
     raise ValueError(f"Unsupported source {candidate.source}")
 
 
@@ -265,6 +289,10 @@ def summarise_csv(text: str) -> tuple[int, str, str]:
             values = sorted(line_dates)
             return len(line_dates), values[0], values[-1]
         return int(df.shape[0]), "", ""
+    parsed = pd.to_datetime(values, errors="coerce", dayfirst=True)
+    if parsed.notna().any():
+        parsed = parsed.dropna().sort_values()
+        return int(df.shape[0]), parsed.iloc[0].date().isoformat(), parsed.iloc[-1].date().isoformat()
     return int(df.shape[0]), values.iloc[0], values.iloc[-1]
 
 
@@ -273,7 +301,7 @@ def test_candidate(candidate: Candidate) -> Candidate:
     tested.last_tested = now_iso()
     tested.notes = clear_probe_notes(tested.notes)
 
-    if tested.source == "eurostat" and tested.series_key in {"", "TBD"}:
+    if tested.source in {"boe", "eurostat"} and tested.series_key in {"", "TBD"}:
         tested.test_status = "NEEDS_KEY"
         tested.notes = append_note(tested.notes, "Flow discovered but no dimension key has been selected yet.")
         return tested

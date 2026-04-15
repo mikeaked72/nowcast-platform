@@ -252,7 +252,9 @@ UK_ONS_SERIES = [
 UK_BOE_SERIES = [
     # Group 6: Interest rates
     ("UK_BANK_RATE",  ["IUMABEDR"],   "Bank of England Bank Rate"),
+    ("UK_GILT_5Y",    ["IUDSNZC"],    "UK 5-year nominal zero-coupon gilt yield"),
     ("UK_GILT_10Y",   ["IUDMNZC"],    "UK 10-year nominal gilt yield"),
+    ("UK_GILT_20Y",   ["IUDLNZC"],    "UK 20-year nominal zero-coupon gilt yield"),
     ("UK_MORT_RATE",  ["IUMBV37"],    "UK standard variable mortgage rate"),
     ("UK_SONIA",      ["IUDSOIA"],    "Sterling Overnight Index Average (SONIA)"),
 
@@ -269,7 +271,6 @@ UK_BOE_DISCOVERY_SERIES = [
     # These curve-tenor codes currently route to a BoE error page and need
     # current IADB code discovery before returning to the production catalog.
     ("UK_GILT_2Y",    ["IUDMNB4"],    "UK 2-year nominal gilt yield"),
-    ("UK_GILT_5Y",    ["IUDMNB9"],    "UK 5-year nominal gilt yield"),
     ("UK_GILT_30Y",   ["IUDMNC4"],    "UK 30-year nominal gilt yield"),
 ]
 

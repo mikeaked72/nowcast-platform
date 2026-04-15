@@ -15,14 +15,14 @@ Multi-country macroeconomic data pipeline for signal research. Builds a harmonis
 | INSEE | France | `insee_ingest.py` | 0 series | Script written, never run |
 | BdF | France | `bdf_ingest.py` | 0 public series | Requires `BDF_CLIENT_ID`/`BDF_CLIENT_SECRET` |
 | DESTATIS | Germany | `destatis_ingest.py` | 0 series | Script written, never run |
-| ONS + BoE | UK | `ons_ingest.py` | ONS public routes + BoE rates | PARTIAL: some BoE curve keys pending |
+| ONS + BoE | UK | `ons_ingest.py` | ONS public routes + BoE rates, 5y/10y/20y yield curve | PARTIAL: 2y/30y curve keys pending |
 | StatCan | Canada | `statcan_ingest.py` | CPI, unemployment, rates, yields | DONE |
 | BoJ | Japan | `boj_ingest.py` | CGPI and current account flat-file series | PARTIAL: legacy API keys pending |
 | e-Stat | Japan | `estat_ingest.py` | 0 series | Script written, never run |
 | IMF | Global | `imf_ingest.py` | CPI and CPI percent-change panels | DONE for CPI; other concepts in discovery |
 | World Bank | Global | `worldbank_ingest.py` | structural annual indicators | DONE |
 
-**Processed layer:** daily, weekly, monthly, quarterly, and annual parquet panels build from the available raw data. Latest dimensions are daily 18,730 x 28; weekly 3,092 x 1; monthly 2,424 x 154; quarterly 206 x 63; annual 36 x 437.
+**Processed layer:** daily, weekly, monthly, quarterly, and annual parquet panels build from the available raw data. Latest dimensions are daily 18,730 x 30; weekly 3,092 x 1; monthly 2,424 x 154; quarterly 206 x 63; annual 36 x 437.
 
 ## Directory Structure
 
