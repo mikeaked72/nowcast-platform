@@ -1,5 +1,6 @@
 (async function () {
   const state = {
+    schemaVersion: 1,
     countries: [],
     country: null,
     indicator: null,
@@ -37,7 +38,7 @@
     const initial = readUrlState();
     await selectCountry(initial.country || state.countries[0].code, initial.indicator, initial.run);
   } catch (error) {
-    elements.status.textContent = "Run the publish pipeline to create site/data payloads.";
+    elements.status.textContent = `Could not render published nowcast data: ${error.message}`;
   }
 
   function wireTabs() {
@@ -103,7 +104,7 @@
       fetchText(`${base}/contributions.csv`),
       fetchText(`${base}/release_impacts.csv`),
     ]);
-    return {
+    const payload = {
       latest,
       metadata,
       history: parseCsv(historyCsv),
@@ -111,6 +112,8 @@
       releaseImpacts: parseCsv(releaseImpactsCsv),
       base,
     };
+    validatePayload(payload, countryCode, indicatorCode);
+    return payload;
   }
 
   async function loadCountryOverview(country) {
@@ -149,7 +152,9 @@
       card("Headline estimate", formatValue(snapshot.estimate_value, metadata), snapshot.reference_period),
       card("Change", formatSigned(snapshot.delta_vs_prior, metadata), "vs prior estimate"),
       card("Prior estimate", formatValue(snapshot.prior_estimate_value, metadata), snapshot.as_of_date),
-      card("Cadence", metadata.update_cadence_label, latest.model_status),
+      statusCard(latest),
+      card("Schema", `v${latest.schema_version}`, latest.model_version),
+      card("Cadence", metadata.update_cadence_label, latest.next_update_date),
       divWithChildren("overview-wide", [
         sectionIntro("Latest news", "Newly incorporated releases for the selected run date."),
         topRows.length
@@ -422,9 +427,98 @@
         card("Artifact count", String(files.length + 1), "including country index"),
         card("Country", state.country.name, state.country.code),
         card("Indicator", state.payload.latest.indicator_name, state.indicator.code),
+        card("Schema", `v${state.payload.latest.schema_version}`, state.payload.latest.model_version),
       ]),
       list,
     );
+  }
+
+  function validatePayload(payload, countryCode, indicatorCode) {
+    const errors = [];
+    requireFields(errors, "latest.json", payload.latest, [
+      "schema_version",
+      "country_code",
+      "indicator_code",
+      "as_of_date",
+      "next_update_date",
+      "estimate_value",
+      "unit",
+      "model_status",
+      "model_version",
+      "last_updated_utc",
+    ]);
+    requireFields(errors, "metadata.json", payload.metadata, [
+      "country_code",
+      "indicator_code",
+      "display_name",
+      "unit",
+      "decimals",
+      "update_cadence_label",
+    ]);
+    requireColumns(errors, "history.csv", payload.history, [
+      "as_of_date",
+      "reference_period",
+      "estimate_value",
+      "model_status",
+      "model_version",
+    ]);
+    requireColumns(errors, "contributions.csv", payload.contributions, [
+      "as_of_date",
+      "component_code",
+      "component_name",
+      "contribution",
+      "direction",
+      "unit",
+    ]);
+    requireColumns(errors, "release_impacts.csv", payload.releaseImpacts, [
+      "latest_as_of_date",
+      "prior_as_of_date",
+      "as_of_date",
+      "release_date",
+      "release_name",
+      "impact",
+      "notes",
+      "source",
+      "source_url",
+    ]);
+    if (payload.latest.schema_version !== state.schemaVersion) {
+      errors.push(`latest.json schema_version must be ${state.schemaVersion}`);
+    }
+    if (payload.latest.country_code !== countryCode || payload.metadata.country_code !== countryCode) {
+      errors.push(`payload country_code must match ${countryCode}`);
+    }
+    if (payload.latest.indicator_code !== indicatorCode || payload.metadata.indicator_code !== indicatorCode) {
+      errors.push(`payload indicator_code must match ${indicatorCode}`);
+    }
+    if (!isIsoDate(payload.latest.as_of_date) || !isIsoDate(payload.latest.next_update_date)) {
+      errors.push("latest.json dates must use YYYY-MM-DD");
+    }
+    if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(payload.latest.last_updated_utc || "")) {
+      errors.push("last_updated_utc must use YYYY-MM-DDTHH:MM:SSZ");
+    }
+    if (errors.length) {
+      throw new Error(errors.join("; "));
+    }
+  }
+
+  function requireFields(errors, label, payload, fields) {
+    for (const field of fields) {
+      if (!Object.hasOwn(payload, field)) {
+        errors.push(`${label} missing ${field}`);
+      }
+    }
+  }
+
+  function requireColumns(errors, label, rows, columns) {
+    if (!rows.length) {
+      errors.push(`${label} must contain at least one row`);
+      return;
+    }
+    for (const column of columns) {
+      if (!Object.hasOwn(rows[0], column)) {
+        errors.push(`${label} missing ${column}`);
+      }
+    }
   }
 
   function selectedSnapshot() {
@@ -614,6 +708,12 @@
     return article;
   }
 
+  function statusCard(latest) {
+    const article = card("Status", latest.model_status, `Updated ${latest.last_updated_utc}`);
+    article.classList.add(`model-status-${latest.model_status}`);
+    return article;
+  }
+
   function sectionIntro(title, text) {
     const wrapper = div("section-heading");
     const h2 = document.createElement("h2");
@@ -776,6 +876,10 @@
 
   function number(value, decimals) {
     return Number(value).toFixed(Number(decimals));
+  }
+
+  function isIsoDate(value) {
+    return /^\d{4}-\d{2}-\d{2}$/.test(value || "");
   }
 
   function statusRank(status) {

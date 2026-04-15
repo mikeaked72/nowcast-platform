@@ -146,6 +146,20 @@ ul {
   padding: 16px;
 }
 
+.model-status-ok {
+  border-color: #3b8c7c;
+}
+
+.model-status-sample,
+.model-status-warning,
+.model-status-stale {
+  border-color: #d6a700;
+}
+
+.model-status-error {
+  border-color: #b85532;
+}
+
 article h2 {
   margin: 0 0 8px;
   color: #49645c;
