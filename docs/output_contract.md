@@ -69,7 +69,6 @@ Example:
 This file defines how the site explains and formats an indicator.
 
 Required fields:
-
 - `country_code`
 - `country_name`
 - `indicator_code`
@@ -93,6 +92,7 @@ This file contains the current snapshot for one country/indicator pair.
 
 Required fields:
 
+- `schema_version`: integer, currently `1`
 - `country_code`
 - `country_name`
 - `indicator_code`
@@ -108,7 +108,23 @@ Required fields:
 - `model_version`
 - `last_updated_utc`
 
-Numeric fields must be numbers or explicit `null` where allowed. Dates must be ISO date strings, and `last_updated_utc` must be an ISO timestamp.
+Numeric fields must be numbers or explicit `null` where allowed. Dates must be strict `YYYY-MM-DD` strings. `last_updated_utc` must be a UTC timestamp in `YYYY-MM-DDTHH:MM:SSZ` form.
+
+`model_status` must be one of:
+
+- `ok`
+- `sample`
+- `warning`
+- `error`
+- `stale`
+
+`unit` must be one of:
+
+- `index`
+- `percent`
+- `percent annualized`
+- `percent QoQ SAAR`
+- `percentage points`
 
 ## history.csv
 
@@ -122,6 +138,7 @@ Required columns:
 - `prior_estimate_value`
 - `delta_vs_prior`
 - `model_status`
+- `model_version`
 
 Rows must be ordered ascending by `as_of_date`.
 
@@ -148,6 +165,8 @@ This file powers the release-impact table and the release-date timeline.
 
 Required columns:
 
+- `latest_as_of_date`
+- `prior_as_of_date`
 - `as_of_date`
 - `release_date`
 - `release_name`
@@ -162,6 +181,8 @@ Required columns:
 - `category`
 - `unit`
 - `notes`
+- `source`
+- `source_url`
 
 `impact` must be numeric so the frontend can sort or aggregate it cleanly.
 
@@ -193,3 +214,9 @@ If this contract changes, update all of these together:
 - site consumers
 - tests and fixtures
 - this document
+
+Any breaking contract change must bump `schema_version` and add a note below.
+
+## Changelog
+
+- `1`: Current static country/indicator contract. Adds explicit `schema_version`, model-versioned history rows, strict date and status validation, and release-impact provenance fields.

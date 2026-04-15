@@ -1,4 +1,4 @@
-as_of_date,release_date,release_name,indicator_code,indicator_name,reference_period,actual_value,expected_value,surprise,impact,direction,category,unit,notes
-2026-03-15,2026-03-14,Consumption,gdp,GDP,2026Q3,1.82,1.6,0.22,0.22,positive,demand,percent QoQ SAAR,sample
-2026-03-15,2026-03-13,Investment,gdp,GDP,2026Q3,1.53,1.6,-0.07,-0.07,negative,investment,percent QoQ SAAR,sample
-2026-03-15,2026-03-12,Net trade,gdp,GDP,2026Q3,1.71,1.6,0.11,0.11,positive,trade,percent QoQ SAAR,sample
+as_of_date,release_date,release_name,indicator_code,indicator_name,latest_as_of_date,prior_as_of_date,reference_period,actual_value,expected_value,surprise,impact,direction,category,unit,notes,source,source_url
+2026-03-15,2026-03-14,Consumption,gdp,GDP,2026-03-15,2026-02-15,2026Q3,1.82,1.6,0.22,0.22,positive,demand,percent QoQ SAAR,sample,consumption,
+2026-03-15,2026-03-13,Investment,gdp,GDP,2026-03-15,2026-02-15,2026Q3,1.53,1.6,-0.07,-0.07,negative,investment,percent QoQ SAAR,sample,investment,
+2026-03-15,2026-03-12,Net trade,gdp,GDP,2026-03-15,2026-02-15,2026Q3,1.71,1.6,0.11,0.11,positive,trade,percent QoQ SAAR,sample,trade,

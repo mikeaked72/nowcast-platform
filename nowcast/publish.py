@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from nowcast.model_input import ModelRun, load_model_run, resolve_model_input_path
+from nowcast.schemas import SCHEMA_VERSION
 
 
 @dataclass(frozen=True)
@@ -181,9 +182,11 @@ def write_countries_json(publish_dir: Path | str, packs: list[CountryPack]) -> P
 
 def _payload_from_model_run(pack: CountryPack, meta: IndicatorMeta, model_run: ModelRun) -> dict[str, Any]:
     latest = model_run.latest
+    prior_as_of_dates = _snapshot_prior_as_of_dates(model_run)
     return {
         "metadata": _metadata(pack, meta, latest.reference_period),
         "latest": {
+            "schema_version": SCHEMA_VERSION,
             "country_code": pack.code,
             "country_name": pack.name,
             "indicator_code": meta.code,
@@ -207,6 +210,7 @@ def _payload_from_model_run(pack: CountryPack, meta: IndicatorMeta, model_run: M
                 "prior_estimate_value": _csv_number(snapshot.prior_nowcast_value),
                 "delta_vs_prior": _csv_number(snapshot.delta_vs_prior),
                 "model_status": "ok",
+                "model_version": "0.1.0",
             }
             for snapshot in model_run.snapshots
         ],
@@ -231,6 +235,8 @@ def _payload_from_model_run(pack: CountryPack, meta: IndicatorMeta, model_run: M
                 "release_name": observation.series_name,
                 "indicator_code": meta.code,
                 "indicator_name": meta.display_name,
+                "latest_as_of_date": snapshot.as_of_date.isoformat(),
+                "prior_as_of_date": prior_as_of_dates.get(snapshot.as_of_date, ""),
                 "reference_period": snapshot.reference_period,
                 "actual_value": observation.actual_value,
                 "expected_value": observation.expected_value,
@@ -240,6 +246,8 @@ def _payload_from_model_run(pack: CountryPack, meta: IndicatorMeta, model_run: M
                 "category": observation.category,
                 "unit": observation.units,
                 "notes": observation.release_status,
+                "source": observation.series_code,
+                "source_url": "",
             }
             for snapshot in model_run.snapshots
             for observation in snapshot.source_observations
@@ -264,6 +272,7 @@ def _sample_indicator_payload(pack: CountryPack, meta: IndicatorMeta) -> dict[st
                 "prior_estimate_value": _csv_number(prior),
                 "delta_vs_prior": _csv_number(None if prior is None else value - prior),
                 "model_status": "sample",
+                "model_version": "0.1.0",
             }
         )
 
@@ -288,6 +297,8 @@ def _sample_indicator_payload(pack: CountryPack, meta: IndicatorMeta) -> dict[st
             "release_name": name,
             "indicator_code": meta.code,
             "indicator_name": meta.display_name,
+            "latest_as_of_date": latest_date.isoformat(),
+            "prior_as_of_date": dates[-2].isoformat(),
             "reference_period": periods[-1],
             "actual_value": round(base + contribution, 10),
             "expected_value": round(base, 10),
@@ -297,6 +308,8 @@ def _sample_indicator_payload(pack: CountryPack, meta: IndicatorMeta) -> dict[st
             "category": category,
             "unit": meta.unit,
             "notes": "sample",
+            "source": code,
+            "source_url": "",
         }
         for offset, (code, name, category, contribution) in enumerate(components, start=1)
     ]
@@ -304,6 +317,7 @@ def _sample_indicator_payload(pack: CountryPack, meta: IndicatorMeta) -> dict[st
     return {
         "metadata": _metadata(pack, meta, periods[-1]),
         "latest": {
+            "schema_version": SCHEMA_VERSION,
             "country_code": pack.code,
             "country_name": pack.name,
             "indicator_code": meta.code,
@@ -434,6 +448,15 @@ def _sample_components(indicator_code: str) -> list[tuple[str, str, str, float]]
 
 def _utc_timestamp(day: date) -> str:
     return datetime.combine(day, datetime.min.time(), tzinfo=UTC).replace(hour=9).isoformat().replace("+00:00", "Z")
+
+
+def _snapshot_prior_as_of_dates(model_run: ModelRun) -> dict[date, str]:
+    prior_dates: dict[date, str] = {}
+    previous: date | None = None
+    for snapshot in model_run.snapshots:
+        prior_dates[snapshot.as_of_date] = "" if previous is None else previous.isoformat()
+        previous = snapshot.as_of_date
+    return prior_dates
 
 
 def _round_or_none(value: float | None) -> float | None:
