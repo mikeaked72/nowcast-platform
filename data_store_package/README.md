@@ -7,22 +7,22 @@ Multi-country macroeconomic data pipeline for signal research. Builds a harmonis
 | Source | Country | Ingestor | Data | Status |
 |--------|---------|----------|------|--------|
 | FRED | US | `fred_ingest.py` | 27 series, 177K rows | DONE |
-| RBA | Australia | `rba_ingest.py` | 38 CSV files | DONE |
-| ABS | Australia | `abs_ingest.py` | 0 series | Script written, never run |
-| ECB | Euro Area | `ecb_ingest.py` | 0 series | Script written, never run |
-| Eurostat | Euro Area | `eurostat_ingest.py` | 0 series | Script written, never run |
-| Bundesbank | Germany | `bundesbank_ingest.py` | 0 series | Script written, never run |
+| RBA | Australia | `rba_ingest.py` | 28 configured series | DONE |
+| ABS | Australia | `abs_ingest.py` | 19 configured dataflows | DONE after live catalogue remap |
+| ECB | Euro Area | `ecb_ingest.py` | policy rates, FX, HICP, GDP, credit | DONE |
+| Eurostat | Europe | `eurostat_ingest.py` | GDP, trade, HICP, PPI, unemployment | DONE for core European panel |
+| Bundesbank | Germany | `bundesbank_ingest.py` | 2y/5y/10y/30y yields | PARTIAL: credit keys pending |
 | INSEE | France | `insee_ingest.py` | 0 series | Script written, never run |
-| BdF | France | `bdf_ingest.py` | 0 series | Script written, never run |
+| BdF | France | `bdf_ingest.py` | 0 public series | Requires `BDF_CLIENT_ID`/`BDF_CLIENT_SECRET` |
 | DESTATIS | Germany | `destatis_ingest.py` | 0 series | Script written, never run |
-| ONS + BoE | UK | `ons_ingest.py` | 0 series | Script written, never run |
-| StatCan | Canada | `statcan_ingest.py` | 0 series | Script written, never run |
-| BoJ | Japan | `boj_ingest.py` | 0 series | Script written, never run |
+| ONS + BoE | UK | `ons_ingest.py` | ONS public routes + BoE rates | PARTIAL: some BoE curve keys pending |
+| StatCan | Canada | `statcan_ingest.py` | CPI, unemployment, rates, yields | DONE |
+| BoJ | Japan | `boj_ingest.py` | CGPI flat-file package | PARTIAL: legacy API keys pending |
 | e-Stat | Japan | `estat_ingest.py` | 0 series | Script written, never run |
-| IMF | Global | `imf_ingest.py` | 0 series | Script written, never run |
-| World Bank | Global | `worldbank_ingest.py` | 0 series | Script written, never run |
+| IMF | Global | `imf_ingest.py` | CPI and CPI percent-change panels | PARTIAL: migrated to current SDMX 2.1 API |
+| World Bank | Global | `worldbank_ingest.py` | structural annual indicators | DONE |
 
-**Processed layer:** `store/processed/daily.parquet` (3,984 rows) + `store/processed/monthly.parquet` (1,074 rows, 18 series, 1959-2026). Built from FRED + RBA only so far.
+**Processed layer:** daily, weekly, monthly, quarterly, and annual parquet panels build from the available raw data. Latest dimensions are daily 18,730 x 28; weekly 3,092 x 1; monthly 2,424 x 148; quarterly 206 x 63; annual 36 x 437.
 
 ## Directory Structure
 
@@ -64,11 +64,14 @@ data-store/
     raw/                        # Raw downloads by source
       fred/                     # 27 CSV files (DONE)
       rba/                      # 38 CSV files (DONE)
-      abs/                      # Empty - awaiting run
-      ecb/                      # etc.
+      abs/                      # ABS SDMX downloads
+      ecb/                      # ECB Data Portal downloads
     processed/
       daily.parquet             # Harmonised daily panel
+      weekly.parquet            # Harmonised weekly panel
       monthly.parquet           # Harmonised monthly panel
+      quarterly.parquet         # Harmonised quarterly panel
+      annual.parquet            # Harmonised annual panel
     manifest.json               # What's been downloaded and when
 ```
 
@@ -87,7 +90,7 @@ source .env
 # US data (already done)
 python pipeline/update_fred.py
 
-# Australia (RBA done, ABS needs run)
+# Australia
 python pipeline/update_aus.py
 
 # All international sources

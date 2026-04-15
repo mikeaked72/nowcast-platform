@@ -13,6 +13,9 @@ from pathlib import Path
 
 def _import_mod(name: str, filename: str):
     path = Path(__file__).parent / "ingest" / filename
+    ingest_dir = str(path.parent)
+    if ingest_dir not in sys.path:
+        sys.path.insert(0, ingest_dir)
     spec = importlib.util.spec_from_file_location(name, path)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
@@ -104,11 +107,11 @@ ABS_SERIES = [
     # ── Group 7: Prices ─────────────────────────────────────────────────────
     ("AUS_CPI",                "ABS,CPI",      "all", "1980",
         "CPI_all_groups_quarterly"),
-    ("AUS_MONTHLY_CPI",        "ABS,MONTHLY_CPI", "all", "2018",
+    ("AUS_MONTHLY_CPI",        "ABS,CPI_M", "all", "2018",
         "CPI_monthly_indicator"),
     ("AUS_PPI",                "ABS,PPI",      "all", "1990",
         "producer_price_indexes_quarterly"),
-    ("AUS_IT_PRICE",           "ABS,IT_PRICE", "all", "1990",
+    ("AUS_IT_PRICE",           "ABS,ITPI_EXP", "all", "1990",
         "international_trade_price_indexes"),
 
     # ── Earnings & productivity (FRED-QD Group 10) ──────────────────────────
@@ -120,31 +123,31 @@ ABS_SERIES = [
     # ── Group 4: Consumption, orders, inventories ───────────────────────────
     ("AUS_RETAIL",             "ABS,RT",       "all", "1990",
         "retail_trade_monthly"),
-    ("AUS_RETAIL_VOL",         "ABS,RT_Q",     "all", "1990",
+    ("AUS_RETAIL_VOL",         "ABS,RT",       "all", "1990",
         "retail_trade_volume_quarterly"),
-    ("AUS_BUS_INDICATORS",     "ABS,BUS_IND",  "all", "1990",
+    ("AUS_BUS_INDICATORS",     "ABS,QBIS",     "all", "1990",
         "business_indicators_quarterly"),
     ("AUS_CAPEX",              "ABS,CAPEX",    "all", "1990",
         "private_new_capital_expenditure"),
 
     # ── Group 3: Housing ────────────────────────────────────────────────────
-    ("AUS_BUILDING_APPROVALS", "ABS,BA",       "all", "1990",
+    ("AUS_BUILDING_APPROVALS", "ABS,BA_GCCSA", "all", "2021",
         "building_approvals_monthly"),
-    ("AUS_BUILDING_ACTIVITY",  "ABS,BUILD_ACT","all", "1990",
+    ("AUS_BUILDING_ACTIVITY",  "ABS,BUILDING_ACTIVITY","all", "1990",
         "building_activity_quarterly"),
-    ("AUS_LENDING_INDICATORS", "ABS,LEND_FIN", "all", "2002",
+    ("AUS_LENDING_INDICATORS", "ABS,LEND_HOUSING", "all", "2002",
         "lending_indicators_monthly"),
     ("AUS_RES_PROPERTY_PRICE", "ABS,RPPI",     "all", "2003",
         "residential_property_price_indexes"),
 
     # ── Group 11/12: Household & Non-household balance sheets ───────────────
-    ("AUS_FINANCIAL_ACCOUNTS", "ABS,FA",       "all", "1988",
+    ("AUS_FINANCIAL_ACCOUNTS", "ABS,ANA_AGG",  "all", "1988",
         "financial_accounts_quarterly"),
 
     # ── International trade & balance of payments ───────────────────────────
     ("AUS_BOP",                "ABS,BOP",      "all", "1959",
         "balance_of_payments_quarterly"),
-    ("AUS_MERCH_TRADE",        "ABS,MERCH_TRADE", "all", "1990",
+    ("AUS_MERCH_TRADE",        "ABS,ITGS", "all", "1990",
         "international_merchandise_trade"),
 ]
 

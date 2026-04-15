@@ -31,6 +31,11 @@ from pathlib import Path
 import pandas as pd
 import requests
 
+try:
+    from common import add_common_args, configure_logging, retry_call
+except ImportError:
+    from pipeline.ingest.common import add_common_args, configure_logging, retry_call
+
 
 # ── paths ─────────────────────────────────────────────────────────────────────
 
@@ -52,10 +57,13 @@ def fetch(flow: str, series_key: str, start_period: str | None = None,
     url = f"{BASE_URL}/{flow}/{series_key}"
     params = {"format": "csv", "lang": "en"}
     if start_period:
+        if series_key.startswith("M.") and len(start_period) == 4:
+            start_period = f"{start_period}-01"
         params["startPeriod"] = start_period
 
     try:
-        r = requests.get(url, headers=HEADERS, params=params, timeout=60)
+        r = retry_call(lambda: requests.get(url, headers=HEADERS, params=params, timeout=60),
+                       label=f"Bundesbank {flow}/{series_key}")
         r.raise_for_status()
     except Exception as e:
         print(f"  [ERROR] BUBA {series_key}: {e}", file=sys.stderr)
@@ -97,11 +105,10 @@ def fetch(flow: str, series_key: str, start_period: str | None = None,
 # Curated map of German series mirroring FRED-MD/QD concepts.
 BUBA_SERIES = [
     # ── Group 6: Interest rates (Bund yields, ECB-set rates filtered to DE) ─
-    ("DE_BUND_3M",   "BBK01", "BBK01.ST0316",  "DE 3-month interbank rate"),
-    ("DE_BUND_2Y",   "BBK01", "BBK01.WT3210",  "DE 2-year Bund yield"),
-    ("DE_BUND_5Y",   "BBK01", "BBK01.WT3510",  "DE 5-year Bund yield"),
-    ("DE_BUND_10Y",  "BBK01", "BBK01.WT3110",  "DE 10-year Bund yield (Umlaufrendite)"),
-    ("DE_BUND_30Y",  "BBK01", "BBK01.WT3030",  "DE 30-year Bund yield"),
+    ("DE_BUND_2Y",   "BBSIS", "M.I.ZST.ZI.EUR.S1311.B.A604.R02XX.R.A.A._Z._Z.A", "DE 2-year Bund yield"),
+    ("DE_BUND_5Y",   "BBSIS", "M.I.ZST.ZI.EUR.S1311.B.A604.R05XX.R.A.A._Z._Z.A", "DE 5-year Bund yield"),
+    ("DE_BUND_10Y",  "BBSIS", "M.I.ZST.ZI.EUR.S1311.B.A604.R10XX.R.A.A._Z._Z.A", "DE 10-year Bund yield"),
+    ("DE_BUND_30Y",  "BBSIS", "M.I.ZST.ZI.EUR.S1311.B.A604.R30XX.R.A.A._Z._Z.A", "DE 30-year Bund yield"),
 
     # ── Group 5: Money & Credit (legacy DE M-aggregates) ────────────────────
     ("DE_HH_LOANS",  "BBKRT", "BBKRT.M.U.NS.A.A.A.AB.A.A.PUR.A.A",
@@ -112,6 +119,9 @@ BUBA_SERIES = [
 
 
 if __name__ == "__main__":
+    parser = add_common_args(__import__("argparse").ArgumentParser())
+    args = parser.parse_args()
+    configure_logging(args.verbose)
     print(f"RAW_BUBA: {RAW_BUBA}\n")
     for local_id, flow, key, desc in BUBA_SERIES:
         print(f"  {local_id:15} {desc}")
@@ -120,3 +130,5 @@ if __name__ == "__main__":
             print(f"    OK: {len(df):,} rows, {df['date'].iloc[0]} -> {df['date'].iloc[-1]}")
         else:
             print(f"    FAILED")
+        if args.dry_run:
+            break

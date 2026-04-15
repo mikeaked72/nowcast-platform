@@ -28,11 +28,17 @@ from __future__ import annotations
 import re
 import sys
 import time
+import xml.etree.ElementTree as ET
 from io import StringIO
 from pathlib import Path
 
 import pandas as pd
 import requests
+
+try:
+    from common import add_common_args, configure_logging, retry_call
+except ImportError:
+    from pipeline.ingest.common import add_common_args, configure_logging, retry_call
 
 
 # ── paths ─────────────────────────────────────────────────────────────────────
@@ -60,7 +66,10 @@ def _request_with_fallback(url: str, params: dict, timeout: int = 120) -> reques
     for accept in ACCEPT_HEADERS:
         headers = {"Accept": accept, "User-Agent": UA}
         try:
-            r = requests.get(url, headers=headers, params=params, timeout=timeout)
+            r = retry_call(
+                lambda: requests.get(url, headers=headers, params=params, timeout=timeout),
+                label=f"ABS {url}",
+            )
             if r.status_code == 200 and r.text.strip():
                 return r
             last_err = f"HTTP {r.status_code}"
@@ -81,30 +90,32 @@ def list_dataflows(detail: str = "allstubs") -> list[dict] | None:
     url = f"{BASE_URL}/dataflow/all"
     params = {"detail": detail}
     try:
-        r = requests.get(url, headers={"Accept": "application/xml",
-                                       "User-Agent": UA},
-                         params=params, timeout=60)
+        r = retry_call(
+            lambda: requests.get(url, headers={"Accept": "application/xml",
+                                               "User-Agent": UA},
+                                 params=params, timeout=60),
+            label="ABS dataflow",
+        )
         r.raise_for_status()
     except Exception as e:
         print(f"  [ERROR] list_dataflows: {e}", file=sys.stderr)
         return None
 
-    # Parse each <str:Dataflow id="X" agencyID="Y" version="Z">
-    pat = re.compile(
-        r'<str:Dataflow[^>]*id="(?P<id>[^"]+)"'
-        r'[^>]*agencyID="(?P<agency>[^"]+)"'
-        r'[^>]*version="(?P<version>[^"]+)"[^>]*>'
-    )
-    name_pat = re.compile(
-        r'<str:Dataflow[^>]*id="(?P<id>[^"]+)"[^>]*>.*?'
-        r'<com:Name[^>]*>(?P<name>[^<]+)</com:Name>',
-        re.DOTALL,
-    )
-    ids = [m.groupdict() for m in pat.finditer(r.text)]
-    names = {m["id"]: m["name"] for m in name_pat.finditer(r.text)}
-    for d in ids:
-        d["name"] = names.get(d["id"], "")
-    return sorted(ids, key=lambda d: d["id"])
+    ns = {
+        "str": "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure",
+        "com": "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common",
+    }
+    root = ET.fromstring(r.text)
+    flows = []
+    for dataflow in root.findall(".//str:Dataflow", ns):
+        name = dataflow.find("com:Name", ns)
+        flows.append({
+            "id": dataflow.attrib.get("id", ""),
+            "agency": dataflow.attrib.get("agencyID", "ABS"),
+            "version": dataflow.attrib.get("version", ""),
+            "name": "" if name is None else (name.text or ""),
+        })
+    return sorted(flows, key=lambda d: d["id"])
 
 
 def fetch_latest_version(flow_id: str, agency: str = "ABS") -> str | None:
@@ -209,6 +220,9 @@ def fetch_with_fallback(dataflow_id: str, key: str = "all",
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
+    parser = add_common_args(__import__("argparse").ArgumentParser())
+    args = parser.parse_args()
+    configure_logging(args.verbose)
     print(f"RAW_ABS: {RAW_ABS}\n")
 
     # Discover what dataflows are available
@@ -216,6 +230,8 @@ if __name__ == "__main__":
     flows = list_dataflows()
     if flows:
         print(f"  Found {len(flows)} dataflows")
+        if args.dry_run:
+            raise SystemExit(0)
         # Print macro-relevant ones
         kws = ("CPI", "LABOUR", "LF", "GDP", "ANA", "WPI", "RET", "HOUS",
                "BUILD", "LEND", "BUS", "CAPEX", "BOP", "FA", "PPI", "MERCH")

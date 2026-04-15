@@ -37,7 +37,7 @@ def load_fred_series(series_id: str) -> pd.Series | None:
     path = RAW / "fred" / f"{series_id}.csv"
     if not path.exists():
         return None
-    df = pd.read_csv(path)
+    df = pd.read_csv(path, low_memory=False)
     if df.empty or "date" not in df.columns or "value" not in df.columns:
         return None
     df["date"] = pd.to_datetime(df["date"])
@@ -49,7 +49,7 @@ def load_rba_series(table: str, sid: str, local_id: str) -> pd.Series | None:
     path = RAW / "rba" / f"{table.lower()}_{sid}.csv"
     if not path.exists():
         return None
-    df = pd.read_csv(path)
+    df = pd.read_csv(path, low_memory=False)
     if df.empty or "date" not in df.columns or "value" not in df.columns:
         return None
     df["date"] = pd.to_datetime(df["date"])
@@ -62,7 +62,7 @@ def load_abs_series(filename_stem: str, local_id: str) -> pd.Series | None:
     path = RAW / "abs" / f"{filename_stem}.csv"
     if not path.exists():
         return None
-    df = pd.read_csv(path)
+    df = pd.read_csv(path, low_memory=False)
     # SDMX-CSV typically has TIME_PERIOD and OBS_VALUE
     date_col = next((c for c in df.columns if c.upper() in ("TIME_PERIOD", "DATE")), None)
     val_col = next((c for c in df.columns if c.upper() in ("OBS_VALUE", "VALUE")), None)
@@ -141,6 +141,7 @@ RAW_SOURCE_DIRS = {
     "statcan": "statcan",
     "boc": "boc",
     "boe": "boe",
+    "imf": "imf",
     "wb": "worldbank",
     "worldbank": "worldbank",
 }
@@ -172,11 +173,18 @@ def build():
     def parse_time_period(values: pd.Series) -> pd.Series:
         as_text = values.astype(str).str.strip()
         qmask = as_text.str.match(r"^\d{4}-Q[1-4]$")
-        out = pd.to_datetime(as_text, errors="coerce")
+        mmask = as_text.str.match(r"^\d{4}-M\d{2}$")
+        ymask = as_text.str.match(r"^\d{4}$")
+        special = qmask | mmask | ymask
+        out = pd.Series(pd.NaT, index=as_text.index, dtype="datetime64[ns]")
+        if (~special).any():
+            out.loc[~special] = pd.to_datetime(as_text[~special], errors="coerce")
+        if mmask.any():
+            months = pd.PeriodIndex(as_text[mmask].str.replace("-M", "-", regex=False), freq="M")
+            out.loc[mmask] = months.to_timestamp(how="end").normalize()
         if qmask.any():
             quarters = pd.PeriodIndex(as_text[qmask].str.replace("-Q", "Q"), freq="Q")
             out.loc[qmask] = quarters.to_timestamp(how="end").normalize()
-        ymask = as_text.str.match(r"^\d{4}$")
         if ymask.any():
             out.loc[ymask] = pd.to_datetime(as_text[ymask] + "-12-31", errors="coerce")
         return out
@@ -196,6 +204,8 @@ def build():
                 if value.startswith("A"):
                     return "annual"
         sample = df[date_col].dropna().astype(str).head(20)
+        if sample.str.match(r"^\d{4}-M\d{2}$").any():
+            return "monthly"
         if sample.str.match(r"^\d{4}-Q[1-4]$").any():
             return "quarterly"
         if sample.str.match(r"^\d{4}$").all():
@@ -249,6 +259,18 @@ def build():
                     out.append((s, "annual"))
             return out
 
+        if dirname == "imf" and {"date", "value", "area"}.issubset(df.columns):
+            suffix = local_id.removeprefix("IMF_EM_")
+            out: list[tuple[pd.Series, str]] = []
+            for area, part in df.groupby("area"):
+                dates = parse_time_period(part["date"])
+                values = pd.to_numeric(part["value"], errors="coerce")
+                s = pd.Series(values.to_numpy(), index=dates, name=f"{str(area).upper()}_{suffix}")
+                s = s.dropna().sort_index()
+                if not s.empty:
+                    out.append((s, infer_frequency(part, "date")))
+            return out
+
         date_col = "date" if "date" in df.columns else "TIME_PERIOD" if "TIME_PERIOD" in df.columns else None
         val_col = value_column(df)
         if date_col is None or val_col is None:
@@ -290,7 +312,7 @@ def build():
     def build_df(series_dict, freq_code):
         if not series_dict:
             return pd.DataFrame()
-        df = pd.concat(series_dict.values(), axis=1).sort_index()
+        df = pd.concat(series_dict.values(), axis=1, sort=True).sort_index()
         return df
 
     daily_df = build_df(daily_series, "B")

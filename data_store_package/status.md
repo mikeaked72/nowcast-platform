@@ -68,22 +68,39 @@ As of the expanded integrated run on 2026-04-15:
 
 - FRED: 27/27 series downloaded.
 - RBA: 28/28 series downloaded.
-- ABS: 10/19 dataflows downloaded; the remaining failures are 404 dataflow IDs
-  that need catalogue remapping.
+- ABS: 19/19 configured dataflows downloaded after remapping current ABS
+  dataflow IDs through the live catalogue.
 - UK ONS: 9/9 public time-series routes downloaded.
 - Eurostat: euro-area aggregates plus national GDP, trade, unemployment, HICP,
   and PPI panels for DEU, FRA, ITA, ESP, NLD, BEL, AUT, PRT, IRL, FIN, SWE,
   DNK, NOR, and CHE.
-- International public sources: 172 series downloaded and 40 failures recorded
+- IMF: migrated from the retired/refused `dataservices.imf.org` route to the
+  current SDMX 2.1 endpoint. Monthly CPI index and CPI percent-change panels now
+  download for 21 emerging-market and G20-style country codes.
+- Bundesbank: German government yield keys were repaired against the current
+  BBSIS term-structure flow. Household and NFC credit keys still need a current
+  catalogue match.
+- Banque de France: the ingestor now uses structured logging and skips cleanly
+  without credentials. Set `BDF_CLIENT_ID` and `BDF_CLIENT_SECRET` to enable the
+  authenticated API.
+- BoJ: the legacy API keys are still unresolved, but current public flat-file
+  discovery works for the CGPI package.
+- International public sources: 179 series downloaded and 27 failures recorded
   without aborting the run.
 - Processed layer: daily, weekly, monthly, quarterly, and annual parquet files
   build successfully from available raw data.
+- Latest processed dimensions: daily 18,730 x 28; weekly 3,092 x 1; monthly
+  2,424 x 148; quarterly 206 x 63; annual 36 x 437.
 
 ## Known Follow-Ups
 
-- Remap ABS dataflows that now return 404.
-- Update Bundesbank, Banque de France, BoJ, and selected Eurostat series
-  keys against their current catalogues.
-- Move IMF calls from the refused HTTP endpoint to the current IMF Data API.
-- Add per-ingestor `--dry-run` flags and shared retry/logging helpers across all
-  source modules.
+- Finish IMF SDMX 2.1 dimension maps for rates, FX, unemployment, GDP, and
+  broad-money series beyond CPI.
+- Find current Bundesbank credit-series keys for household and NFC lending.
+- Replace legacy BoJ API codes with current API or flat-file packages for money,
+  policy-rate, and balance-sheet concepts.
+- Provide Banque de France API credentials if authenticated French financial
+  series are required.
+- Extend the shared `--dry-run`, retry/backoff, and structured logging helper
+  to any lower-priority ingestors that still use their original direct request
+  loops.

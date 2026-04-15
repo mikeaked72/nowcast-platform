@@ -32,11 +32,17 @@ Usage:
 from __future__ import annotations
 
 import sys
-from io import StringIO
+import zipfile
+from io import BytesIO, StringIO
 from pathlib import Path
 
 import pandas as pd
 import requests
+
+try:
+    from common import add_common_args, configure_logging, retry_call
+except ImportError:
+    from pipeline.ingest.common import add_common_args, configure_logging, retry_call
 
 
 # ── paths ─────────────────────────────────────────────────────────────────────
@@ -45,7 +51,7 @@ RAW_BOJ = Path(__file__).resolve().parents[2] / "store" / "raw" / "boj"
 RAW_BOJ.mkdir(parents=True, exist_ok=True)
 
 API_URL = "https://www.stat-search.boj.or.jp/api/v1"
-FLATFILE_BASE = "https://www.stat-search.boj.or.jp/ssi/mtshtml"
+FLATFILE_BASE = "https://www.stat-search.boj.or.jp/info"
 UA = "Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0"
 
 
@@ -80,7 +86,8 @@ def fetch_series(series_code: str, start_period: str | None = None,
     headers = {"User-Agent": UA, "Accept": "text/csv, */*"}
 
     try:
-        r = requests.get(url, params=params, headers=headers, timeout=60)
+        r = retry_call(lambda: requests.get(url, params=params, headers=headers, timeout=60),
+                       label=f"BoJ {series_code}")
         r.raise_for_status()
     except Exception as e:
         print(f"  [ERROR] BoJ {series_code}: {e}", file=sys.stderr)
@@ -128,11 +135,9 @@ def fetch_flatfile(category: str, label: str | None = None) -> pd.DataFrame | No
     """
     # BoJ flat files are at known URLs — the exact filenames vary
     url_map = {
-        "ir": f"{FLATFILE_BASE}/IR01_en.csv",
-        "md": f"{FLATFILE_BASE}/MD01_en.csv",
-        "bs": f"{FLATFILE_BASE}/BS01_en.csv",
-        "pr": f"{FLATFILE_BASE}/PR01_en.csv",
-        "co": f"{FLATFILE_BASE}/CO01_en.csv",
+        "pr": f"{FLATFILE_BASE}/cgpi_m_en.zip",
+        "co": f"{FLATFILE_BASE}/co.zip",
+        "bp": f"{FLATFILE_BASE}/bp_m_en.zip",
     }
 
     url = url_map.get(category.lower())
@@ -141,7 +146,8 @@ def fetch_flatfile(category: str, label: str | None = None) -> pd.DataFrame | No
         return None
 
     try:
-        r = requests.get(url, headers={"User-Agent": UA}, timeout=120)
+        r = retry_call(lambda: requests.get(url, headers={"User-Agent": UA}, timeout=120),
+                       label=f"BoJ flatfile {category}")
         r.raise_for_status()
     except Exception as e:
         print(f"  [ERROR] BoJ flatfile {category}: {e}", file=sys.stderr)
@@ -149,13 +155,18 @@ def fetch_flatfile(category: str, label: str | None = None) -> pd.DataFrame | No
 
     # Save raw bytes
     fname = label or f"boj_flatfile_{category}"
-    out_path = RAW_BOJ / f"{fname}.csv"
+    out_path = RAW_BOJ / (f"{fname}.zip" if url.endswith(".zip") else f"{fname}.csv")
     out_path.write_bytes(r.content)
 
     # Parse
     try:
-        df = pd.read_csv(StringIO(r.content.decode("utf-8-sig", errors="replace")),
-                         low_memory=False)
+        if url.endswith(".zip"):
+            with zipfile.ZipFile(BytesIO(r.content)) as zf:
+                csv_name = next(n for n in zf.namelist() if n.lower().endswith(".csv"))
+                text = zf.read(csv_name).decode("utf-8-sig", errors="replace")
+        else:
+            text = r.content.decode("utf-8-sig", errors="replace")
+        df = pd.read_csv(StringIO(text), low_memory=False)
     except Exception as e:
         print(f"  [ERROR] parse flatfile {category}: {e}", file=sys.stderr)
         return None
@@ -175,8 +186,6 @@ BOJ_SERIES = [
 ]
 
 BOJ_FLATFILES = [
-    ("JP_BOJ_IR",     "ir", "BoJ interest rates (flat file)"),
-    ("JP_BOJ_MD",     "md", "BoJ monetary data (flat file)"),
     ("JP_BOJ_PR",     "pr", "BoJ price data (flat file)"),
 ]
 
@@ -184,6 +193,9 @@ BOJ_FLATFILES = [
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
+    parser = add_common_args(__import__("argparse").ArgumentParser())
+    args = parser.parse_args()
+    configure_logging(args.verbose)
     print(f"RAW_BOJ: {RAW_BOJ}\n")
 
     # Try the API first
@@ -195,6 +207,8 @@ if __name__ == "__main__":
             print(f"    OK: {df.shape[0]:,} rows, {df.shape[1]} cols")
         else:
             print(f"    FAILED — will try flat files")
+        if args.dry_run:
+            break
 
     # Try flat file fallback
     print("\n[BoJ flat files]")

@@ -19,12 +19,18 @@ Usage:
 
 from __future__ import annotations
 
+import os
 import sys
 from io import StringIO
 from pathlib import Path
 
 import pandas as pd
 import requests
+
+try:
+    from common import add_common_args, configure_logging, retry_call
+except ImportError:
+    from pipeline.ingest.common import add_common_args, configure_logging, retry_call
 
 
 # ── paths ─────────────────────────────────────────────────────────────────────
@@ -47,7 +53,14 @@ def fetch(flow: str, series_key: str, start_period: str | None = None,
         params["startPeriod"] = start_period
 
     try:
-        r = requests.get(url, headers=HEADERS, params=params, timeout=60)
+        headers = dict(HEADERS)
+        client_id = os.environ.get("BDF_CLIENT_ID")
+        client_secret = os.environ.get("BDF_CLIENT_SECRET")
+        if client_id and client_secret:
+            headers["client_id"] = client_id
+            headers["client_secret"] = client_secret
+        r = retry_call(lambda: requests.get(url, headers=headers, params=params, timeout=60),
+                       label=f"BdF {flow}/{series_key}")
         r.raise_for_status()
     except Exception as e:
         print(f"  [ERROR] BdF {series_key}: {e}", file=sys.stderr)
@@ -86,6 +99,12 @@ BDF_SERIES = [
 
 
 if __name__ == "__main__":
+    parser = add_common_args(__import__("argparse").ArgumentParser())
+    args = parser.parse_args()
+    configure_logging(args.verbose)
+    if not (os.environ.get("BDF_CLIENT_ID") and os.environ.get("BDF_CLIENT_SECRET")):
+        print("BDF_CLIENT_ID/BDF_CLIENT_SECRET not set; Banque de France API returned 401 without credentials.")
+        raise SystemExit(0 if args.dry_run else 1)
     print(f"RAW_BDF: {RAW_BDF}\n")
     for local_id, flow, key, desc in BDF_SERIES:
         print(f"  {local_id:15} {desc}")

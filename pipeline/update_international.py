@@ -20,12 +20,16 @@ Run: python data-store/pipeline/update_international.py
 import importlib.util
 import json
 import os
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 
 def _import_mod(name: str, filename: str):
     path = Path(__file__).parent / "ingest" / filename
+    ingest_dir = str(path.parent)
+    if ingest_dir not in sys.path:
+        sys.path.insert(0, ingest_dir)
     spec = importlib.util.spec_from_file_location(name, path)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
@@ -47,7 +51,8 @@ eurostat = _try_import("eurostat_ingest", "eurostat_ingest.py")
 ca = _try_import("statcan_ingest",     "statcan_ingest.py")
 ons = _try_import("ons_ingest",        "ons_ingest.py")
 buba = _try_import("bundesbank_ingest","bundesbank_ingest.py")
-bdf = _try_import("bdf_ingest",        "bdf_ingest.py")
+bdf = _try_import("bdf_ingest",        "bdf_ingest.py") \
+    if os.environ.get("BDF_CLIENT_ID") and os.environ.get("BDF_CLIENT_SECRET") else None
 
 # Sources requiring API keys — only load if env var is present
 destatis = _try_import("destatis_ingest", "destatis_ingest.py") \
@@ -222,6 +227,8 @@ def main():
             else:
                 fail.append(local_id)
                 print("FAILED")
+    else:
+        print("\n[Banque de France] skipped — BDF_CLIENT_ID/BDF_CLIENT_SECRET not in .env")
 
     # DESTATIS (requires DESTATIS_USER + DESTATIS_PASSWORD)
     if destatis is not None:

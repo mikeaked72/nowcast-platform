@@ -60,18 +60,32 @@ from pathlib import Path
 import pandas as pd
 import requests
 
+try:
+    from common import add_common_args, configure_logging, retry_call
+except ImportError:
+    from pipeline.ingest.common import add_common_args, configure_logging, retry_call
+
 
 # ── paths ─────────────────────────────────────────────────────────────────────
 
 RAW_IMF = Path(__file__).resolve().parents[2] / "store" / "raw" / "imf"
 RAW_IMF.mkdir(parents=True, exist_ok=True)
 
-BASE_URL = "http://dataservices.imf.org/REST/SDMX_JSON.svc"
+BASE_URL = "https://api.imf.org/external/sdmx/2.1"
 UA = "Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0"
 
 # Rate limiting — IMF API limits to ~10 requests per second
 _LAST_REQUEST = 0.0
 _MIN_INTERVAL = 0.5  # seconds between requests
+
+ISO2_TO_IMF_AREA = {
+    "AE": "ARE", "AU": "AUS", "BR": "BRA", "CA": "CAN", "CH": "CHE",
+    "CL": "CHL", "CN": "CHN", "CO": "COL", "CZ": "CZE", "DE": "DEU",
+    "FR": "FRA", "GB": "GBR", "HU": "HUN", "ID": "IDN", "IL": "ISR",
+    "IN": "IND", "JP": "JPN", "KR": "KOR", "MX": "MEX", "MY": "MYS",
+    "NZ": "NZL", "PE": "PER", "PH": "PHL", "PL": "POL", "RO": "ROU",
+    "SA": "SAU", "TH": "THA", "TR": "TUR", "US": "USA", "ZA": "ZAF",
+}
 
 
 def _throttle():
@@ -84,6 +98,27 @@ def _throttle():
 
 
 # ── core fetch ────────────────────────────────────────────────────────────────
+
+def _dataflow_for_indicator(indicator: str) -> str:
+    if indicator.startswith("PCPI"):
+        return "CPI"
+    if indicator in {"FPOLM_PA", "FILR_PA", "FIDR_PA", "FITB_PA"}:
+        return "MFS_IR"
+    if indicator in {"FM3_XDC"}:
+        return "MFS_MA"
+    if indicator in {"ENDA_XDC_USD_RATE", "EREER_IX"}:
+        return "MFS_FMP"
+    return "IFS"
+
+
+def _dimensions_for_indicator(freq: str, area: str, indicator: str) -> str:
+    imf_area = ISO2_TO_IMF_AREA.get(area, area)
+    if indicator == "PCPI_IX":
+        return f"{imf_area}.CPI._T.IX.{freq}"
+    if indicator == "PCPI_PC_CP_A_PT":
+        return f"{imf_area}.CPI._T.YOY_PCH_PA_PT.{freq}"
+    return f"{imf_area}.{indicator}.{freq}"
+
 
 def fetch_ifs(freq: str, area: str, indicator: str,
               start_period: str | None = None,
@@ -102,8 +137,9 @@ def fetch_ifs(freq: str, area: str, indicator: str,
 
     Returns DataFrame with date, value, area, indicator columns.
     """
-    dimensions = f"{freq}.{area}.{indicator}"
-    url = f"{BASE_URL}/CompactData/IFS/{dimensions}"
+    flow = _dataflow_for_indicator(indicator)
+    dimensions = _dimensions_for_indicator(freq, area, indicator)
+    url = f"{BASE_URL}/data/{flow}/{dimensions}"
     params = {}
     if start_period:
         params["startPeriod"] = start_period
@@ -112,55 +148,25 @@ def fetch_ifs(freq: str, area: str, indicator: str,
 
     _throttle()
     try:
-        r = requests.get(url, params=params,
-                         headers={"User-Agent": UA, "Accept": "application/json"},
-                         timeout=60)
+        r = retry_call(
+            lambda: requests.get(url, params=params,
+                                 headers={"User-Agent": UA, "Accept": "text/csv, application/json"},
+                                 timeout=60),
+            label=f"IMF {flow} {area}/{indicator}",
+        )
         r.raise_for_status()
-        data = r.json()
+        df = pd.read_csv(StringIO(r.text))
     except Exception as e:
         print(f"  [ERROR] IMF IFS {area}/{indicator}: {e}", file=sys.stderr)
         return None
 
-    # Navigate the JSON structure
-    try:
-        dataset = data["CompactData"]["DataSet"]
-        series = dataset.get("Series")
-        if series is None:
-            print(f"  [WARN] IMF IFS {area}/{indicator}: no Series in response",
-                  file=sys.stderr)
-            return None
-
-        # Series can be a dict (single) or list (multiple)
-        if isinstance(series, dict):
-            series = [series]
-
-        rows = []
-        for s in series:
-            obs = s.get("Obs", [])
-            if isinstance(obs, dict):
-                obs = [obs]
-            area_code = s.get("@REF_AREA", area)
-            ind_code = s.get("@INDICATOR", indicator)
-            for o in obs:
-                rows.append({
-                    "date": o.get("@TIME_PERIOD", ""),
-                    "value": o.get("@OBS_VALUE"),
-                    "area": area_code,
-                    "indicator": ind_code,
-                })
-    except (KeyError, TypeError) as e:
-        print(f"  [ERROR] IMF IFS {area}/{indicator}: JSON parse: {e}",
-              file=sys.stderr)
+    if df.empty or "OBS_VALUE" not in df.columns:
+        return None
+    df = _normalise_sdmx_csv(df, indicator)
+    if df.empty:
         return None
 
-    if not rows:
-        return None
-
-    df = pd.DataFrame(rows)
-    df["value"] = pd.to_numeric(df["value"], errors="coerce")
-    df = df.dropna(subset=["value"]).reset_index(drop=True)
-
-    fname = label or f"IFS_{freq}_{area}_{indicator}"
+    fname = label or f"IMF_{freq}_{area}_{indicator}"
     out_path = RAW_IMF / f"{fname}.csv"
     df.to_csv(out_path, index=False)
     return df
@@ -173,58 +179,31 @@ def fetch_multi_country(freq: str, areas: list[str], indicator: str,
     Fetch a single indicator for multiple countries in one call.
     Areas joined with "+" (e.g. "BR+IN+ZA+CN+MX+ID+TR+KR").
     """
-    area_str = "+".join(areas)
-    dimensions = f"{freq}.{area_str}.{indicator}"
-    url = f"{BASE_URL}/CompactData/IFS/{dimensions}"
-    params = {}
-    if start_period:
-        params["startPeriod"] = start_period
-
-    _throttle()
-    try:
-        r = requests.get(url, params=params,
-                         headers={"User-Agent": UA, "Accept": "application/json"},
-                         timeout=120)
-        r.raise_for_status()
-        data = r.json()
-    except Exception as e:
-        print(f"  [ERROR] IMF IFS multi {indicator}: {e}", file=sys.stderr)
+    frames = []
+    for area in areas:
+        df = fetch_ifs(freq, area, indicator, start_period=start_period,
+                       label=None)
+        if df is not None and not df.empty:
+            frames.append(df)
+    if not frames:
         return None
-
-    try:
-        dataset = data["CompactData"]["DataSet"]
-        series = dataset.get("Series", [])
-        if isinstance(series, dict):
-            series = [series]
-
-        rows = []
-        for s in series:
-            obs = s.get("Obs", [])
-            if isinstance(obs, dict):
-                obs = [obs]
-            area_code = s.get("@REF_AREA", "")
-            for o in obs:
-                rows.append({
-                    "date": o.get("@TIME_PERIOD", ""),
-                    "value": o.get("@OBS_VALUE"),
-                    "area": area_code,
-                })
-    except (KeyError, TypeError) as e:
-        print(f"  [ERROR] IMF parse: {e}", file=sys.stderr)
-        return None
-
-    if not rows:
-        return None
-
-    df = pd.DataFrame(rows)
-    df["value"] = pd.to_numeric(df["value"], errors="coerce")
-    df["indicator"] = indicator
-    df = df.dropna(subset=["value"]).reset_index(drop=True)
+    df = pd.concat(frames, ignore_index=True)
 
     fname = label or f"IFS_{freq}_multi_{indicator}"
     out_path = RAW_IMF / f"{fname}.csv"
     df.to_csv(out_path, index=False)
     return df
+
+
+def _normalise_sdmx_csv(df: pd.DataFrame, indicator: str) -> pd.DataFrame:
+    country_col = "COUNTRY" if "COUNTRY" in df.columns else "REF_AREA"
+    rows = pd.DataFrame({
+        "date": df.get("TIME_PERIOD"),
+        "value": pd.to_numeric(df.get("OBS_VALUE"), errors="coerce"),
+        "area": df.get(country_col),
+        "indicator": indicator,
+    })
+    return rows.dropna(subset=["date", "value"]).reset_index(drop=True)
 
 
 def list_datasets() -> list[str] | None:
@@ -299,7 +278,14 @@ for suffix, freq, ind, desc in IFS_INDICATORS:
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
+    parser = add_common_args(__import__("argparse").ArgumentParser())
+    args = parser.parse_args()
+    configure_logging(args.verbose)
     print(f"RAW_IMF: {RAW_IMF}\n")
+    if args.dry_run:
+        df = fetch_ifs("M", "BR", "PCPI_IX", start_period="2025")
+        print("OK" if df is not None else "FAILED")
+        raise SystemExit(0 if df is not None else 1)
 
     # Test with a few EM countries
     test_countries = ["BR", "IN", "ZA", "CN", "KR", "MX"]
