@@ -170,24 +170,12 @@ EUROSTAT_SERIES = [
     # une_rt_m: freq, s_adj, age, unit, sex, geo
     ("EA_UNEMPLOYMENT",  "une_rt_m",
         "M.SA.TOTAL.PC_ACT.T.EA20",    "2000", "EA monthly unemployment rate"),
-    ("EA_EMPLOYMENT",    "lfsi_emp_m",
-        "M.PC_ACT.TOTAL.T.EA20",       "2000", "EA monthly employment rate"),
 
     # ── Group 3: Housing ─────────────────────────────────────────────────────
     # sts_cobp_m: freq, indic_bt, nace_r2, s_adj, unit, geo
-    ("EA_BUILD_PERMITS", "sts_cobp_m",
-        "M.PSQM.F_CC11_X_CC114.SCA.I21.EA20",  "2000", "EA building permits (dwellings)"),
 
     # ── Group 4: Retail & industry ───────────────────────────────────────────
     # sts_inpr_m: freq, indic_bt, nace_r2, s_adj, unit, geo
-    ("EA_INDPRO",        "sts_inpr_m",
-        "M.PROD.B-D.SCA.I21.EA20",     "1990", "EA industrial production index, monthly"),
-    ("EA_INDPRO_MFG",    "sts_inpr_m",
-        "M.PROD.C.SCA.I21.EA20",       "1990", "EA manufacturing IP index"),
-    ("EA_RETAIL",        "sts_trtu_m",
-        "M.TOVV.G47.SCA.I21.EA20",     "2000", "EA retail trade turnover volume"),
-    ("EA_NEW_ORDERS",    "sts_inno_m",
-        "M.ORD_DMY.C.SCA.I21.EA20",    "2000", "EA new orders in manufacturing"),
 
     # ── Group 7: Prices ──────────────────────────────────────────────────────
     # prc_hicp_midx: freq, unit, coicop, geo
@@ -208,10 +196,27 @@ EUROSTAT_SERIES = [
 
     # ── FRED-QD Group 13: Sentiment (DG ECFIN BCS) ───────────────────────────
     # ei_bsco_m: freq, indic, s_adj, geo
-    ("EA_CONS_CONF",     "ei_bsco_m",
-        "M.BS-CSMCI.SA.EA20",          "1985", "EA consumer confidence indicator"),
     ("EA_ESI",           "ei_bssi_m_r2",
         "M.BS-ESI-I.SA.EA20",          "1985", "EA economic sentiment indicator"),
+]
+
+EUROSTAT_DISCOVERY_SERIES = [
+    # Conceptually useful, but current flow/key combinations need SDMX codelist
+    # remapping before they belong in the production run.
+    ("EA_EMPLOYMENT",    "lfsi_emp_m",
+        "M.PC_ACT.TOTAL.T.EA20",       "2000", "EA monthly employment rate"),
+    ("EA_BUILD_PERMITS", "sts_cobp_m",
+        "M.PSQM.F_CC11_X_CC114.SCA.I21.EA20",  "2000", "EA building permits (dwellings)"),
+    ("EA_INDPRO",        "sts_inpr_m",
+        "M.PROD.B-D.SCA.I21.EA20",     "1990", "EA industrial production index, monthly"),
+    ("EA_INDPRO_MFG",    "sts_inpr_m",
+        "M.PROD.C.SCA.I21.EA20",       "1990", "EA manufacturing IP index"),
+    ("EA_RETAIL",        "sts_trtu_m",
+        "M.TOVV.G47.SCA.I21.EA20",     "2000", "EA retail trade turnover volume"),
+    ("EA_NEW_ORDERS",    "sts_inno_m",
+        "M.ORD_DMY.C.SCA.I21.EA20",    "2000", "EA new orders in manufacturing"),
+    ("EA_CONS_CONF",     "ei_bsco_m",
+        "M.BS-CSMCI.SA.EA20",          "1985", "EA consumer confidence indicator"),
 ]
 
 EUROSTAT_COUNTRIES = {

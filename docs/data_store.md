@@ -94,8 +94,8 @@ As of the expanded integrated run on 2026-04-15:
   authenticated API.
 - BoJ: the legacy API keys are still unresolved, but public flat-file packages
   now produce normalized monthly `JP_CGPI` and `JP_CURRENT_ACCOUNT` series.
-- International public sources: 181 series downloaded, 16 active failures
-  recorded, and 16 inactive discovery/credential-gated entries marked skipped
+- International public sources: 181 series downloaded, 9 active failures
+  recorded, and 23 inactive discovery/credential-gated entries marked skipped
   without aborting the run.
 - Processed layer: daily, weekly, monthly, quarterly, and annual parquet files
   build successfully from available raw data.
@@ -109,6 +109,9 @@ As of the expanded integrated run on 2026-04-15:
 - Find current Bundesbank credit-series keys for household and NFC lending.
 - Replace legacy BoJ API codes with current API or flat-file packages for money,
   policy-rate, and balance-sheet concepts.
+- Remap Eurostat discovery concepts for employment, production, retail,
+  building permits, new orders, and consumer confidence against current SDMX
+  codelists.
 - Provide Banque de France API credentials if authenticated French financial
   series are required.
 - Extend the shared `--dry-run`, retry/backoff, and structured logging helper

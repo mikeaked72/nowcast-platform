@@ -122,52 +122,58 @@
       "status": "OK"
     },
     "EA_EMPLOYMENT": {
-      "last_updated": "2026-04-15T14:37:23Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
-      "source": "eurostat:lfsi_emp_m",
-      "status": "ERROR"
+      "source": "eurostat:discovery",
+      "status": "SKIPPED",
+      "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_BUILD_PERMITS": {
-      "last_updated": "2026-04-15T14:37:24Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
-      "source": "eurostat:sts_cobp_m",
-      "status": "ERROR"
+      "source": "eurostat:discovery",
+      "status": "SKIPPED",
+      "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_INDPRO": {
-      "last_updated": "2026-04-15T14:37:25Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
-      "source": "eurostat:sts_inpr_m",
-      "status": "ERROR"
+      "source": "eurostat:discovery",
+      "status": "SKIPPED",
+      "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_INDPRO_MFG": {
-      "last_updated": "2026-04-15T14:37:27Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
-      "source": "eurostat:sts_inpr_m",
-      "status": "ERROR"
+      "source": "eurostat:discovery",
+      "status": "SKIPPED",
+      "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_RETAIL": {
-      "last_updated": "2026-04-15T14:37:28Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
-      "source": "eurostat:sts_trtu_m",
-      "status": "ERROR"
+      "source": "eurostat:discovery",
+      "status": "SKIPPED",
+      "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_NEW_ORDERS": {
-      "last_updated": "2026-04-15T14:37:29Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
-      "source": "eurostat:sts_inno_m",
-      "status": "ERROR"
+      "source": "eurostat:discovery",
+      "status": "SKIPPED",
+      "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_HICP_ALL": {
       "last_updated": "2026-04-15T14:37:31Z",
@@ -218,12 +224,13 @@
       "status": "OK"
     },
     "EA_CONS_CONF": {
-      "last_updated": "2026-04-15T14:37:40Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
-      "source": "eurostat:ei_bsco_m",
-      "status": "ERROR"
+      "source": "eurostat:discovery",
+      "status": "SKIPPED",
+      "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_ESI": {
       "last_updated": "2026-04-15T14:37:42Z",
@@ -442,7 +449,7 @@
       "status": "OK"
     },
     "DE_BUND_3M": {
-      "last_updated": "2026-04-15T14:43:41Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -499,7 +506,7 @@
       "status": "ERROR"
     },
     "FR_OAT_10Y": {
-      "last_updated": "2026-04-15T14:43:41Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -508,7 +515,7 @@
       "reason": "BDF credentials not configured"
     },
     "FR_HH_LOANS": {
-      "last_updated": "2026-04-15T14:43:41Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -517,7 +524,7 @@
       "reason": "BDF credentials not configured"
     },
     "FR_NFC_LOANS": {
-      "last_updated": "2026-04-15T14:43:41Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -566,7 +573,7 @@
       "status": "OK"
     },
     "JP_BOJ_IR": {
-      "last_updated": "2026-04-15T14:43:41Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -575,7 +582,7 @@
       "reason": "Removed from active BoJ catalog"
     },
     "JP_BOJ_MD": {
-      "last_updated": "2026-04-15T14:43:41Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -608,7 +615,7 @@
       "status": "OK"
     },
     "IMF_EM_POLICY_RATE": {
-      "last_updated": "2026-04-15T14:43:41Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -617,7 +624,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_LENDING_RATE": {
-      "last_updated": "2026-04-15T14:43:41Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -626,7 +633,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_DEPOSIT_RATE": {
-      "last_updated": "2026-04-15T14:43:41Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -635,7 +642,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_TBILL_RATE": {
-      "last_updated": "2026-04-15T14:43:41Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -644,7 +651,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_FX_USD": {
-      "last_updated": "2026-04-15T14:43:41Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -653,7 +660,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_REER": {
-      "last_updated": "2026-04-15T14:43:41Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -662,7 +669,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_BROAD_MONEY": {
-      "last_updated": "2026-04-15T14:43:41Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -671,7 +678,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_GDP_NOM": {
-      "last_updated": "2026-04-15T14:43:41Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -680,7 +687,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_GDP_REAL": {
-      "last_updated": "2026-04-15T14:43:41Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -689,7 +696,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_UNEMP": {
-      "last_updated": "2026-04-15T14:43:41Z",
+      "last_updated": "2026-04-15T14:48:19Z",
       "rows": 0,
       "start": null,
       "end": null,

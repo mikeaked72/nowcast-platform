@@ -141,6 +141,13 @@ def _mark_inactive_catalog_entries(manifest):
             if str(info.get("source", "")).startswith("buba:") and local_id not in active_buba:
                 _mark_skipped(manifest, local_id, info.get("source", "buba:inactive"), "Removed from active Bundesbank catalog")
 
+    if eurostat is not None:
+        active_eurostat = {local_id for local_id, *_ in eurostat.EUROSTAT_SERIES}
+        active_eurostat.update(local_id for local_id, *_ in getattr(eurostat, "EUROSTAT_COUNTRY_SERIES", []))
+        for local_id, *_ in getattr(eurostat, "EUROSTAT_DISCOVERY_SERIES", []):
+            if local_id not in active_eurostat and local_id in manifest["series"]:
+                _mark_skipped(manifest, local_id, "eurostat:discovery", "Held for Eurostat SDMX codelist discovery")
+
     if bdf is None:
         for local_id, info in list(manifest["series"].items()):
             if str(info.get("source", "")).startswith("bdf:"):
