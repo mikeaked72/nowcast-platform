@@ -159,6 +159,67 @@ def parse_sdmx_dataflows(text: str, keywords: Iterable[str]) -> dict:
     return {"count": len(root.findall(".//str:Dataflow", ns)), "matches": flows[:50]}
 
 
+def parse_sdmx_dataflow_refs(text: str) -> list[dict]:
+    ns = {
+        "str": "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure",
+        "com": "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common",
+    }
+    root = ET.fromstring(text)
+    refs = []
+    for node in root.findall(".//str:Dataflow", ns):
+        name_node = node.find("com:Name", ns)
+        ref_node = node.find("str:Structure/Ref", ns)
+        refs.append({
+            "id": node.attrib.get("id", ""),
+            "agency": node.attrib.get("agencyID", ""),
+            "name": "" if name_node is None else (name_node.text or ""),
+            "structure_id": "" if ref_node is None else ref_node.attrib.get("id", ""),
+            "structure_agency": "" if ref_node is None else ref_node.attrib.get("agencyID", ""),
+        })
+    return refs
+
+
+def parse_sdmx_dimensions(text: str) -> list[dict]:
+    ns = {
+        "str": "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure",
+    }
+    root = ET.fromstring(text)
+    dimensions = []
+    for dim in root.findall(".//str:DimensionList/str:Dimension", ns):
+        enum = dim.find(".//str:LocalRepresentation/str:Enumeration/Ref", ns)
+        dimensions.append({
+            "position": dim.attrib.get("position", ""),
+            "id": dim.attrib.get("id", ""),
+            "codelist": "" if enum is None else enum.attrib.get("id", ""),
+        })
+    return dimensions
+
+
+def parse_sdmx_codelist_matches(text: str, keywords: Iterable[str], *, limit: int = 100) -> list[dict]:
+    ns = {
+        "str": "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure",
+        "com": "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common",
+    }
+    root = ET.fromstring(text)
+    words = tuple(k.lower() for k in keywords)
+    matches = []
+    for codelist in root.findall(".//str:Codelist", ns):
+        codelist_id = codelist.attrib.get("id", "")
+        for code in codelist.findall("str:Code", ns):
+            name_node = code.find("com:Name", ns)
+            name = "" if name_node is None else (name_node.text or "")
+            haystack = f"{codelist_id} {code.attrib.get('id', '')} {name}".lower()
+            if any(word in haystack for word in words):
+                matches.append({
+                    "codelist": codelist_id,
+                    "code": code.attrib.get("id", ""),
+                    "name": name,
+                })
+                if len(matches) >= limit:
+                    return matches
+    return matches
+
+
 def get_text(url: str, *, params: dict | None = None, timeout: int = 60) -> requests.Response:
     response = retry_call(
         lambda: requests.get(url, params=params, headers={"User-Agent": UA, "Accept": "*/*"}, timeout=timeout),
@@ -200,6 +261,35 @@ def discover_metadata() -> dict:
         providers["bundesbank"] = {"status": "OK", "probe": "BBSIS term-structure data endpoint", "bytes": len(response.text)}
     except Exception as exc:
         providers["bundesbank"] = {"status": "ERROR", "error": str(exc)}
+
+    try:
+        base = "https://api.statistiken.bundesbank.de/rest/metadata"
+        dataflows = get_text(f"{base}/dataflow/BBK", timeout=60)
+        parsed = parse_sdmx_dataflows(dataflows.text, ("credit", "kredit", "loan", "lending", "banks", "BSI"))
+        flow_details: list[dict] = []
+        for flow_id in ("BBBK1", "BBBK10", "BBKRT"):
+            flow_response = get_text(f"{base}/dataflow/BBK/{flow_id}", timeout=60)
+            refs = parse_sdmx_dataflow_refs(flow_response.text)
+            detail = refs[0] if refs else {"id": flow_id}
+            structure_id = detail.get("structure_id", "")
+            if structure_id:
+                dsd_response = get_text(f"{base}/datastructure/BBK/{structure_id}", params={"references": "children"}, timeout=60)
+                detail["dimensions"] = parse_sdmx_dimensions(dsd_response.text)
+            flow_details.append(detail)
+        codelists = get_text(f"{base}/codelist/BBK", timeout=120)
+        parsed["metadata_endpoint"] = base
+        parsed["flow_details"] = flow_details
+        parsed["credit_codelist_matches"] = parse_sdmx_codelist_matches(
+            codelists.text,
+            ("loan", "loans", "credit", "kredit", "lending"),
+        )
+        if providers.get("bundesbank", {}).get("status") == "OK":
+            providers["bundesbank"].update(parsed)
+        else:
+            providers["bundesbank"] = {"status": "OK", **parsed}
+    except Exception as exc:
+        providers.setdefault("bundesbank", {"status": "ERROR"})
+        providers["bundesbank"]["metadata_error"] = str(exc)
 
     return summary
 
