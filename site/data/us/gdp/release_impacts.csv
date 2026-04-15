@@ -1,0 +1,51 @@
+as_of_date,release_date,release_name,indicator_code,indicator_name,reference_period,actual_value,expected_value,surprise,impact,direction,category,unit,notes
+2026-01-08,2026-01-08,Real Disposable Personal Income,gdp,GDP,2026Q1,2.6061605773,2.6061605773,0.0,0.0,neutral,income,percent,pending
+2026-01-08,2026-01-08,Housing Starts,gdp,GDP,2026Q1,0.2000163239,0.2000163239,0.0,0.0,neutral,housing,percent,pending
+2026-01-08,2026-01-08,Industrial Production Index,gdp,GDP,2026Q1,1.461547024,1.461547024,0.0,0.0,neutral,production,percent,pending
+2026-01-08,2026-01-08,"All Employees, Total Nonfarm",gdp,GDP,2026Q1,0.4096460642,1.1258147623,-0.7161686981,-0.2801802983,negative,labor,percent,new_release
+2026-01-08,2026-01-08,Advance Retail Sales,gdp,GDP,2026Q1,4.5300437922,4.5300437922,0.0,0.0,neutral,demand,percent,pending
+2026-01-15,2026-01-08,"All Employees, Total Nonfarm",gdp,GDP,2026Q1,0.4096460642,1.1258147623,-0.7161686981,-0.2801802983,negative,labor,percent,carried_forward
+2026-01-15,2026-01-15,Real Disposable Personal Income,gdp,GDP,2026Q1,2.6061605773,2.6061605773,0.0,0.0,neutral,income,percent,pending
+2026-01-15,2026-01-15,Housing Starts,gdp,GDP,2026Q1,0.2000163239,0.2000163239,0.0,0.0,neutral,housing,percent,pending
+2026-01-15,2026-01-15,Industrial Production Index,gdp,GDP,2026Q1,1.461547024,1.461547024,0.0,0.0,neutral,production,percent,pending
+2026-01-15,2026-01-15,Advance Retail Sales,gdp,GDP,2026Q1,0.2505933843,4.5300437922,-4.2794504079,-0.6186445995,negative,demand,percent,new_release
+2026-01-17,2026-01-08,"All Employees, Total Nonfarm",gdp,GDP,2026Q1,0.4096460642,1.1258147623,-0.7161686981,-0.2801802983,negative,labor,percent,carried_forward
+2026-01-17,2026-01-15,Advance Retail Sales,gdp,GDP,2026Q1,0.2505933843,4.5300437922,-4.2794504079,-0.6186445995,negative,demand,percent,carried_forward
+2026-01-17,2026-01-17,Real Disposable Personal Income,gdp,GDP,2026Q1,2.6061605773,2.6061605773,0.0,0.0,neutral,income,percent,pending
+2026-01-17,2026-01-17,Housing Starts,gdp,GDP,2026Q1,0.2000163239,0.2000163239,0.0,0.0,neutral,housing,percent,pending
+2026-01-17,2026-01-17,Industrial Production Index,gdp,GDP,2026Q1,3.8503817715,1.461547024,2.3888347475,0.4188212825,positive,production,percent,new_release
+2026-01-21,2026-01-08,"All Employees, Total Nonfarm",gdp,GDP,2026Q1,0.4096460642,1.1258147623,-0.7161686981,-0.2801802983,negative,labor,percent,carried_forward
+2026-01-21,2026-01-15,Advance Retail Sales,gdp,GDP,2026Q1,0.2505933843,4.5300437922,-4.2794504079,-0.6186445995,negative,demand,percent,carried_forward
+2026-01-21,2026-01-17,Industrial Production Index,gdp,GDP,2026Q1,3.8503817715,1.461547024,2.3888347475,0.4188212825,positive,production,percent,carried_forward
+2026-01-21,2026-01-21,Real Disposable Personal Income,gdp,GDP,2026Q1,2.6061605773,2.6061605773,0.0,0.0,neutral,income,percent,pending
+2026-01-21,2026-01-21,Housing Starts,gdp,GDP,2026Q1,45.3350607786,0.2000163239,45.1350444547,0.52979656,positive,housing,percent,new_release
+2026-01-31,2026-01-08,"All Employees, Total Nonfarm",gdp,GDP,2026Q1,0.4096460642,1.1258147623,-0.7161686981,-0.2801802983,negative,labor,percent,carried_forward
+2026-01-31,2026-01-15,Advance Retail Sales,gdp,GDP,2026Q1,0.2505933843,4.5300437922,-4.2794504079,-0.6186445995,negative,demand,percent,carried_forward
+2026-01-31,2026-01-17,Industrial Production Index,gdp,GDP,2026Q1,3.8503817715,1.461547024,2.3888347475,0.4188212825,positive,production,percent,carried_forward
+2026-01-31,2026-01-21,Housing Starts,gdp,GDP,2026Q1,45.3350607786,0.2000163239,45.1350444547,0.52979656,positive,housing,percent,carried_forward
+2026-01-31,2026-01-31,Real Disposable Personal Income,gdp,GDP,2026Q1,2.4788239857,2.6061605773,-0.1273365916,-0.001834828,negative,income,percent,new_release
+2026-02-08,2026-01-15,Advance Retail Sales,gdp,GDP,2026Q1,0.2505933843,4.5300437922,-4.2794504079,-0.6186445995,negative,demand,percent,carried_forward
+2026-02-08,2026-01-17,Industrial Production Index,gdp,GDP,2026Q1,3.8503817715,1.461547024,2.3888347475,0.4188212825,positive,production,percent,carried_forward
+2026-02-08,2026-01-21,Housing Starts,gdp,GDP,2026Q1,45.3350607786,0.2000163239,45.1350444547,0.52979656,positive,housing,percent,carried_forward
+2026-02-08,2026-01-31,Real Disposable Personal Income,gdp,GDP,2026Q1,2.4788239857,2.6061605773,-0.1273365916,-0.001834828,negative,income,percent,carried_forward
+2026-02-08,2026-02-08,"All Employees, Total Nonfarm",gdp,GDP,2026Q1,0.2418849007,1.1258147623,-0.8839298616,-0.3458120034,negative,labor,percent,new_release
+2026-02-15,2026-01-17,Industrial Production Index,gdp,GDP,2026Q1,3.8503817715,1.461547024,2.3888347475,0.4188212825,positive,production,percent,carried_forward
+2026-02-15,2026-01-21,Housing Starts,gdp,GDP,2026Q1,45.3350607786,0.2000163239,45.1350444547,0.52979656,positive,housing,percent,carried_forward
+2026-02-15,2026-01-31,Real Disposable Personal Income,gdp,GDP,2026Q1,2.4788239857,2.6061605773,-0.1273365916,-0.001834828,negative,income,percent,carried_forward
+2026-02-15,2026-02-08,"All Employees, Total Nonfarm",gdp,GDP,2026Q1,0.2418849007,1.1258147623,-0.8839298616,-0.3458120034,negative,labor,percent,carried_forward
+2026-02-15,2026-02-15,Advance Retail Sales,gdp,GDP,2026Q1,1.4507720939,4.5300437922,-3.0792716983,-0.4451447324,negative,demand,percent,new_release
+2026-02-17,2026-01-21,Housing Starts,gdp,GDP,2026Q1,45.3350607786,0.2000163239,45.1350444547,0.52979656,positive,housing,percent,carried_forward
+2026-02-17,2026-01-31,Real Disposable Personal Income,gdp,GDP,2026Q1,2.4788239857,2.6061605773,-0.1273365916,-0.001834828,negative,income,percent,carried_forward
+2026-02-17,2026-02-08,"All Employees, Total Nonfarm",gdp,GDP,2026Q1,0.2418849007,1.1258147623,-0.8839298616,-0.3458120034,negative,labor,percent,carried_forward
+2026-02-17,2026-02-15,Advance Retail Sales,gdp,GDP,2026Q1,1.4507720939,4.5300437922,-3.0792716983,-0.4451447324,negative,demand,percent,carried_forward
+2026-02-17,2026-02-17,Industrial Production Index,gdp,GDP,2026Q1,4.1524270589,1.461547024,2.6908800349,0.4717772247,positive,production,percent,new_release
+2026-03-03,2026-01-21,Housing Starts,gdp,GDP,2026Q1,45.3350607786,0.2000163239,45.1350444547,0.52979656,positive,housing,percent,carried_forward
+2026-03-03,2026-02-08,"All Employees, Total Nonfarm",gdp,GDP,2026Q1,0.2418849007,1.1258147623,-0.8839298616,-0.3458120034,negative,labor,percent,carried_forward
+2026-03-03,2026-02-15,Advance Retail Sales,gdp,GDP,2026Q1,1.4507720939,4.5300437922,-3.0792716983,-0.4451447324,negative,demand,percent,carried_forward
+2026-03-03,2026-02-17,Industrial Production Index,gdp,GDP,2026Q1,4.1524270589,1.461547024,2.6908800349,0.4717772247,positive,production,percent,carried_forward
+2026-03-03,2026-03-03,Real Disposable Personal Income,gdp,GDP,2026Q1,1.5725619411,2.6061605773,-1.0335986362,-0.0148934073,negative,income,percent,new_release
+2026-03-08,2026-01-21,Housing Starts,gdp,GDP,2026Q1,45.3350607786,0.2000163239,45.1350444547,0.52979656,positive,housing,percent,carried_forward
+2026-03-08,2026-02-15,Advance Retail Sales,gdp,GDP,2026Q1,1.4507720939,4.5300437922,-3.0792716983,-0.4451447324,negative,demand,percent,carried_forward
+2026-03-08,2026-02-17,Industrial Production Index,gdp,GDP,2026Q1,4.1524270589,1.461547024,2.6908800349,0.4717772247,positive,production,percent,carried_forward
+2026-03-08,2026-03-03,Real Disposable Personal Income,gdp,GDP,2026Q1,1.5725619411,2.6061605773,-1.0335986362,-0.0148934073,negative,income,percent,carried_forward
+2026-03-08,2026-03-08,"All Employees, Total Nonfarm",gdp,GDP,2026Q1,0.3356548252,1.1258147623,-0.7901599371,-0.3091272314,negative,labor,percent,new_release

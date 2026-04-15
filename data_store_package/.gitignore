@@ -1,0 +1,7 @@
+.env
+__pycache__/
+*.pyc
+store/raw/
+store/processed/
+*.parquet
+.DS_Store

@@ -7,6 +7,11 @@ __pycache__/
 .ruff_cache/
 .pytest_cache/
 runs/
+store/raw/
+store/processed/
+data_store_package/store/raw/
+data_store_package/store/processed/
+*.parquet
 dist/
 build/
 .DS_Store

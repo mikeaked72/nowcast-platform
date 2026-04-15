@@ -1,0 +1,4 @@
+as_of_date,reference_period,estimate_value,prior_estimate_value,delta_vs_prior,model_status
+2026-01-15,2026Q3,2.65,,,sample
+2026-02-15,2026Q3,2.92,2.65,0.27,sample
+2026-03-15,2026Q3,3.0,2.92,0.08,sample

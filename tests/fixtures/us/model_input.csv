@@ -1,0 +1,7 @@
+as_of_date,reference_period,baseline_nowcast,series_code,series_name,release_date,actual_value,expected_value,impact_weight,category,units
+2026-01-15,2026Q1,1.29,retail_sales,Retail sales,2026-01-12,0.5,0.2,0.3,demand,percent
+2026-01-15,2026Q1,1.29,industrial_prod,Industrial production,2026-01-13,0.1,0.0,0.2,production,percent
+2026-02-15,2026Q1,1.74,retail_sales,Retail sales,2026-02-12,0.6,0.2,0.25,demand,percent
+2026-02-15,2026Q1,1.74,industrial_prod,Industrial production,2026-02-13,-0.1,0.1,0.2,production,percent
+2026-03-14,2026Q1,2.06,retail_sales,Retail sales,2026-03-12,0.7,0.3,0.3,demand,percent
+2026-03-14,2026Q1,2.06,industrial_prod,Industrial production,2026-03-13,-0.2,0.1,0.2666666667,production,percent

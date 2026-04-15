@@ -1,0 +1,16 @@
+{
+  "as_of_date": "2026-03-08",
+  "country_code": "us",
+  "country_name": "United States",
+  "delta_vs_prior": 0.036684772,
+  "estimate_value": 2.7640249978,
+  "indicator_code": "gdp",
+  "indicator_name": "GDP",
+  "last_updated_utc": "2026-03-08T09:00:00Z",
+  "model_status": "ok",
+  "model_version": "0.1.0",
+  "next_update_date": "2026-03-22",
+  "prior_estimate_value": 2.7273402258,
+  "reference_period": "2026Q1",
+  "unit": "percent QoQ SAAR"
+}

@@ -1,0 +1,4 @@
+as_of_date,release_date,release_name,indicator_code,indicator_name,reference_period,actual_value,expected_value,surprise,impact,direction,category,unit,notes
+2026-03-15,2026-03-14,Goods trade,imports,Imports,2026Q3,1.91,1.7,0.21,0.21,positive,trade,percent QoQ SAAR,sample
+2026-03-15,2026-03-13,Services trade,imports,Imports,2026Q3,1.64,1.7,-0.06,-0.06,negative,trade,percent QoQ SAAR,sample
+2026-03-15,2026-03-12,Trade prices,imports,Imports,2026Q3,1.74,1.7,0.04,0.04,positive,prices,percent QoQ SAAR,sample

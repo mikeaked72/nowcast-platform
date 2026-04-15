@@ -1,0 +1,6 @@
+fredapi>=0.5.2
+pandas>=2.0
+requests>=2.28
+pyarrow>=14.0
+openpyxl>=3.1
+lxml>=4.9

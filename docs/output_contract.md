@@ -3,158 +3,193 @@
 This document defines the published payload contract between the model pipeline and the static site.
 
 ## Principle
-Internal modelling objects may change. Published site payloads should change rarely and only deliberately.
 
-The browser should consume complete, explicit payloads. The browser should not infer missing values, fix malformed records, or reconstruct model outputs from partial data.
+Internal modelling objects may change. Published site payloads should change rarely and deliberately.
+
+The browser consumes complete, explicit payloads. It should not infer missing values, repair malformed records, or reconstruct model outputs from partial data.
 
 ## Published file set
-For every supported country code `<country>`, the publish step must generate:
 
-- `site/data/<country>/nowcast_latest.json`
-- `site/data/<country>/nowcast_history.csv`
-- `site/data/<country>/news_latest_vs_prior.csv`
+The publish root is `site/data/`.
 
-In addition, the site root should include:
+The root must include:
 
 - `site/data/countries.json`
 
+For every enabled country and indicator pair, the publish step must generate:
+
+- `site/data/{country_code}/{indicator_code}/latest.json`
+- `site/data/{country_code}/{indicator_code}/history.csv`
+- `site/data/{country_code}/{indicator_code}/contributions.csv`
+- `site/data/{country_code}/{indicator_code}/release_impacts.csv`
+- `site/data/{country_code}/{indicator_code}/metadata.json`
+
+Examples:
+
+- `site/data/us/gdp/latest.json`
+- `site/data/us/inflation/history.csv`
+- `site/data/au/gdp/release_impacts.csv`
+
 ## countries.json
-This file drives the country selector.
 
-### Minimum fields
+This file drives the country and indicator selectors.
+
+Required country fields:
+
 - `code`: short country identifier used in folder naming, for example `us` or `au`
-- `name`: display name shown in the UI
-- `default_target`: display label for the nowcast target, for example `GDP QoQ saar`
-- `enabled`: boolean flag for whether the country is shown
+- `name`: display name
+- `default_target`: default target label
+- `enabled`: boolean flag
+- `indicators`: list of enabled indicator entries
 
-### Example
+Required indicator entry fields:
+
+- `code`: folder-safe indicator code, for example `gdp`
+- `display_name`: UI label, for example `GDP`
+
+Example:
+
 ```json
 [
   {
     "code": "us",
     "name": "United States",
     "default_target": "GDP QoQ saar",
-    "enabled": true
+    "enabled": true,
+    "indicators": [
+      { "code": "gdp", "display_name": "GDP" },
+      { "code": "inflation", "display_name": "Inflation" }
+    ]
   }
 ]
 ```
 
-## nowcast_latest.json
-This file contains the current nowcast snapshot for a country and powers the summary card.
+## metadata.json
 
-### Required top-level fields
-- `country_code`: string
-- `country_name`: string
-- `target_code`: string
-- `target_name`: string
-- `as_of_date`: ISO date string for the information date
-- `reference_period`: string label for the target period being nowcast
-- `nowcast_value`: numeric point estimate
-- `units`: string
-- `prior_nowcast_value`: numeric or `null`
-- `delta_vs_prior`: numeric or `null`
-- `model_status`: string such as `ok`, `warning`, or `error`
-- `model_version`: string
-- `last_updated_utc`: ISO timestamp string
+This file defines how the site explains and formats an indicator.
 
-### Optional fields
-- `data_cutoff_utc`
-- `release_window`
-- `notes`
-- `confidence_band`
+Required fields:
 
-### Example
-```json
-{
-  "country_code": "us",
-  "country_name": "United States",
-  "target_code": "gdp_qoq_saar",
-  "target_name": "GDP QoQ saar",
-  "as_of_date": "2026-03-14",
-  "reference_period": "2026Q1",
-  "nowcast_value": 2.1,
-  "units": "percent",
-  "prior_nowcast_value": 1.8,
-  "delta_vs_prior": 0.3,
-  "model_status": "ok",
-  "model_version": "0.1.0",
-  "last_updated_utc": "2026-03-14T09:00:00Z"
-}
-```
+- `country_code`
+- `country_name`
+- `indicator_code`
+- `display_name`
+- `unit`
+- `decimals`
+- `default_chart_type`
+- `explanatory_text`
+- `update_cadence_label`
 
-## nowcast_history.csv
-This file powers the time series chart for a country.
+Optional but recommended fields:
 
-### Required columns
+- `default_period`
+- `methodology`
+- `faq`
+- `downloads`
+
+## latest.json
+
+This file contains the current snapshot for one country/indicator pair.
+
+Required fields:
+
+- `country_code`
+- `country_name`
+- `indicator_code`
+- `indicator_name`
+- `as_of_date`
+- `next_update_date`
+- `reference_period`
+- `estimate_value`
+- `unit`
+- `prior_estimate_value`
+- `delta_vs_prior`
+- `model_status`
+- `model_version`
+- `last_updated_utc`
+
+Numeric fields must be numbers or explicit `null` where allowed. Dates must be ISO date strings, and `last_updated_utc` must be an ISO timestamp.
+
+## history.csv
+
+This file powers the estimate evolution view.
+
+Required columns:
+
 - `as_of_date`
 - `reference_period`
-- `nowcast_value`
-- `target_name`
-- `units`
-
-### Optional columns
-- `prior_nowcast_value`
+- `estimate_value`
+- `prior_estimate_value`
 - `delta_vs_prior`
-- `lower_band`
-- `upper_band`
 - `model_status`
 
-### Notes
-- Use ISO dates where possible.
-- Keep one row per nowcast observation.
-- Order rows ascending by `as_of_date`.
+Rows must be ordered ascending by `as_of_date`.
 
-### Example
-```csv
-as_of_date,reference_period,nowcast_value,target_name,units
-2026-01-15,2026Q1,1.4,GDP QoQ saar,percent
-2026-02-15,2026Q1,1.8,GDP QoQ saar,percent
-2026-03-14,2026Q1,2.1,GDP QoQ saar,percent
-```
+## contributions.csv
 
-## news_latest_vs_prior.csv
-This file powers the decomposition view comparing the latest nowcast against the prior nowcast.
+This file powers the contribution/drivers view.
 
-### Required columns
-- `series_code`
-- `series_name`
+Required columns:
+
+- `as_of_date`
+- `component_code`
+- `component_name`
+- `reference_period`
+- `contribution`
+- `direction`
+- `category`
+- `unit`
+
+`direction` must be one of `positive`, `negative`, or `neutral`.
+
+## release_impacts.csv
+
+This file powers the release-impact table and the release-date timeline.
+
+Required columns:
+
+- `as_of_date`
 - `release_date`
+- `release_name`
+- `indicator_code`
+- `indicator_name`
 - `reference_period`
 - `actual_value`
 - `expected_value`
 - `surprise`
-- `impact_on_nowcast`
+- `impact`
 - `direction`
-
-### Optional columns
 - `category`
-- `units`
+- `unit`
 - `notes`
 
-### Notes
-- `direction` should be explicit, for example `positive`, `negative`, or `neutral`.
-- `impact_on_nowcast` should be numeric so the frontend can sort or aggregate it cleanly.
+`impact` must be numeric so the frontend can sort or aggregate it cleanly.
 
-### Example
-```csv
-series_code,series_name,release_date,reference_period,actual_value,expected_value,surprise,impact_on_nowcast,direction
-retail_sales,Retail sales,2026-03-12,2026-02,0.7,0.3,0.4,0.12,positive
-industrial_prod,Industrial production,2026-03-13,2026-02,-0.2,0.1,-0.3,-0.08,negative
-```
+For model-backed indicators, `notes` may carry release status labels such as:
 
-## Validation rules
-- All required files must exist for enabled countries.
-- All required fields and columns must be present.
-- Dates must parse cleanly.
-- Numeric fields must be numeric or explicitly `null` where allowed.
-- Country codes must match folder names.
-- `countries.json` must not reference countries that do not have a complete payload.
-- Frontend code should assume validation has already happened.
+- `new_release`
+- `carried_forward`
+- `pending`
+
+## Current sample coverage
+
+The scaffold publishes:
+
+- US GDP
+- US inflation
+- US exports
+- US imports
+- AU GDP
+- AU inflation
+
+US GDP can be generated from the FRED bridge model. The other initial outputs are deterministic sample data that exercise the same static contract.
 
 ## Change policy
-If you change this contract, the same PR must also update:
-- the publish code
+
+If this contract changes, update all of these together:
+
+- publish code
 - validation code
-- test fixtures
 - site consumers
+- tests and fixtures
 - this document

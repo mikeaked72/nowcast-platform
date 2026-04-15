@@ -1,0 +1,42 @@
+[
+  {
+    "code": "au",
+    "default_target": "GDP QoQ saar",
+    "enabled": true,
+    "indicators": [
+      {
+        "code": "gdp",
+        "display_name": "GDP"
+      },
+      {
+        "code": "inflation",
+        "display_name": "Inflation"
+      }
+    ],
+    "name": "Australia"
+  },
+  {
+    "code": "us",
+    "default_target": "GDP QoQ saar",
+    "enabled": true,
+    "indicators": [
+      {
+        "code": "gdp",
+        "display_name": "GDP"
+      },
+      {
+        "code": "inflation",
+        "display_name": "Inflation"
+      },
+      {
+        "code": "exports",
+        "display_name": "Exports"
+      },
+      {
+        "code": "imports",
+        "display_name": "Imports"
+      }
+    ],
+    "name": "United States"
+  }
+]

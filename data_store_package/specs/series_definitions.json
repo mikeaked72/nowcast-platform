@@ -1,0 +1,265 @@
+{
+  "_meta": {
+    "version": "1.1",
+    "created": "2026-04-03",
+    "description": "Master series definitions. Edit source of truth here.",
+    "status_values": {
+      "ACTIVE":   "included in default update runs",
+      "DEFERRED": "defined but excluded from default runs — implement ingestor first",
+      "DISABLED": "temporarily excluded from all runs"
+    },
+    "transform_values": {
+      "level":      "store as-is",
+      "log":        "natural log of price",
+      "log_diff":   "log return ln(P_t/P_{t-1})",
+      "diff":       "first difference P_t - P_{t-1}",
+      "pct_change": "percentage change"
+    }
+  },
+
+  "series": {
+
+    "EQUITIES": {
+      "ASX200": {
+        "label": "S&P/ASX 200 Index",
+        "asset_class": "equity", "source": "yfinance", "source_id": "^AXJO",
+        "frequency": "daily", "units": "index", "start_date": "1992-01-01",
+        "transform": "log", "return_transform": "log_diff",
+        "update_status": "ACTIVE",
+        "notes": "Price index. yfinance ticker ^AXJO.",
+        "used_by": []
+      },
+      "SPX": {
+        "label": "S&P 500 Index",
+        "asset_class": "equity", "source": "yfinance", "source_id": "^GSPC",
+        "frequency": "daily", "units": "index", "start_date": "1950-01-03",
+        "transform": "log", "return_transform": "log_diff",
+        "update_status": "ACTIVE",
+        "notes": "",
+        "used_by": []
+      },
+      "STOXX50": {
+        "label": "Euro Stoxx 50 Index",
+        "asset_class": "equity", "source": "yfinance", "source_id": "^STOXX50E",
+        "frequency": "daily", "units": "index", "start_date": "1987-01-02",
+        "transform": "log", "return_transform": "log_diff",
+        "update_status": "ACTIVE",
+        "notes": "Quoted in EUR",
+        "used_by": []
+      },
+      "EM_EQUITY": {
+        "label": "MSCI EM ETF (EEM)",
+        "asset_class": "equity", "source": "yfinance", "source_id": "EEM",
+        "frequency": "daily", "units": "usd_price", "start_date": "2003-04-11",
+        "transform": "log", "return_transform": "log_diff",
+        "update_status": "ACTIVE",
+        "notes": "ETF proxy only — shorter history than MSCI index",
+        "used_by": []
+      }
+    },
+
+    "FIXED_INCOME": {
+      "AGB10Y": {
+        "label": "Australian Government Bond 10-Year Yield",
+        "asset_class": "fixed_income", "source": "rba",
+        "source_id": "f02", "source_col": "FCMYGBAG10D",
+        "frequency": "daily", "units": "percent_pa", "start_date": "1969-01-01",
+        "transform": "level", "return_transform": "diff",
+        "update_status": "ACTIVE",
+        "notes": "RBA Table F2. Requires rba_ingest.py implementation.",
+        "used_by": []
+      },
+      "AUS_CASHRATE": {
+        "label": "RBA Cash Rate Target",
+        "asset_class": "fixed_income", "source": "rba",
+        "source_id": "f01", "source_col": "FIRMMCRTD",
+        "frequency": "daily", "units": "percent_pa", "start_date": "1990-01-23",
+        "transform": "level", "return_transform": "diff",
+        "update_status": "ACTIVE",
+        "notes": "Changes on RBA board decision dates only",
+        "used_by": []
+      },
+      "AUS_TERM_SPREAD": {
+        "label": "Australia Term Spread (10Y minus Cash Rate)",
+        "asset_class": "fixed_income", "source": "derived",
+        "source_id": "AGB10Y - AUS_CASHRATE",
+        "frequency": "daily", "units": "percent", "start_date": "1990-01-23",
+        "transform": "level", "return_transform": "diff",
+        "update_status": "ACTIVE",
+        "notes": "Computed from AGB10Y and AUS_CASHRATE. Both must be ACTIVE.",
+        "used_by": []
+      },
+      "UST10Y": {
+        "label": "US 10-Year Treasury Yield",
+        "asset_class": "fixed_income", "source": "fred", "source_id": "DGS10",
+        "frequency": "daily", "units": "percent_pa", "start_date": "1962-01-02",
+        "transform": "level", "return_transform": "diff",
+        "update_status": "ACTIVE",
+        "notes": "FRED series. Constant maturity.",
+        "used_by": []
+      },
+      "UST2Y": {
+        "label": "US 2-Year Treasury Yield",
+        "asset_class": "fixed_income", "source": "fred", "source_id": "DGS2",
+        "frequency": "daily", "units": "percent_pa", "start_date": "1976-06-01",
+        "transform": "level", "return_transform": "diff",
+        "update_status": "ACTIVE",
+        "notes": "",
+        "used_by": []
+      },
+      "UST1Y": {
+        "label": "US 1-Year Treasury Yield",
+        "asset_class": "fixed_income", "source": "fred", "source_id": "DGS1",
+        "frequency": "daily", "units": "percent_pa", "start_date": "1962-01-02",
+        "transform": "level", "return_transform": "diff",
+        "update_status": "ACTIVE",
+        "notes": "Constant maturity.",
+        "used_by": []
+      },
+      "UST5Y": {
+        "label": "US 5-Year Treasury Yield",
+        "asset_class": "fixed_income", "source": "fred", "source_id": "DGS5",
+        "frequency": "daily", "units": "percent_pa", "start_date": "1962-01-02",
+        "transform": "level", "return_transform": "diff",
+        "update_status": "ACTIVE",
+        "notes": "Constant maturity.",
+        "used_by": []
+      },
+      "UST30Y": {
+        "label": "US 30-Year Treasury Yield",
+        "asset_class": "fixed_income", "source": "fred", "source_id": "DGS30",
+        "frequency": "daily", "units": "percent_pa", "start_date": "1977-02-15",
+        "transform": "level", "return_transform": "diff",
+        "update_status": "ACTIVE",
+        "notes": "Constant maturity. Gap 2002-2006 when Treasury suspended 30Y issuance.",
+        "used_by": []
+      },
+      "US_TERM_SPREAD": {
+        "label": "US Term Spread (10Y minus 2Y)",
+        "asset_class": "fixed_income", "source": "derived",
+        "source_id": "UST10Y - UST2Y",
+        "frequency": "daily", "units": "percent", "start_date": "1976-06-01",
+        "transform": "level", "return_transform": "diff",
+        "update_status": "ACTIVE",
+        "notes": "Computed from UST10Y and UST2Y.",
+        "used_by": []
+      },
+      "US_T10Y2Y": {
+        "label": "US 10Y-2Y Treasury Spread (FRED published)",
+        "asset_class": "fixed_income", "source": "fred", "source_id": "T10Y2Y",
+        "frequency": "daily", "units": "percent", "start_date": "1976-06-01",
+        "transform": "level", "return_transform": "diff",
+        "update_status": "ACTIVE",
+        "notes": "FRED-published spread. Complement to derived US_TERM_SPREAD.",
+        "used_by": []
+      },
+      "US_BAA": {
+        "label": "Moody's Baa Corporate Bond Yield",
+        "asset_class": "fixed_income", "source": "fred", "source_id": "DBAA",
+        "frequency": "daily", "units": "percent_pa", "start_date": "1919-01-02",
+        "transform": "level", "return_transform": "diff",
+        "update_status": "ACTIVE",
+        "notes": "Moody's seasoned Baa corporate bond yield.",
+        "used_by": []
+      },
+      "US_DFF": {
+        "label": "US Federal Funds Daily Effective Rate",
+        "asset_class": "fixed_income", "source": "fred", "source_id": "DFF",
+        "frequency": "daily", "units": "percent_pa", "start_date": "1954-07-01",
+        "transform": "level", "return_transform": "diff",
+        "update_status": "ACTIVE",
+        "notes": "Daily. Monthly average version is FED_FUNDS (FEDFUNDS).",
+        "used_by": []
+      },
+      "IG_SPREAD": {
+        "label": "US IG Credit Spread OAS",
+        "asset_class": "fixed_income", "source": "fred",
+        "source_id": "BAMLC0A0CM",
+        "frequency": "daily", "units": "percent", "start_date": "1996-12-31",
+        "transform": "level", "return_transform": "diff",
+        "update_status": "ACTIVE",
+        "notes": "ICE BofA US Corporate OAS",
+        "used_by": []
+      }
+    },
+
+    "FX": {
+      "AUDUSD": {
+        "label": "AUD/USD Exchange Rate",
+        "asset_class": "fx", "source": "rba",
+        "source_id": "f11", "source_col": "FXRUSD",
+        "frequency": "daily", "units": "usd_per_aud", "start_date": "1983-01-03",
+        "transform": "log", "return_transform": "log_diff",
+        "update_status": "ACTIVE",
+        "notes": "RBA Table F11. Post-float from 1983.",
+        "used_by": []
+      },
+      "EURUSD": {
+        "label": "EUR/USD Exchange Rate",
+        "asset_class": "fx", "source": "fred", "source_id": "DEXUSEU",
+        "frequency": "daily", "units": "usd_per_eur", "start_date": "1999-01-04",
+        "transform": "log", "return_transform": "log_diff",
+        "update_status": "ACTIVE",
+        "notes": "",
+        "used_by": []
+      },
+      "USDJPY": {
+        "label": "USD/JPY Exchange Rate",
+        "asset_class": "fx", "source": "fred", "source_id": "DEXJPUS",
+        "frequency": "daily", "units": "jpy_per_usd", "start_date": "1971-01-04",
+        "transform": "log", "return_transform": "log_diff",
+        "update_status": "ACTIVE",
+        "notes": "Quoted as JPY per USD",
+        "used_by": []
+      },
+      "DXY": {
+        "label": "US Dollar Index",
+        "asset_class": "fx", "source": "yfinance", "source_id": "DX-Y.NYB",
+        "frequency": "daily", "units": "index", "start_date": "1971-01-04",
+        "transform": "log", "return_transform": "log_diff",
+        "update_status": "ACTIVE",
+        "notes": "",
+        "used_by": []
+      },
+      "US_DTWEXBGS": {
+        "label": "Trade Weighted US Dollar Index: Broad",
+        "asset_class": "fx", "source": "fred", "source_id": "DTWEXBGS",
+        "frequency": "daily", "units": "index", "start_date": "2006-01-02",
+        "transform": "log", "return_transform": "log_diff",
+        "update_status": "ACTIVE",
+        "notes": "Goods & services broad index. Replaced DTWEXB in 2019.",
+        "used_by": []
+      }
+    },
+
+    "COMMODITIES": {
+      "GOLD": {
+        "label": "Gold Futures Front Month",
+        "asset_class": "commodity", "source": "yfinance", "source_id": "GC=F",
+        "frequency": "daily", "units": "usd_per_oz", "start_date": "1975-01-02",
+        "transform": "log", "return_transform": "log_diff",
+        "update_status": "ACTIVE",
+        "notes": "Front month futures. Roll at expiry.",
+        "used_by": []
+      },
+      "BRENT": {
+        "label": "Brent Crude Futures Front Month",
+        "asset_class": "commodity", "source": "yfinance", "source_id": "BZ=F",
+        "frequency": "daily", "units": "usd_per_bbl", "start_date": "1987-05-20",
+        "transform": "log", "return_transform": "log_diff",
+        "update_status": "ACTIVE",
+        "notes": "",
+        "used_by": []
+      },
+      "COPPER": {
+        "label": "Copper Futures Front Month",
+        "asset_class": "commodity", "source": "yfinance", "source_id": "HG=F",
+        "frequency": "daily", "units": "usd_per_lb", "start_date": "1988-01-04",
+        "transform": "log", "return_transform": "log_diff",
+        "update_status": "ACTIVE",
+        "notes": "China demand proxy",
+        "used_by": []
+      },
+      "IRON_ORE": {
+        "label": "Iron Ore Price 62pct Fe CFR China",
+  

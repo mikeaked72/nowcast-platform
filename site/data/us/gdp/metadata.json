@@ -1,0 +1,38 @@
+{
+  "country_code": "us",
+  "country_name": "United States",
+  "decimals": 2,
+  "default_chart_type": "line",
+  "default_period": "2026Q1",
+  "display_name": "GDP",
+  "downloads": [
+    "latest.json",
+    "history.csv",
+    "contributions.csv",
+    "release_impacts.csv",
+    "metadata.json"
+  ],
+  "explanatory_text": "A quarterly growth estimate based on source releases available before the official estimate.",
+  "faq": [
+    {
+      "answer": "The release became available on the selected run date and changed the nowcast on that run.",
+      "question": "What does new_release mean?"
+    },
+    {
+      "answer": "The release was already incorporated on an earlier run date and remains part of the current estimate.",
+      "question": "What does carried_forward mean?"
+    },
+    {
+      "answer": "The source has not been released for the selected run date and is held at its expected value.",
+      "question": "What does pending mean?"
+    },
+    {
+      "answer": "No. It is a transparent automated nowcast scaffold for monitoring and development use.",
+      "question": "Is this an official forecast?"
+    }
+  ],
+  "indicator_code": "gdp",
+  "methodology": "US GDP uses a transparent bridge model. Public FRED series are converted to quarterly annualized growth rates, a small ridge-regularized regression is estimated against real GDP growth, and each run date incorporates source releases available by that date. Pending releases are held at their training-sample expected values until they arrive.",
+  "unit": "percent QoQ SAAR",
+  "update_cadence_label": "Updated when major activity releases arrive"
+}

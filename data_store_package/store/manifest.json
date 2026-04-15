@@ -1,0 +1,1553 @@
+{
+  "last_full_update": "2026-04-15T11:10:03Z",
+  "series": {
+    "ECB_DFR": {
+      "last_updated": "2026-04-15T11:02:10Z",
+      "rows": 9602,
+      "start": null,
+      "end": null,
+      "source": "ecb:FM/D.U2.EUR.4F.KR.DFR.LEV",
+      "status": "OK"
+    },
+    "ECB_MRO": {
+      "last_updated": "2026-04-15T11:02:18Z",
+      "rows": 6571,
+      "start": null,
+      "end": null,
+      "source": "ecb:FM/D.U2.EUR.4F.KR.MRR_FR.LEV",
+      "status": "OK"
+    },
+    "DE_BUND10": {
+      "last_updated": "2026-04-15T11:02:27Z",
+      "rows": 5522,
+      "start": null,
+      "end": null,
+      "source": "ecb:YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_10Y",
+      "status": "OK"
+    },
+    "EA_HICP": {
+      "last_updated": "2026-04-15T11:02:32Z",
+      "rows": 312,
+      "start": null,
+      "end": null,
+      "source": "ecb:ICP/M.U2.N.000000.4.ANR",
+      "status": "OK"
+    },
+    "EA_UNEMP": {
+      "last_updated": "2026-04-15T11:02:38Z",
+      "rows": 314,
+      "start": null,
+      "end": null,
+      "source": "ecb:LFSI/M.I9.S.UNEHRT.TOTAL0.15_74.T",
+      "status": "OK"
+    },
+    "EUR_USD": {
+      "last_updated": "2026-04-15T11:02:50Z",
+      "rows": 6786,
+      "start": null,
+      "end": null,
+      "source": "ecb:EXR/D.USD.EUR.SP00.A",
+      "status": "OK"
+    },
+    "EUR_GBP": {
+      "last_updated": "2026-04-15T11:02:57Z",
+      "rows": 6786,
+      "start": null,
+      "end": null,
+      "source": "ecb:EXR/D.GBP.EUR.SP00.A",
+      "status": "OK"
+    },
+    "EUR_JPY": {
+      "last_updated": "2026-04-15T11:03:04Z",
+      "rows": 6786,
+      "start": null,
+      "end": null,
+      "source": "ecb:EXR/D.JPY.EUR.SP00.A",
+      "status": "OK"
+    },
+    "EA_GDP_REAL": {
+      "last_updated": "2026-04-15T11:03:06Z",
+      "rows": 104,
+      "start": null,
+      "end": null,
+      "source": "eurostat:namq_10_gdp",
+      "status": "OK"
+    },
+    "EA_GDP_NOM": {
+      "last_updated": "2026-04-15T11:03:08Z",
+      "rows": 104,
+      "start": null,
+      "end": null,
+      "source": "eurostat:namq_10_gdp",
+      "status": "OK"
+    },
+    "EA_HH_CONSUMPTION": {
+      "last_updated": "2026-04-15T11:03:09Z",
+      "rows": 104,
+      "start": null,
+      "end": null,
+      "source": "eurostat:namq_10_gdp",
+      "status": "OK"
+    },
+    "EA_INVESTMENT": {
+      "last_updated": "2026-04-15T11:03:11Z",
+      "rows": 104,
+      "start": null,
+      "end": null,
+      "source": "eurostat:namq_10_gdp",
+      "status": "OK"
+    },
+    "EA_EXPORTS": {
+      "last_updated": "2026-04-15T11:03:13Z",
+      "rows": 104,
+      "start": null,
+      "end": null,
+      "source": "eurostat:namq_10_gdp",
+      "status": "OK"
+    },
+    "EA_IMPORTS": {
+      "last_updated": "2026-04-15T11:03:15Z",
+      "rows": 104,
+      "start": null,
+      "end": null,
+      "source": "eurostat:namq_10_gdp",
+      "status": "OK"
+    },
+    "EA_UNEMPLOYMENT": {
+      "last_updated": "2026-04-15T11:03:17Z",
+      "rows": 314,
+      "start": null,
+      "end": null,
+      "source": "eurostat:une_rt_m",
+      "status": "OK"
+    },
+    "EA_EMPLOYMENT": {
+      "last_updated": "2026-04-15T11:03:19Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "eurostat:lfsi_emp_m",
+      "status": "ERROR"
+    },
+    "EA_BUILD_PERMITS": {
+      "last_updated": "2026-04-15T11:03:21Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "eurostat:sts_cobp_m",
+      "status": "ERROR"
+    },
+    "EA_INDPRO": {
+      "last_updated": "2026-04-15T11:03:23Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "eurostat:sts_inpr_m",
+      "status": "ERROR"
+    },
+    "EA_INDPRO_MFG": {
+      "last_updated": "2026-04-15T11:03:25Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "eurostat:sts_inpr_m",
+      "status": "ERROR"
+    },
+    "EA_RETAIL": {
+      "last_updated": "2026-04-15T11:03:26Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "eurostat:sts_trtu_m",
+      "status": "ERROR"
+    },
+    "EA_NEW_ORDERS": {
+      "last_updated": "2026-04-15T11:03:28Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "eurostat:sts_inno_m",
+      "status": "ERROR"
+    },
+    "EA_HICP_ALL": {
+      "last_updated": "2026-04-15T11:03:31Z",
+      "rows": 312,
+      "start": null,
+      "end": null,
+      "source": "eurostat:prc_hicp_midx",
+      "status": "OK"
+    },
+    "EA_HICP_CORE": {
+      "last_updated": "2026-04-15T11:03:33Z",
+      "rows": 301,
+      "start": null,
+      "end": null,
+      "source": "eurostat:prc_hicp_midx",
+      "status": "OK"
+    },
+    "EA_HICP_ENERGY": {
+      "last_updated": "2026-04-15T11:03:35Z",
+      "rows": 312,
+      "start": null,
+      "end": null,
+      "source": "eurostat:prc_hicp_midx",
+      "status": "OK"
+    },
+    "EA_HICP_SERVICES": {
+      "last_updated": "2026-04-15T11:03:38Z",
+      "rows": 301,
+      "start": null,
+      "end": null,
+      "source": "eurostat:prc_hicp_midx",
+      "status": "OK"
+    },
+    "EA_HICP_YOY": {
+      "last_updated": "2026-04-15T11:03:40Z",
+      "rows": 301,
+      "start": null,
+      "end": null,
+      "source": "eurostat:prc_hicp_manr",
+      "status": "OK"
+    },
+    "EA_PPI": {
+      "last_updated": "2026-04-15T11:03:42Z",
+      "rows": 314,
+      "start": null,
+      "end": null,
+      "source": "eurostat:sts_inpp_m",
+      "status": "OK"
+    },
+    "EA_CONS_CONF": {
+      "last_updated": "2026-04-15T11:03:44Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "eurostat:ei_bsco_m",
+      "status": "ERROR"
+    },
+    "EA_ESI": {
+      "last_updated": "2026-04-15T11:03:46Z",
+      "rows": 492,
+      "start": null,
+      "end": null,
+      "source": "eurostat:ei_bssi_m_r2",
+      "status": "OK"
+    },
+    "CAN_OVERNIGHT": {
+      "last_updated": "2026-04-15T11:03:48Z",
+      "rows": 4417,
+      "start": "2009-04-21",
+      "end": "2026-04-13",
+      "source": "boc:V39079",
+      "status": "OK"
+    },
+    "CAN_10Y": {
+      "last_updated": "2026-04-15T11:03:49Z",
+      "rows": 6321,
+      "start": "2001-01-02",
+      "end": "2026-04-13",
+      "source": "boc:BD.CDN.10YR.DQ.YLD",
+      "status": "OK"
+    },
+    "CAN_2Y": {
+      "last_updated": "2026-04-15T11:03:50Z",
+      "rows": 6320,
+      "start": "2001-01-02",
+      "end": "2026-04-13",
+      "source": "boc:BD.CDN.2YR.DQ.YLD",
+      "status": "OK"
+    },
+    "USDCAD": {
+      "last_updated": "2026-04-15T11:03:51Z",
+      "rows": 2315,
+      "start": "2017-01-03",
+      "end": "2026-04-14",
+      "source": "boc:FXUSDCAD",
+      "status": "OK"
+    },
+    "CAN_CPI": {
+      "last_updated": "2026-04-15T11:03:53Z",
+      "rows": 1346,
+      "start": "1914-01-01",
+      "end": "2026-02-01",
+      "source": "statcan:41690973",
+      "status": "OK"
+    },
+    "CAN_UNEMP": {
+      "last_updated": "2026-04-15T11:03:56Z",
+      "rows": 603,
+      "start": "1976-01-01",
+      "end": "2026-03-01",
+      "source": "statcan:2062815",
+      "status": "OK"
+    },
+    "UK_CPI": {
+      "last_updated": "2026-04-15T11:03:58Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "ons:L55O/MM23",
+      "status": "ERROR"
+    },
+    "UK_CPIH": {
+      "last_updated": "2026-04-15T11:04:00Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "ons:D7BT/MM23",
+      "status": "ERROR"
+    },
+    "UK_CPI_CORE": {
+      "last_updated": "2026-04-15T11:04:01Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "ons:DKO8/MM23",
+      "status": "ERROR"
+    },
+    "UK_UNEMP": {
+      "last_updated": "2026-04-15T11:04:02Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "ons:MGSX/LMS",
+      "status": "ERROR"
+    },
+    "UK_EMPRATE": {
+      "last_updated": "2026-04-15T11:04:03Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "ons:MGRZ/LMS",
+      "status": "ERROR"
+    },
+    "UK_PAYE": {
+      "last_updated": "2026-04-15T11:04:04Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "ons:BCAJ/LMS",
+      "status": "ERROR"
+    },
+    "UK_GDP_Q": {
+      "last_updated": "2026-04-15T11:04:05Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "ons:IHYP/QNA",
+      "status": "ERROR"
+    },
+    "UK_IP": {
+      "last_updated": "2026-04-15T11:04:06Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "ons:K222/DIOP",
+      "status": "ERROR"
+    },
+    "UK_RETAIL": {
+      "last_updated": "2026-04-15T11:04:07Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "ons:J5EK/RSI",
+      "status": "ERROR"
+    },
+    "UK_BANK_RATE": {
+      "last_updated": "2026-04-15T11:04:08Z",
+      "rows": 435,
+      "start": "1990-01-31",
+      "end": "2026-03-31",
+      "source": "boe:IUMABEDR",
+      "status": "OK"
+    },
+    "UK_GILT_10Y": {
+      "last_updated": "2026-04-15T11:04:13Z",
+      "rows": 9168,
+      "start": "1990-01-02",
+      "end": "2026-04-13",
+      "source": "boe:IUDMNZC",
+      "status": "OK"
+    },
+    "UK_GILT_2Y": {
+      "last_updated": "2026-04-15T11:04:14Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "boe:IUDMNB4",
+      "status": "ERROR"
+    },
+    "UK_GILT_5Y": {
+      "last_updated": "2026-04-15T11:04:16Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "boe:IUDMNB9",
+      "status": "ERROR"
+    },
+    "UK_GILT_30Y": {
+      "last_updated": "2026-04-15T11:04:17Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "boe:IUDMNC4",
+      "status": "ERROR"
+    },
+    "UK_MORT_RATE": {
+      "last_updated": "2026-04-15T11:04:19Z",
+      "rows": 375,
+      "start": "1995-01-31",
+      "end": "2026-03-31",
+      "source": "boe:IUMBV37",
+      "status": "OK"
+    },
+    "UK_SONIA": {
+      "last_updated": "2026-04-15T11:04:23Z",
+      "rows": 7397,
+      "start": "1997-01-02",
+      "end": "2026-04-13",
+      "source": "boe:IUDSOIA",
+      "status": "OK"
+    },
+    "UK_ERI": {
+      "last_updated": "2026-04-15T11:04:25Z",
+      "rows": 375,
+      "start": "1995-01-31",
+      "end": "2026-03-31",
+      "source": "boe:IUMBV34",
+      "status": "OK"
+    },
+    "UK_M4": {
+      "last_updated": "2026-04-15T11:04:29Z",
+      "rows": 434,
+      "start": "1990-01-31",
+      "end": "2026-02-28",
+      "source": "boe:LPMVWYR",
+      "status": "OK"
+    },
+    "UK_MORT_APPROVALS": {
+      "last_updated": "2026-04-15T11:04:31Z",
+      "rows": 435,
+      "start": "1990-01-31",
+      "end": "2026-03-31",
+      "source": "boe:LPMAVAA",
+      "status": "OK"
+    },
+    "UK_CONS_CREDIT": {
+      "last_updated": "2026-04-15T11:04:33Z",
+      "rows": 434,
+      "start": "1990-01-31",
+      "end": "2026-02-28",
+      "source": "boe:LPMAUZI",
+      "status": "OK"
+    },
+    "DE_BUND_3M": {
+      "last_updated": "2026-04-15T11:04:35Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "buba:BBK01.ST0316",
+      "status": "ERROR"
+    },
+    "DE_BUND_2Y": {
+      "last_updated": "2026-04-15T11:04:36Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "buba:BBK01.WT3210",
+      "status": "ERROR"
+    },
+    "DE_BUND_5Y": {
+      "last_updated": "2026-04-15T11:04:38Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "buba:BBK01.WT3510",
+      "status": "ERROR"
+    },
+    "DE_BUND_10Y": {
+      "last_updated": "2026-04-15T11:04:40Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "buba:BBK01.WT3110",
+      "status": "ERROR"
+    },
+    "DE_BUND_30Y": {
+      "last_updated": "2026-04-15T11:04:42Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "buba:BBK01.WT3030",
+      "status": "ERROR"
+    },
+    "DE_HH_LOANS": {
+      "last_updated": "2026-04-15T11:04:43Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "buba:BBKRT.M.U.NS.A.A.A.AB.A.A.PUR.A.A",
+      "status": "ERROR"
+    },
+    "DE_NFC_LOANS": {
+      "last_updated": "2026-04-15T11:04:45Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "buba:BBKRT.M.U.NS.A.A.A.NF.A.A.PUR.A.A",
+      "status": "ERROR"
+    },
+    "FR_OAT_10Y": {
+      "last_updated": "2026-04-15T11:04:48Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "bdf:M.FR.D.GOV.10Y.YLD",
+      "status": "ERROR"
+    },
+    "FR_HH_LOANS": {
+      "last_updated": "2026-04-15T11:04:51Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "bdf:M.FR.N.A.A20T.A.1.U2.2240.Z01.E",
+      "status": "ERROR"
+    },
+    "FR_NFC_LOANS": {
+      "last_updated": "2026-04-15T11:04:53Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "bdf:M.FR.N.A.A20T.A.1.U2.2240.Z01.E",
+      "status": "ERROR"
+    },
+    "JP_CALL_RATE": {
+      "last_updated": "2026-04-15T11:04:55Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "boj:MADR1Z@D",
+      "status": "ERROR"
+    },
+    "JP_TIBOR_3M": {
+      "last_updated": "2026-04-15T11:05:06Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "boj:IR02'TIBORDD3M@D",
+      "status": "ERROR"
+    },
+    "JP_MONETARY_BASE": {
+      "last_updated": "2026-04-15T11:05:07Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "boj:MD01'MABASE1@M",
+      "status": "ERROR"
+    },
+    "JP_M2": {
+      "last_updated": "2026-04-15T11:05:08Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "boj:MD02'M2@M",
+      "status": "ERROR"
+    },
+    "JP_CGPI": {
+      "last_updated": "2026-04-15T11:05:09Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "boj:PR01'IALL@M",
+      "status": "ERROR"
+    },
+    "JP_BOJ_IR": {
+      "last_updated": "2026-04-15T11:05:10Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "boj:flatfile:ir",
+      "status": "ERROR"
+    },
+    "JP_BOJ_MD": {
+      "last_updated": "2026-04-15T11:05:11Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "boj:flatfile:md",
+      "status": "ERROR"
+    },
+    "JP_BOJ_PR": {
+      "last_updated": "2026-04-15T11:05:12Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "boj:flatfile:pr",
+      "status": "ERROR"
+    },
+    "IMF_EM_CPI": {
+      "last_updated": "2026-04-15T11:05:15Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "imf:IFS:PCPI_IX",
+      "status": "ERROR"
+    },
+    "IMF_EM_CPI_PCT": {
+      "last_updated": "2026-04-15T11:05:18Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "imf:IFS:PCPI_PC_CP_A_PT",
+      "status": "ERROR"
+    },
+    "IMF_EM_POLICY_RATE": {
+      "last_updated": "2026-04-15T11:05:23Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "imf:IFS:FPOLM_PA",
+      "status": "ERROR"
+    },
+    "IMF_EM_LENDING_RATE": {
+      "last_updated": "2026-04-15T11:05:34Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "imf:IFS:FILR_PA",
+      "status": "ERROR"
+    },
+    "IMF_EM_DEPOSIT_RATE": {
+      "last_updated": "2026-04-15T11:05:37Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "imf:IFS:FIDR_PA",
+      "status": "ERROR"
+    },
+    "IMF_EM_TBILL_RATE": {
+      "last_updated": "2026-04-15T11:05:40Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "imf:IFS:FITB_PA",
+      "status": "ERROR"
+    },
+    "IMF_EM_FX_USD": {
+      "last_updated": "2026-04-15T11:05:43Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "imf:IFS:ENDA_XDC_USD_RATE",
+      "status": "ERROR"
+    },
+    "IMF_EM_REER": {
+      "last_updated": "2026-04-15T11:05:47Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "imf:IFS:EREER_IX",
+      "status": "ERROR"
+    },
+    "IMF_EM_BROAD_MONEY": {
+      "last_updated": "2026-04-15T11:05:57Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "imf:IFS:FM3_XDC",
+      "status": "ERROR"
+    },
+    "IMF_EM_GDP_NOM": {
+      "last_updated": "2026-04-15T11:06:00Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "imf:IFS:NGDP_XDC",
+      "status": "ERROR"
+    },
+    "IMF_EM_GDP_REAL": {
+      "last_updated": "2026-04-15T11:06:07Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "imf:IFS:NGDP_R_XDC",
+      "status": "ERROR"
+    },
+    "IMF_EM_UNEMP": {
+      "last_updated": "2026-04-15T11:06:10Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "imf:IFS:LUR_PT",
+      "status": "ERROR"
+    },
+    "WB_GDP_USD": {
+      "last_updated": "2026-04-15T11:06:13Z",
+      "rows": 1050,
+      "start": "1990",
+      "end": "2024",
+      "source": "wb:NY.GDP.MKTP.CD",
+      "status": "OK"
+    },
+    "WB_GDP_REAL": {
+      "last_updated": "2026-04-15T11:06:15Z",
+      "rows": 1050,
+      "start": "1990",
+      "end": "2024",
+      "source": "wb:NY.GDP.MKTP.KD",
+      "status": "OK"
+    },
+    "WB_GDP_GROWTH": {
+      "last_updated": "2026-04-15T11:06:16Z",
+      "rows": 1047,
+      "start": "1990",
+      "end": "2024",
+      "source": "wb:NY.GDP.MKTP.KD.ZG",
+      "status": "OK"
+    },
+    "WB_GDP_DEFLATOR": {
+      "last_updated": "2026-04-15T11:06:17Z",
+      "rows": 1047,
+      "start": "1990",
+      "end": "2024",
+      "source": "wb:NY.GDP.DEFL.KD.ZG",
+      "status": "OK"
+    },
+    "WB_CPI_INFLATION": {
+      "last_updated": "2026-04-15T11:06:18Z",
+      "rows": 1029,
+      "start": "2008",
+      "end": "2024",
+      "source": "wb:FP.CPI.TOTL.ZG",
+      "status": "OK"
+    },
+    "WB_UNEMPLOYMENT": {
+      "last_updated": "2026-04-15T11:06:19Z",
+      "rows": 1050,
+      "start": "1991",
+      "end": "2025",
+      "source": "wb:SL.UEM.TOTL.ZS",
+      "status": "OK"
+    },
+    "WB_REAL_INTEREST": {
+      "last_updated": "2026-04-15T11:06:20Z",
+      "rows": 708,
+      "start": "1990",
+      "end": "2024",
+      "source": "wb:FR.INR.RINR",
+      "status": "OK"
+    },
+    "WB_FX_OFFICIAL": {
+      "last_updated": "2026-04-15T11:06:21Z",
+      "rows": 1047,
+      "start": "1990",
+      "end": "2024",
+      "source": "wb:PA.NUS.FCRF",
+      "status": "OK"
+    },
+    "WB_BROAD_MONEY_GDP": {
+      "last_updated": "2026-04-15T11:06:23Z",
+      "rows": 937,
+      "start": "1990",
+      "end": "2024",
+      "source": "wb:FM.LBL.BMNY.GD.ZS",
+      "status": "OK"
+    },
+    "WB_CA_BALANCE_GDP": {
+      "last_updated": "2026-04-15T11:06:24Z",
+      "rows": 998,
+      "start": "2023",
+      "end": "2024",
+      "source": "wb:BN.CAB.XOKA.GD.ZS",
+      "status": "OK"
+    },
+    "WB_EXPORTS_GDP": {
+      "last_updated": "2026-04-15T11:06:25Z",
+      "rows": 1032,
+      "start": "2001",
+      "end": "2024",
+      "source": "wb:NE.EXP.GNFS.ZS",
+      "status": "OK"
+    },
+    "WB_IMPORTS_GDP": {
+      "last_updated": "2026-04-15T11:06:26Z",
+      "rows": 1032,
+      "start": "2001",
+      "end": "2024",
+      "source": "wb:NE.IMP.GNFS.ZS",
+      "status": "OK"
+    },
+    "WB_GOVT_DEBT_GDP": {
+      "last_updated": "2026-04-15T11:06:27Z",
+      "rows": 522,
+      "start": "2013",
+      "end": "2023",
+      "source": "wb:GC.DOD.TOTL.GD.ZS",
+      "status": "OK"
+    },
+    "WB_GDP_PER_CAPITA": {
+      "last_updated": "2026-04-15T11:06:28Z",
+      "rows": 1050,
+      "start": "1990",
+      "end": "2024",
+      "source": "wb:NY.GDP.PCAP.CD",
+      "status": "OK"
+    },
+    "WB_POPULATION": {
+      "last_updated": "2026-04-15T11:06:29Z",
+      "rows": 1050,
+      "start": "1990",
+      "end": "2024",
+      "source": "wb:SP.POP.TOTL",
+      "status": "OK"
+    },
+    "DFF": {
+      "last_updated": "2026-04-15T11:06:56Z",
+      "rows": 26220,
+      "start": "1954-07-01",
+      "end": "2026-04-13",
+      "status": "OK"
+    },
+    "FEDFUNDS": {
+      "last_updated": "2026-04-15T11:06:57Z",
+      "rows": 861,
+      "start": "1954-07-01",
+      "end": "2026-03-01",
+      "status": "OK"
+    },
+    "DGS1": {
+      "last_updated": "2026-04-15T11:07:04Z",
+      "rows": 16054,
+      "start": "1962-01-02",
+      "end": "2026-04-13",
+      "status": "OK"
+    },
+    "DGS2": {
+      "last_updated": "2026-04-15T11:07:09Z",
+      "rows": 12462,
+      "start": "1976-06-01",
+      "end": "2026-04-13",
+      "status": "OK"
+    },
+    "DGS5": {
+      "last_updated": "2026-04-15T11:07:16Z",
+      "rows": 16054,
+      "start": "1962-01-02",
+      "end": "2026-04-13",
+      "status": "OK"
+    },
+    "DGS10": {
+      "last_updated": "2026-04-15T11:07:24Z",
+      "rows": 16054,
+      "start": "1962-01-02",
+      "end": "2026-04-13",
+      "status": "OK"
+    },
+    "DGS30": {
+      "last_updated": "2026-04-15T11:07:30Z",
+      "rows": 12284,
+      "start": "1977-02-15",
+      "end": "2026-04-13",
+      "status": "OK"
+    },
+    "T10Y2Y": {
+      "last_updated": "2026-04-15T11:07:37Z",
+      "rows": 12463,
+      "start": "1976-06-01",
+      "end": "2026-04-14",
+      "status": "OK"
+    },
+    "BAMLC0A0CM": {
+      "last_updated": "2026-04-15T11:07:40Z",
+      "rows": 7645,
+      "start": "1996-12-31",
+      "end": "2026-04-13",
+      "status": "OK"
+    },
+    "BAMLH0A0HYM2": {
+      "last_updated": "2026-04-15T11:07:44Z",
+      "rows": 7646,
+      "start": "1996-12-31",
+      "end": "2026-04-13",
+      "status": "OK"
+    },
+    "DBAA": {
+      "last_updated": "2026-04-15T11:07:48Z",
+      "rows": 10105,
+      "start": "1986-01-02",
+      "end": "2026-04-13",
+      "status": "OK"
+    },
+    "INDPRO": {
+      "last_updated": "2026-04-15T11:07:49Z",
+      "rows": 1286,
+      "start": "1919-01-01",
+      "end": "2026-02-01",
+      "status": "OK"
+    },
+    "UNRATE": {
+      "last_updated": "2026-04-15T11:07:50Z",
+      "rows": 938,
+      "start": "1948-01-01",
+      "end": "2026-03-01",
+      "status": "OK"
+    },
+    "PAYEMS": {
+      "last_updated": "2026-04-15T11:07:54Z",
+      "rows": 1047,
+      "start": "1939-01-01",
+      "end": "2026-03-01",
+      "status": "OK"
+    },
+    "ICSA": {
+      "last_updated": "2026-04-15T11:07:55Z",
+      "rows": 3092,
+      "start": "1967-01-07",
+      "end": "2026-04-04",
+      "status": "OK"
+    },
+    "CPIAUCSL": {
+      "last_updated": "2026-04-15T11:07:56Z",
+      "rows": 950,
+      "start": "1947-01-01",
+      "end": "2026-03-01",
+      "status": "OK"
+    },
+    "PCEPILFE": {
+      "last_updated": "2026-04-15T11:07:57Z",
+      "rows": 806,
+      "start": "1959-01-01",
+      "end": "2026-02-01",
+      "status": "OK"
+    },
+    "PPIACO": {
+      "last_updated": "2026-04-15T11:07:58Z",
+      "rows": 1359,
+      "start": "1913-01-01",
+      "end": "2026-03-01",
+      "status": "OK"
+    },
+    "RSAFS": {
+      "last_updated": "2026-04-15T11:07:58Z",
+      "rows": 410,
+      "start": "1992-01-01",
+      "end": "2026-02-01",
+      "status": "OK"
+    },
+    "UMCSENT": {
+      "last_updated": "2026-04-15T11:07:59Z",
+      "rows": 670,
+      "start": "1952-11-01",
+      "end": "2026-02-01",
+      "status": "OK"
+    },
+    "HOUST": {
+      "last_updated": "2026-04-15T11:08:00Z",
+      "rows": 805,
+      "start": "1959-01-01",
+      "end": "2026-01-01",
+      "status": "OK"
+    },
+    "PERMIT": {
+      "last_updated": "2026-04-15T11:08:01Z",
+      "rows": 793,
+      "start": "1960-01-01",
+      "end": "2026-01-01",
+      "status": "OK"
+    },
+    "M2SL": {
+      "last_updated": "2026-04-15T11:08:01Z",
+      "rows": 806,
+      "start": "1959-01-01",
+      "end": "2026-02-01",
+      "status": "OK"
+    },
+    "DTWEXBGS": {
+      "last_updated": "2026-04-15T11:08:04Z",
+      "rows": 5082,
+      "start": "2006-01-02",
+      "end": "2026-04-10",
+      "status": "OK"
+    },
+    "DEXUSEU": {
+      "last_updated": "2026-04-15T11:08:08Z",
+      "rows": 6839,
+      "start": "1999-01-04",
+      "end": "2026-04-10",
+      "status": "OK"
+    },
+    "DEXJPUS": {
+      "last_updated": "2026-04-15T11:08:14Z",
+      "rows": 13854,
+      "start": "1971-01-04",
+      "end": "2026-04-10",
+      "status": "OK"
+    },
+    "JLNUM12M": {
+      "last_updated": "2026-04-15T11:08:14Z",
+      "rows": 786,
+      "start": "1960-07-01",
+      "end": "2025-12-01",
+      "status": "OK"
+    },
+    "AUS_CASHRATE": {
+      "last_updated": "2026-04-15T11:08:32Z",
+      "rows": 3865,
+      "start": "2011-01-04",
+      "end": "2026-04-14",
+      "source": "rba:f1:FIRMMCRTD",
+      "status": "OK"
+    },
+    "AUS_BBSW30": {
+      "last_updated": "2026-04-15T11:08:33Z",
+      "rows": 405,
+      "start": "1992-07-31",
+      "end": "2026-03-31",
+      "source": "rba:f1.1:FIRMMBAB30",
+      "status": "OK"
+    },
+    "AUS_BBSW90": {
+      "last_updated": "2026-04-15T11:08:34Z",
+      "rows": 682,
+      "start": "1969-06-30",
+      "end": "2026-03-31",
+      "source": "rba:f1.1:FIRMMBAB90",
+      "status": "OK"
+    },
+    "AUS_BBSW180": {
+      "last_updated": "2026-04-15T11:08:35Z",
+      "rows": 405,
+      "start": "1992-07-31",
+      "end": "2026-03-31",
+      "source": "rba:f1.1:FIRMMBAB180",
+      "status": "OK"
+    },
+    "AGB2Y": {
+      "last_updated": "2026-04-15T11:08:36Z",
+      "rows": 265,
+      "start": "2014-05-01",
+      "end": "2025-05-30",
+      "source": "rba:f2:FCMYGBAG2D",
+      "status": "OK"
+    },
+    "AGB3Y": {
+      "last_updated": "2026-04-15T11:08:37Z",
+      "rows": 265,
+      "start": "2014-05-01",
+      "end": "2025-05-30",
+      "source": "rba:f2:FCMYGBAG3D",
+      "status": "OK"
+    },
+    "AGB5Y": {
+      "last_updated": "2026-04-15T11:08:38Z",
+      "rows": 265,
+      "start": "2014-05-01",
+      "end": "2025-05-30",
+      "source": "rba:f2:FCMYGBAG5D",
+      "status": "OK"
+    },
+    "AGB10Y": {
+      "last_updated": "2026-04-15T11:08:39Z",
+      "rows": 276,
+      "start": "2013-05-20",
+      "end": "2025-05-30",
+      "source": "rba:f2:FCMYGBAG10D",
+      "status": "OK"
+    },
+    "AUS_MORTGAGE": {
+      "last_updated": "2026-04-15T11:08:40Z",
+      "rows": 807,
+      "start": "1959-01-31",
+      "end": "2026-03-31",
+      "source": "rba:f5:FILRHLBVS",
+      "status": "OK"
+    },
+    "AUS_OO_HOUS_CR": {
+      "last_updated": "2026-04-15T11:08:41Z",
+      "rows": 434,
+      "start": "1990-01-31",
+      "end": "2026-02-28",
+      "source": "rba:d2:DLCACOHN",
+      "status": "OK"
+    },
+    "AUS_INV_HOUS_CR": {
+      "last_updated": "2026-04-15T11:08:41Z",
+      "rows": 434,
+      "start": "1990-01-31",
+      "end": "2026-02-28",
+      "source": "rba:d2:DLCACIHN",
+      "status": "OK"
+    },
+    "AUS_PERS_CR": {
+      "last_updated": "2026-04-15T11:08:42Z",
+      "rows": 594,
+      "start": "1976-09-30",
+      "end": "2026-02-28",
+      "source": "rba:d2:DLCACOPN",
+      "status": "OK"
+    },
+    "AUS_BUS_CR": {
+      "last_updated": "2026-04-15T11:08:43Z",
+      "rows": 514,
+      "start": "1976-09-30",
+      "end": "2019-06-30",
+      "source": "rba:d2:DLCACBN",
+      "status": "OK"
+    },
+    "AUS_TOTAL_CR": {
+      "last_updated": "2026-04-15T11:08:44Z",
+      "rows": 514,
+      "start": "1976-09-30",
+      "end": "2019-06-30",
+      "source": "rba:d2:DLCACN",
+      "status": "OK"
+    },
+    "AUS_M3": {
+      "last_updated": "2026-04-15T11:08:45Z",
+      "rows": 800,
+      "start": "1959-07-31",
+      "end": "2026-02-28",
+      "source": "rba:d3:DMAM3N",
+      "status": "OK"
+    },
+    "AUS_BROADMNY": {
+      "last_updated": "2026-04-15T11:08:46Z",
+      "rows": 595,
+      "start": "1976-08-31",
+      "end": "2026-02-28",
+      "source": "rba:d3:DMABMN",
+      "status": "OK"
+    },
+    "AUS_MNYBASE": {
+      "last_updated": "2026-04-15T11:08:46Z",
+      "rows": 613,
+      "start": "1975-02-28",
+      "end": "2026-02-28",
+      "source": "rba:d3:DMAMMB",
+      "status": "OK"
+    },
+    "AUDUSD": {
+      "last_updated": "2026-04-15T11:08:47Z",
+      "rows": 824,
+      "start": "2023-01-03",
+      "end": "2026-04-15",
+      "source": "rba:f11:FXRUSD",
+      "status": "OK"
+    },
+    "AUDJPY": {
+      "last_updated": "2026-04-15T11:08:48Z",
+      "rows": 824,
+      "start": "2023-01-03",
+      "end": "2026-04-15",
+      "source": "rba:f11:FXRJY",
+      "status": "OK"
+    },
+    "AUDEUR": {
+      "last_updated": "2026-04-15T11:08:49Z",
+      "rows": 824,
+      "start": "2023-01-03",
+      "end": "2026-04-15",
+      "source": "rba:f11:FXREUR",
+      "status": "OK"
+    },
+    "AUDGBP": {
+      "last_updated": "2026-04-15T11:08:50Z",
+      "rows": 824,
+      "start": "2023-01-03",
+      "end": "2026-04-15",
+      "source": "rba:f11:FXRUKPS",
+      "status": "OK"
+    },
+    "AUDCNY": {
+      "last_updated": "2026-04-15T11:08:50Z",
+      "rows": 824,
+      "start": "2023-01-03",
+      "end": "2026-04-15",
+      "source": "rba:f11:FXRCR",
+      "status": "OK"
+    },
+    "AUDNZD": {
+      "last_updated": "2026-04-15T11:08:51Z",
+      "rows": 824,
+      "start": "2023-01-03",
+      "end": "2026-04-15",
+      "source": "rba:f11:FXRNZD",
+      "status": "OK"
+    },
+    "AUD_TWI": {
+      "last_updated": "2026-04-15T11:08:52Z",
+      "rows": 824,
+      "start": "2023-01-03",
+      "end": "2026-04-15",
+      "source": "rba:f11:FXRTWI",
+      "status": "OK"
+    },
+    "AUS_COMM_SDR": {
+      "last_updated": "2026-04-15T11:08:53Z",
+      "rows": 525,
+      "start": "1982-07-31",
+      "end": "2026-03-31",
+      "source": "rba:i2:GRCPBCSDR",
+      "status": "OK"
+    },
+    "AUS_COMM_USD": {
+      "last_updated": "2026-04-15T11:08:54Z",
+      "rows": 525,
+      "start": "1982-07-31",
+      "end": "2026-03-31",
+      "source": "rba:i2:GRCPBCUSD",
+      "status": "OK"
+    },
+    "AUS_COMM_BULK": {
+      "last_updated": "2026-04-15T11:08:55Z",
+      "rows": 525,
+      "start": "1982-07-31",
+      "end": "2026-03-31",
+      "source": "rba:i2:GRCPBMUSD",
+      "status": "OK"
+    },
+    "IRON_ORE": {
+      "last_updated": "2026-04-15T11:08:55Z",
+      "rows": 525,
+      "start": "1982-07-31",
+      "end": "2026-03-31",
+      "source": "rba:i2:GRCPBMUSD",
+      "status": "OK"
+    },
+    "AUS_NATIONAL_ACCOUNTS": {
+      "last_updated": "2026-04-15T11:08:56Z",
+      "rows": 15336,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,ANA_AGG",
+      "columns": [
+        "DATAFLOW",
+        "MEASURE",
+        "DATA_ITEM",
+        "TSEST",
+        "REGION",
+        "FREQ",
+        "TIME_PERIOD",
+        "OBS_VALUE",
+        "UNIT_MEASURE",
+        "UNIT_MULT",
+        "OBS_STATUS",
+        "OBS_COMMENT"
+      ],
+      "status": "OK"
+    },
+    "AUS_LABOUR_FORCE": {
+      "last_updated": "2026-04-15T11:09:02Z",
+      "rows": 341124,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,LF",
+      "columns": [
+        "DATAFLOW",
+        "MEASURE",
+        "SEX",
+        "AGE",
+        "TSEST",
+        "REGION",
+        "FREQ",
+        "TIME_PERIOD",
+        "OBS_VALUE",
+        "UNIT_MEASURE",
+        "UNIT_MULT",
+        "OBS_STATUS",
+        "OBS_COMMENT",
+        "DECIMALS"
+      ],
+      "status": "OK"
+    },
+    "AUS_CPI": {
+      "last_updated": "2026-04-15T11:09:10Z",
+      "rows": 299354,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,CPI",
+      "columns": [
+        "DATAFLOW",
+        "MEASURE",
+        "INDEX",
+        "TSEST",
+        "REGION",
+        "FREQ",
+        "TIME_PERIOD",
+        "OBS_VALUE",
+        "UNIT_MEASURE",
+        "OBS_STATUS",
+        "DECIMALS",
+        "OBS_COMMENT",
+        "BASE_PERIOD"
+      ],
+      "status": "OK"
+    },
+    "AUS_MONTHLY_CPI": {
+      "last_updated": "2026-04-15T11:09:13Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,MONTHLY_CPI",
+      "status": "ERROR"
+    },
+    "AUS_PPI": {
+      "last_updated": "2026-04-15T11:09:14Z",
+      "rows": 63905,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,PPI",
+      "columns": [
+        "DATAFLOW",
+        "MEASURE",
+        "INDEX",
+        "TYPE",
+        "FREQ",
+        "TIME_PERIOD",
+        "OBS_VALUE",
+        "UNIT_MEASURE",
+        "BASE_PERIOD",
+        "OBS_STATUS",
+        "OBS_COMMENT",
+        "DECIMALS"
+      ],
+      "status": "OK"
+    },
+    "AUS_IT_PRICE": {
+      "last_updated": "2026-04-15T11:09:18Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,IT_PRICE",
+      "status": "ERROR"
+    },
+    "AUS_WPI": {
+      "last_updated": "2026-04-15T11:09:19Z",
+      "rows": 45144,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,WPI",
+      "columns": [
+        "DATAFLOW",
+        "MEASURE",
+        "INDEX",
+        "SECTOR",
+        "INDUSTRY",
+        "TSEST",
+        "REGION",
+        "FREQ",
+        "TIME_PERIOD",
+        "OBS_VALUE",
+        "UNIT_MEASURE",
+        "BASE_PERIOD",
+        "OBS_STATUS",
+        "OBS_COMMENT"
+      ],
+      "status": "OK"
+    },
+    "AUS_AWE": {
+      "last_updated": "2026-04-15T11:09:23Z",
+      "rows": 35517,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,AWE",
+      "columns": [
+        "DATAFLOW",
+        "MEASURE",
+        "ESTIMATE_TYPE",
+        "SEX",
+        "SECTOR",
+        "INDUSTRY",
+        "TSEST",
+        "REGION",
+        "FREQ",
+        "TIME_PERIOD",
+        "OBS_VALUE",
+        "UNIT_MEASURE",
+        "OBS_STATUS",
+        "OBS_COMMENT"
+      ],
+      "status": "OK"
+    },
+    "AUS_RETAIL": {
+      "last_updated": "2026-04-15T11:09:31Z",
+      "rows": 284994,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,RT",
+      "columns": [
+        "DATAFLOW",
+        "MEASURE",
+        "INDUSTRY",
+        "TSEST",
+        "REGION",
+        "FREQ",
+        "TIME_PERIOD",
+        "OBS_VALUE",
+        "UNIT_MEASURE",
+        "UNIT_MULT",
+        "OBS_STATUS",
+        "OBS_COMMENT"
+      ],
+      "status": "OK"
+    },
+    "AUS_RETAIL_VOL": {
+      "last_updated": "2026-04-15T11:09:34Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,RT_Q",
+      "status": "ERROR"
+    },
+    "AUS_BUS_INDICATORS": {
+      "last_updated": "2026-04-15T11:09:38Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,BUS_IND",
+      "status": "ERROR"
+    },
+    "AUS_CAPEX": {
+      "last_updated": "2026-04-15T11:09:43Z",
+      "rows": 118851,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,CAPEX",
+      "columns": [
+        "DATAFLOW",
+        "MEASURE",
+        "PRICE_ADJUSTMENT",
+        "ASSET",
+        "INDUSTRY",
+        "TSEST",
+        "STATE",
+        "FREQ",
+        "TIME_PERIOD",
+        "OBS_VALUE",
+        "UNIT_MEASURE",
+        "UNIT_MULT",
+        "OBS_STATUS",
+        "OBS_COMMENT"
+      ],
+      "status": "OK"
+    },
+    "AUS_BUILDING_APPROVALS": {
+      "last_updated": "2026-04-15T11:09:46Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,BA",
+      "status": "ERROR"
+    },
+    "AUS_BUILDING_ACTIVITY": {
+      "last_updated": "2026-04-15T11:09:49Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,BUILD_ACT",
+      "status": "ERROR"
+    },
+    "AUS_LENDING_INDICATORS": {
+      "last_updated": "2026-04-15T11:09:53Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,LEND_FIN",
+      "status": "ERROR"
+    },
+    "AUS_RES_PROPERTY_PRICE": {
+      "last_updated": "2026-04-15T11:09:54Z",
+      "rows": 6120,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,RPPI",
+      "columns": [
+        "DATAFLOW",
+        "MEASURE",
+        "PROPERTY_TYPE",
+        "REGION",
+        "FREQ",
+        "TIME_PERIOD",
+        "OBS_VALUE",
+        "UNIT_MEASURE",
+        "OBS_STATUS",
+        "OBS_COMMENT"
+      ],
+      "status": "OK"
+    },
+    "AUS_FINANCIAL_ACCOUNTS": {
+      "last_updated": "2026-04-15T11:09:57Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,FA",
+      "status": "ERROR"
+    },
+    "AUS_BOP": {
+      "last_updated": "2026-04-15T11:10:00Z",
+      "rows": 187992,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,BOP",
+      "columns": [
+        "DATAFLOW",
+        "MEASURE",
+        "DATA_ITEM",
+        "TSEST",
+        "FREQ",
+        "TIME_PERIOD",
+        "OBS_VALUE",
+        "UNIT_MEASURE",
+        "UNIT_MULT",
+        "OBS_STATUS",
+        "OBS_COMMENT"
+      ],
+      "status": "OK"
+    },
+    "AUS_MERCH_TRADE": {
+      "last_updated": "2026-04-15T11:10:03Z",
+      "rows": 0,
+      "start": null,
+      "end": null,
+      "source": "abs:ABS,MERCH_TRADE",
+      "status": "ERROR"
+    }
+  },
+  "processed": {
+    "daily": {
+      "rows": 18730,
+      "columns": 28,
+      "path": "store/processed/daily.parquet",
+      "start": "1954-07-01",
+      "end": "2026-04-15"
+    },
+    "weekly": {
+      "rows": 3092,
+      "columns": 1,
+      "path": "store/processed/weekly.parquet",
+      "start": "1967-01-07",
+      "end": "2026-04-04"
+    },
+    "monthly": {
+      "rows": 2424,
+      "columns": 50,
+      "path": "store/processed/monthly.parquet",
+      "start": "1913-01-01",
+      "end": "2026-03-31"
+    },
+    "quarterly": {
+      "rows": 206,
+      "columns": 7,
+      "path": "store/processed/quarterly.parquet",
+      "start": "2000-03-31",
+      "end": "2026-02-01"
+    },
+    "annual": {
+      "rows": 36,
+      "columns": 437,
+      "path": "store/processed/annual.parquet",
+      "start": "1990-12-31",
+      "end": "2025-12-31"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "code": "au",
+  "name": "Australia",
+  "default_target": "GDP QoQ saar",
+  "target_code": "gdp_qoq_saar",
+  "target_name": "GDP QoQ saar",
+  "units": "percent",
+  "enabled": true,
+  "indicators": ["gdp", "inflation"]
+}

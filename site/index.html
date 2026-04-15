@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nowcast Monitor</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main>
+      <header class="page-header">
+        <p class="eyebrow">Nowcast monitor</p>
+        <h1 id="page-title">Country Indicator Nowcasts</h1>
+        <p id="status">Loading published nowcast data.</p>
+      </header>
+
+      <section class="controls" aria-label="Dashboard controls">
+        <label>
+          Country
+          <select id="country-select"></select>
+        </label>
+        <label>
+          Indicator
+          <select id="indicator-select"></select>
+        </label>
+        <label>
+          Run date
+          <select id="period-select"></select>
+        </label>
+      </section>
+
+      <nav class="tabs" aria-label="Dashboard views">
+        <button class="tab active" data-tab="headline" type="button">Headline</button>
+        <button class="tab" data-tab="history" type="button">History</button>
+        <button class="tab" data-tab="contributions" type="button">Contributions</button>
+        <button class="tab" data-tab="release-impacts" type="button">Release impacts</button>
+        <button class="tab" data-tab="release-dates" type="button">Release dates</button>
+        <button class="tab" data-tab="methodology" type="button">Methodology</button>
+        <button class="tab" data-tab="faq" type="button">FAQ</button>
+        <button class="tab" data-tab="downloads" type="button">Downloads</button>
+      </nav>
+
+      <section id="headline" class="tab-panel active"></section>
+      <section id="history" class="tab-panel"></section>
+      <section id="contributions" class="tab-panel"></section>
+      <section id="release-impacts" class="tab-panel"></section>
+      <section id="release-dates" class="tab-panel"></section>
+      <section id="methodology" class="tab-panel"></section>
+      <section id="faq" class="tab-panel"></section>
+      <section id="downloads" class="tab-panel"></section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

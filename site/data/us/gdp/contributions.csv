@@ -1,0 +1,51 @@
+as_of_date,component_code,component_name,reference_period,contribution,direction,category,unit
+2026-01-08,dspic96,Real Disposable Personal Income,2026Q1,0.0,neutral,income,percent QoQ SAAR
+2026-01-08,houst,Housing Starts,2026Q1,0.0,neutral,housing,percent QoQ SAAR
+2026-01-08,indpro,Industrial Production Index,2026Q1,0.0,neutral,production,percent QoQ SAAR
+2026-01-08,payems,"All Employees, Total Nonfarm",2026Q1,-0.2801802983,negative,labor,percent QoQ SAAR
+2026-01-08,rsafs,Advance Retail Sales,2026Q1,0.0,neutral,demand,percent QoQ SAAR
+2026-01-15,payems,"All Employees, Total Nonfarm",2026Q1,-0.2801802983,negative,labor,percent QoQ SAAR
+2026-01-15,dspic96,Real Disposable Personal Income,2026Q1,0.0,neutral,income,percent QoQ SAAR
+2026-01-15,houst,Housing Starts,2026Q1,0.0,neutral,housing,percent QoQ SAAR
+2026-01-15,indpro,Industrial Production Index,2026Q1,0.0,neutral,production,percent QoQ SAAR
+2026-01-15,rsafs,Advance Retail Sales,2026Q1,-0.6186445995,negative,demand,percent QoQ SAAR
+2026-01-17,payems,"All Employees, Total Nonfarm",2026Q1,-0.2801802983,negative,labor,percent QoQ SAAR
+2026-01-17,rsafs,Advance Retail Sales,2026Q1,-0.6186445995,negative,demand,percent QoQ SAAR
+2026-01-17,dspic96,Real Disposable Personal Income,2026Q1,0.0,neutral,income,percent QoQ SAAR
+2026-01-17,houst,Housing Starts,2026Q1,0.0,neutral,housing,percent QoQ SAAR
+2026-01-17,indpro,Industrial Production Index,2026Q1,0.4188212825,positive,production,percent QoQ SAAR
+2026-01-21,payems,"All Employees, Total Nonfarm",2026Q1,-0.2801802983,negative,labor,percent QoQ SAAR
+2026-01-21,rsafs,Advance Retail Sales,2026Q1,-0.6186445995,negative,demand,percent QoQ SAAR
+2026-01-21,indpro,Industrial Production Index,2026Q1,0.4188212825,positive,production,percent QoQ SAAR
+2026-01-21,dspic96,Real Disposable Personal Income,2026Q1,0.0,neutral,income,percent QoQ SAAR
+2026-01-21,houst,Housing Starts,2026Q1,0.52979656,positive,housing,percent QoQ SAAR
+2026-01-31,payems,"All Employees, Total Nonfarm",2026Q1,-0.2801802983,negative,labor,percent QoQ SAAR
+2026-01-31,rsafs,Advance Retail Sales,2026Q1,-0.6186445995,negative,demand,percent QoQ SAAR
+2026-01-31,indpro,Industrial Production Index,2026Q1,0.4188212825,positive,production,percent QoQ SAAR
+2026-01-31,houst,Housing Starts,2026Q1,0.52979656,positive,housing,percent QoQ SAAR
+2026-01-31,dspic96,Real Disposable Personal Income,2026Q1,-0.001834828,negative,income,percent QoQ SAAR
+2026-02-08,rsafs,Advance Retail Sales,2026Q1,-0.6186445995,negative,demand,percent QoQ SAAR
+2026-02-08,indpro,Industrial Production Index,2026Q1,0.4188212825,positive,production,percent QoQ SAAR
+2026-02-08,houst,Housing Starts,2026Q1,0.52979656,positive,housing,percent QoQ SAAR
+2026-02-08,dspic96,Real Disposable Personal Income,2026Q1,-0.001834828,negative,income,percent QoQ SAAR
+2026-02-08,payems,"All Employees, Total Nonfarm",2026Q1,-0.3458120034,negative,labor,percent QoQ SAAR
+2026-02-15,indpro,Industrial Production Index,2026Q1,0.4188212825,positive,production,percent QoQ SAAR
+2026-02-15,houst,Housing Starts,2026Q1,0.52979656,positive,housing,percent QoQ SAAR
+2026-02-15,dspic96,Real Disposable Personal Income,2026Q1,-0.001834828,negative,income,percent QoQ SAAR
+2026-02-15,payems,"All Employees, Total Nonfarm",2026Q1,-0.3458120034,negative,labor,percent QoQ SAAR
+2026-02-15,rsafs,Advance Retail Sales,2026Q1,-0.4451447324,negative,demand,percent QoQ SAAR
+2026-02-17,houst,Housing Starts,2026Q1,0.52979656,positive,housing,percent QoQ SAAR
+2026-02-17,dspic96,Real Disposable Personal Income,2026Q1,-0.001834828,negative,income,percent QoQ SAAR
+2026-02-17,payems,"All Employees, Total Nonfarm",2026Q1,-0.3458120034,negative,labor,percent QoQ SAAR
+2026-02-17,rsafs,Advance Retail Sales,2026Q1,-0.4451447324,negative,demand,percent QoQ SAAR
+2026-02-17,indpro,Industrial Production Index,2026Q1,0.4717772247,positive,production,percent QoQ SAAR
+2026-03-03,houst,Housing Starts,2026Q1,0.52979656,positive,housing,percent QoQ SAAR
+2026-03-03,payems,"All Employees, Total Nonfarm",2026Q1,-0.3458120034,negative,labor,percent QoQ SAAR
+2026-03-03,rsafs,Advance Retail Sales,2026Q1,-0.4451447324,negative,demand,percent QoQ SAAR
+2026-03-03,indpro,Industrial Production Index,2026Q1,0.4717772247,positive,production,percent QoQ SAAR
+2026-03-03,dspic96,Real Disposable Personal Income,2026Q1,-0.0148934073,negative,income,percent QoQ SAAR
+2026-03-08,houst,Housing Starts,2026Q1,0.52979656,positive,housing,percent QoQ SAAR
+2026-03-08,rsafs,Advance Retail Sales,2026Q1,-0.4451447324,negative,demand,percent QoQ SAAR
+2026-03-08,indpro,Industrial Production Index,2026Q1,0.4717772247,positive,production,percent QoQ SAAR
+2026-03-08,dspic96,Real Disposable Personal Income,2026Q1,-0.0148934073,negative,income,percent QoQ SAAR
+2026-03-08,payems,"All Employees, Total Nonfarm",2026Q1,-0.3091272314,negative,labor,percent QoQ SAAR
