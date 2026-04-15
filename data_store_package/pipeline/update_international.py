@@ -145,7 +145,9 @@ def main():
     # Eurostat
     if eurostat is not None:
         print("\n[Eurostat]")
-        for local_id, flow, key, start, desc in eurostat.EUROSTAT_SERIES:
+        eurostat_catalog = list(eurostat.EUROSTAT_SERIES)
+        eurostat_catalog.extend(getattr(eurostat, "EUROSTAT_COUNTRY_SERIES", []))
+        for local_id, flow, key, start, desc in eurostat_catalog:
             print(f"  {local_id:18} ...", end=" ", flush=True)
             df = eurostat.fetch(flow, key, start_period=start, label=local_id)
             if _record(manifest, local_id, df, f"eurostat:{flow}"):

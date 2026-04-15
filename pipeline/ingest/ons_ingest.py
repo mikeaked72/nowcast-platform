@@ -55,9 +55,22 @@ RAW_ONS.mkdir(parents=True, exist_ok=True)
 RAW_BOE = Path(__file__).resolve().parents[2] / "store" / "raw" / "boe"
 RAW_BOE.mkdir(parents=True, exist_ok=True)
 
-ONS_BASE = "https://api.ons.gov.uk"
+ONS_API_BASE = "https://api.ons.gov.uk"
+ONS_PUBLIC_BASE = "https://www.ons.gov.uk"
 BOE_BASE = "https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp"
 UA = "Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0"
+
+ONS_PUBLIC_PATHS = {
+    "MM23": "economy/inflationandpriceindices",
+    "LMS": {
+        "MGSX": "employmentandlabourmarket/peoplenotinwork/unemployment",
+        "MGRZ": "employmentandlabourmarket/peopleinwork/employmentandemployeetypes",
+        "BCAJ": "employmentandlabourmarket/peopleinwork/employmentandemployeetypes",
+    },
+    "QNA": "economy/grossdomesticproductgdp",
+    "DIOP": "economy/economicoutputandproductivity/output",
+    "DRSI": "businessindustryandtrade/retailindustry",
+}
 
 
 # ── ONS Time Series API ──────────────────────────────────────────────────────
@@ -74,13 +87,29 @@ def fetch_ons_timeseries(cdid: str, dataset: str,
 
     Returns DataFrame with date, value columns.
     """
-    url = f"{ONS_BASE}/timeseries/{cdid.lower()}/dataset/{dataset.lower()}/data"
     headers = {"User-Agent": UA, "Accept": "application/json"}
+    candidates = [
+        f"{ONS_API_BASE}/timeseries/{cdid.lower()}/dataset/{dataset.lower()}/data"
+    ]
+    public_path = ONS_PUBLIC_PATHS.get(dataset.upper())
+    if isinstance(public_path, dict):
+        public_path = public_path.get(cdid.upper())
+    if public_path:
+        candidates.append(
+            f"{ONS_PUBLIC_BASE}/{public_path}/timeseries/{cdid.lower()}/{dataset.lower()}/data"
+        )
 
+    last_err = None
     try:
-        r = requests.get(url, headers=headers, timeout=60)
-        r.raise_for_status()
-        data = r.json()
+        data = None
+        for url in candidates:
+            r = requests.get(url, headers=headers, timeout=60)
+            if r.status_code == 200 and r.text.lstrip().startswith("{"):
+                data = r.json()
+                break
+            last_err = f"{r.status_code} {url}"
+        if data is None:
+            raise RuntimeError(last_err or "no ONS endpoint returned JSON")
     except Exception as e:
         print(f"  [ERROR] ONS {cdid}/{dataset}: {e}", file=sys.stderr)
         return None
@@ -213,10 +242,10 @@ UK_ONS_SERIES = [
 
     # Group 1: Output
     ("UK_GDP_Q",     "IHYP", "QNA",  "UK GDP quarterly growth (chained vol)"),
-    ("UK_IP",        "K222", "DIOP", "UK Index of Production (manufacturing + mining)"),
+    ("UK_IP",        "K22A", "DIOP", "UK Index of Production"),
 
     # Group 4: Retail
-    ("UK_RETAIL",    "J5EK", "RSI",  "UK Retail Sales Index, volume, SA"),
+    ("UK_RETAIL",    "J5C4", "DRSI", "UK Retail Sales Index, volume, SA"),
 ]
 
 # BoE series: (local_id, series_codes_list, description)

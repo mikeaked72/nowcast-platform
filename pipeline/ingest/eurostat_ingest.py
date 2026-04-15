@@ -214,6 +214,44 @@ EUROSTAT_SERIES = [
         "M.BS-ESI-I.SA.EA20",          "1985", "EA economic sentiment indicator"),
 ]
 
+EUROSTAT_COUNTRIES = {
+    "DEU": "DE",
+    "FRA": "FR",
+    "ITA": "IT",
+    "ESP": "ES",
+    "NLD": "NL",
+    "BEL": "BE",
+    "AUT": "AT",
+    "PRT": "PT",
+    "IRL": "IE",
+    "FIN": "FI",
+    "SWE": "SE",
+    "DNK": "DK",
+    "NOR": "NO",
+    "CHE": "CH",
+}
+
+EUROSTAT_COUNTRY_SERIES = []
+for iso3, geo in EUROSTAT_COUNTRIES.items():
+    EUROSTAT_COUNTRY_SERIES.extend([
+        (f"{iso3}_GDP_REAL_Q", "namq_10_gdp",
+         f"Q.CLV15_MEUR.SCA.B1GQ.{geo}", "2000", f"{iso3} real GDP, quarterly"),
+        (f"{iso3}_GDP_NOM_Q", "namq_10_gdp",
+         f"Q.CP_MEUR.SCA.B1GQ.{geo}", "2000", f"{iso3} nominal GDP, quarterly"),
+        (f"{iso3}_EXPORTS_Q", "namq_10_gdp",
+         f"Q.CLV15_MEUR.SCA.P6.{geo}", "2000", f"{iso3} exports, quarterly"),
+        (f"{iso3}_IMPORTS_Q", "namq_10_gdp",
+         f"Q.CLV15_MEUR.SCA.P7.{geo}", "2000", f"{iso3} imports, quarterly"),
+        (f"{iso3}_UNEMP_M", "une_rt_m",
+         f"M.SA.TOTAL.PC_ACT.T.{geo}", "2000", f"{iso3} unemployment rate"),
+        (f"{iso3}_HICP_YOY_M", "prc_hicp_manr",
+         f"M.RCH_A.CP00.{geo}", "2000", f"{iso3} HICP annual rate"),
+        (f"{iso3}_HICP_INDEX_M", "prc_hicp_midx",
+         f"M.I15.CP00.{geo}", "2000", f"{iso3} HICP index"),
+        (f"{iso3}_PPI_M", "sts_inpp_m",
+         f"M.PRC_PRR.B-E36.NSA.I21.{geo}", "2000", f"{iso3} producer prices"),
+    ])
+
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
