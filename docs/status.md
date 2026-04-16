@@ -23,30 +23,39 @@ The website-facing US GDP output remains the component bridge model for now. The
 - Added offline FRED-MD/QD fixtures for two US vintages.
 - Added config-to-vintage coverage checks for configured US targets and panel series.
 - Added a DFM processed-panel fit entrypoint and smoke artifact writer that run when `statsmodels` is installed and cleanly report missing dependency otherwise.
-- Added a DFM-to-site adapter scaffold so future DFM outputs can flow through the existing `ModelRun` publisher boundary.
+- Added a G10 experimental GDP publish path:
+  - indicator code `gdp_experimental` in the US country pack
+  - CLI command `python -m nowcast.cli g10-publish-experimental --iso US --vintage-date YYYY-MM-DD`
+  - deterministic GDP proxy from the processed panel, currently preferring transformed `GDPC1`
+  - source-level release-impact rows from the largest monthly/quarterly panel movers
+  - optional provenance artifacts listed in `metadata.json`
+- Improved the dashboard to label G10 outputs as experimental, group comparison impacts, and show optional G10 provenance without failing when optional diagnostics are absent or malformed.
 
 ## Validation Status
 
 Latest validation should include:
 
 - `python -m py_compile nowcast\g10\assemble.py nowcast\g10\panel.py nowcast\g10\coverage.py nowcast\g10\dfm.py nowcast\g10\smoke.py nowcast\cli.py`
+- `python -m py_compile nowcast\publish.py nowcast\g10\experimental_publish.py nowcast\cli.py`
 - `python scripts\validate_outputs.py --countries us,au,de,br --publish-dir site\data`
 - `python -m pytest -q --basetemp tmp\pytest`
 - `make test-vintage`
 - `make test-replay-smoke`
 - `python -m nowcast.cli g10-dfm-smoke --iso US --vintage-date 2026-04-01 --processed-root <processed-root> --artifact-root <artifact-root> --maxiter 2`
+- `python -m nowcast.cli g10-publish-experimental --iso US --vintage-date 2026-04-01 --processed-root <processed-root> --vintage-root <vintage-root> --artifact-root <artifact-root> --publish-dir <site-data-root>`
 
 ## Current Risks
 
 - `statsmodels` and `PyYAML` are declared dependencies, but the local venv may need dependency installation before running the full G10 config/model path.
 - The G10 daily/replay/refit commands are scaffolded but intentionally not implemented.
 - The existing US component bridge is still the website-backed US GDP model until the DFM replay path is proven.
+- The `gdp_experimental` estimate is a development proxy, not a production GDPNow-equivalent DFM extraction.
 - The fixture coverage check intentionally reports missing configured US target/panel series until the fixture panel is expanded toward the full country pack.
 - Non-US G10 vintage construction remains the largest engineering risk.
 
 ## Next Steps
 
-1. Run a live `g10-assemble-us --download` for the latest FRED-MD/FRED-QD current vintage and inspect row counts.
-2. Expand the US country YAML and fixture panel toward the full FRED-MD/FRED-QD coverage.
-3. Promote the DFM smoke output into a replay comparison artifact with vintage-to-vintage news deltas.
-4. Decide when the DFM adapter should begin publishing experimental website payloads alongside the component bridge.
+1. Add an end-to-end convenience command that assembles, smokes, publishes, and validates `gdp_experimental`.
+2. Run a live `g10-assemble-us --download` for the latest FRED-MD/FRED-QD current vintage and inspect row counts.
+3. Expand the US country YAML and fixture panel toward the full FRED-MD/FRED-QD coverage.
+4. Promote the single-vintage experimental output into a replay artifact with vintage-to-vintage news deltas.

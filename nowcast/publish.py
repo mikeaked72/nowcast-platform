@@ -61,6 +61,15 @@ INDICATORS = {
         "A quarterly growth estimate based on source releases available before the official estimate.",
         "Updated when major activity releases arrive",
     ),
+    "gdp_experimental": IndicatorMeta(
+        "gdp_experimental",
+        "GDP Experimental",
+        "percent QoQ SAAR",
+        2,
+        "line",
+        "An experimental GDP nowcast path used to validate the G10 mixed-frequency model pipeline.",
+        "Updated when a G10 vintage run is published",
+    ),
     "inflation": IndicatorMeta(
         "inflation",
         "Inflation",
@@ -189,6 +198,63 @@ def publish_sample_country(
 
     write_countries_json(root, [pack])
     return country_dir
+
+
+def publish_model_run_indicator(
+    country_code: str,
+    indicator_code: str,
+    model_run: ModelRun,
+    publish_dir: Path | str,
+    *,
+    packs_dir: Path | str = "country_packs",
+    model_status: str = "warning",
+    model_version: str = "0.1.0",
+    methodology: str | None = None,
+    extra_downloads: tuple[str, ...] = (),
+    ensure_country_payload: bool = True,
+) -> Path:
+    """Publish one model-backed indicator through the static site contract."""
+
+    pack = load_country_pack(country_code, packs_dir)
+    if indicator_code not in pack.indicators:
+        raise ValueError(f"{country_code} pack does not enable indicator {indicator_code}")
+    if indicator_code not in INDICATORS:
+        raise ValueError(f"unknown indicator {indicator_code}")
+
+    root = Path(publish_dir)
+    if ensure_country_payload and not _country_payload_complete(root, pack, skip_indicator=indicator_code):
+        publish_sample_country(country_code, root, packs_dir=packs_dir)
+    country_dir = _country_dir(root, country_code)
+    payload = _payload_from_model_run(
+        pack,
+        INDICATORS[indicator_code],
+        model_run,
+        model_status=model_status,
+        model_version=model_version,
+        methodology=methodology,
+        extra_downloads=extra_downloads,
+    )
+    indicator_dir = country_dir / indicator_code
+    _write_indicator_payload(indicator_dir, payload)
+    write_countries_json(root, [pack])
+    return indicator_dir
+
+
+def _country_payload_complete(root: Path, pack: CountryPack, *, skip_indicator: str) -> bool:
+    country_dir = _country_dir(root, pack.code)
+    required = (
+        "latest.json",
+        "history.csv",
+        "contributions.csv",
+        "release_impacts.csv",
+        "metadata.json",
+    )
+    return all(
+        (country_dir / indicator_code / filename).exists()
+        for indicator_code in pack.indicators
+        if indicator_code != skip_indicator
+        for filename in required
+    )
 
 
 def write_countries_json(publish_dir: Path | str, packs: list[CountryPack]) -> Path:

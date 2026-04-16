@@ -48,6 +48,18 @@ def main(argv: list[str] | None = None) -> int:
     g10_smoke_parser.add_argument("--artifact-root", default="artifacts", help="Artifact root")
     g10_smoke_parser.add_argument("--maxiter", type=int, default=2, help="Small EM iteration cap for smoke runs")
 
+    g10_publish_parser = subparsers.add_parser(
+        "g10-publish-experimental",
+        help="Publish an experimental G10 GDP output into the site contract",
+    )
+    g10_publish_parser.add_argument("--iso", default="US", help="ISO country code")
+    g10_publish_parser.add_argument("--vintage-date", required=True, help="Vintage date in YYYY-MM-DD form")
+    g10_publish_parser.add_argument("--processed-root", default="data/processed", help="Processed panel root")
+    g10_publish_parser.add_argument("--vintage-root", default="data/vintages", help="Vintage parquet root")
+    g10_publish_parser.add_argument("--artifact-root", default="artifacts", help="DFM artifact root")
+    g10_publish_parser.add_argument("--publish-dir", default="site/data", help="Publish data root")
+    g10_publish_parser.add_argument("--packs-dir", default="country_packs", help="Country packs directory")
+
     g10_daily_parser = subparsers.add_parser("g10-daily", help="Future G10 daily DynamicFactorMQ loop")
     g10_daily_parser.add_argument("--iso", help="Optional ISO country code")
 
@@ -164,6 +176,28 @@ def main(argv: list[str] | None = None) -> int:
             print(f"g10 DFM smoke failed: {exc}", file=sys.stderr)
             return 1
         print(f"smoke artifact {artifact.path}")
+        return 0
+
+    if args.command == "g10-publish-experimental":
+        try:
+            from nowcast.g10.experimental_publish import publish_experimental_g10_gdp
+
+            vintage_date = parse_as_of(args.vintage_date)
+            if vintage_date is None:
+                raise ValueError("--vintage-date is required")
+            result = publish_experimental_g10_gdp(
+                args.iso,
+                vintage_date=vintage_date,
+                processed_root=Path(args.processed_root),
+                vintage_root=Path(args.vintage_root),
+                artifact_root=Path(args.artifact_root),
+                publish_dir=Path(args.publish_dir),
+                packs_dir=Path(args.packs_dir),
+            )
+        except Exception as exc:
+            print(f"g10 experimental publish failed: {exc}", file=sys.stderr)
+            return 1
+        print(f"published {result.country_code}/{result.indicator_code} to {result.indicator_dir}")
         return 0
 
     if args.command in {"g10-daily", "g10-replay", "g10-refit"}:

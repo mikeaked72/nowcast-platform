@@ -3,8 +3,10 @@ from __future__ import annotations
 import functools
 import http.server
 import json
+import os
 import shutil
 import socketserver
+import tempfile
 import threading
 from pathlib import Path
 
@@ -68,6 +70,21 @@ def test_dashboard_reports_malformed_csv_header(tmp_path: Path) -> None:
         page.get_by_text("history.csv missing model_version").wait_for()
 
 
+def test_dashboard_ignores_malformed_optional_provenance(tmp_path: Path) -> None:
+    site = _copy_site(tmp_path)
+    metadata_path = site / "data" / "us" / "gdp" / "metadata.json"
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    metadata["downloads"].append("g10_experimental_summary.json")
+    metadata_path.write_text(json.dumps(metadata), encoding="utf-8")
+    (site / "data" / "us" / "gdp" / "g10_experimental_summary.json").write_text("{bad json", encoding="utf-8")
+
+    with _served_site(site) as root, _browser_page() as page:
+        page.goto(root + "/", wait_until="networkidle")
+        page.get_by_text("United States GDP").wait_for()
+        page.get_by_role("button", name="Downloads").click()
+        page.get_by_text("g10_experimental_summary.json").wait_for()
+
+
 def _copy_site(tmp_path: Path) -> Path:
     destination = tmp_path / "site"
     shutil.copytree("site", destination)
@@ -94,7 +111,12 @@ class _served_site:
 
 class _browser_page:
     def __enter__(self):
-        self.playwright = sync_playwright().start()
+        if not _playwright_transport_available():
+            pytest.skip("Playwright transport is unavailable in this Windows sandbox")
+        try:
+            self.playwright = sync_playwright().start()
+        except PermissionError as exc:
+            pytest.skip(f"Playwright could not start in this sandbox: {exc}")
         try:
             self.browser = self.playwright.chromium.launch()
         except Error as exc:
@@ -106,3 +128,41 @@ class _browser_page:
     def __exit__(self, *args: object) -> None:
         self.browser.close()
         self.playwright.stop()
+
+
+def _playwright_transport_available() -> bool:
+    if os.name != "nt":
+        return True
+    try:
+        import _winapi  # type: ignore[import-not-found]
+    except ImportError:
+        return True
+    address = tempfile.mktemp(prefix=rf"\\.\pipe\pytest-playwright-{os.getpid()}-")
+    h1 = h2 = None
+    try:
+        h1 = _winapi.CreateNamedPipe(
+            address,
+            _winapi.PIPE_ACCESS_INBOUND | _winapi.FILE_FLAG_FIRST_PIPE_INSTANCE,
+            _winapi.PIPE_WAIT,
+            1,
+            0,
+            8192,
+            _winapi.NMPWAIT_WAIT_FOREVER,
+            _winapi.NULL,
+        )
+        h2 = _winapi.CreateFile(
+            address,
+            _winapi.GENERIC_WRITE,
+            0,
+            _winapi.NULL,
+            _winapi.OPEN_EXISTING,
+            0,
+            _winapi.NULL,
+        )
+        return True
+    except PermissionError:
+        return False
+    finally:
+        for handle in (h2, h1):
+            if handle is not None:
+                _winapi.CloseHandle(handle)

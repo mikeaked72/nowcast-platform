@@ -6,5 +6,5 @@
   "target_name": "GDP QoQ saar",
   "units": "percent",
   "enabled": true,
-  "indicators": ["gdp", "inflation", "exports", "imports"]
+  "indicators": ["gdp", "gdp_experimental", "inflation", "exports", "imports"]
 }

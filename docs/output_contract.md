@@ -35,6 +35,15 @@ Model-backed indicators may also publish diagnostic artifacts listed in `metadat
 - `site/data/us/gdp/component_diagnostics.csv`
 - `site/data/us/gdp/data_inventory.csv`
 
+Experimental G10 outputs may publish additional diagnostics under the same `downloads` mechanism:
+
+- `g10_experimental_summary.json`
+- `g10_smoke.json`
+- `g10_vintage_manifest.json`
+- `g10_processed_manifest.json`
+
+These files are optional diagnostics. They must not replace or relax the required five-file indicator contract.
+
 Examples:
 
 - `site/data/us/gdp/latest.json`

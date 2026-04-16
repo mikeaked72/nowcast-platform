@@ -190,7 +190,7 @@
           item.error ? "unavailable" : formatValue(item.latest.estimate_value, item.metadata),
           item.error ? "n/a" : item.latest.reference_period,
           item.error ? "n/a" : item.latest.as_of_date,
-          item.error ? statusBadge("error") : statusBadge(item.latest.model_status),
+          item.error ? statusBadge("error") : modelStatusBadge(item.latest),
         ])),
       ]),
     );
@@ -232,6 +232,11 @@
         card("Changed releases", String(changedReleases.length), "new rows"),
         card("Contribution movers", String(contributionRows.filter((row) => row.delta !== 0).length), "component deltas"),
       ]),
+      table(["Group", "Rows", "Net impact"], releaseImpactGroups(changedReleases).map((row) => [
+        row.category,
+        String(row.count),
+        formatSigned(row.impact, state.payload.metadata),
+      ])),
       table(["Release", "Source", "Impact", "Category"], changedReleases.map((row) => [
         row.release_name,
         sourceCell(row),
@@ -245,6 +250,17 @@
         formatSigned(row.delta, state.payload.metadata),
       ])),
     );
+  }
+
+  function releaseImpactGroups(rows) {
+    const groups = rows.reduce((output, row) => {
+      const category = row.category || "other";
+      output[category] = output[category] || { category, count: 0, impact: 0 };
+      output[category].count += 1;
+      output[category].impact += Number(row.impact || 0);
+      return output;
+    }, {});
+    return Object.values(groups).sort((left, right) => Math.abs(right.impact) - Math.abs(left.impact));
   }
 
   function renderContributions() {
@@ -512,6 +528,10 @@
       "model_summary.json": state.payload.extras?.modelSummary ? 1 : "",
       "component_diagnostics.csv": state.payload.extras?.componentDiagnostics?.length ?? "",
       "data_inventory.csv": state.payload.extras?.dataInventory?.length ?? "",
+      "g10_experimental_summary.json": state.payload.extras?.g10Summary ? 1 : "",
+      "g10_smoke.json": state.payload.extras?.g10Smoke ? 1 : "",
+      "g10_vintage_manifest.json": state.payload.extras?.g10VintageManifest ? 1 : "",
+      "g10_processed_manifest.json": state.payload.extras?.g10ProcessedManifest ? 1 : "",
     };
     const purposeByFile = {
       "latest.json": "current snapshot",
@@ -522,6 +542,10 @@
       "model_summary.json": "model diagnostics",
       "component_diagnostics.csv": "component fit diagnostics",
       "data_inventory.csv": "source freshness inventory",
+      "g10_experimental_summary.json": "G10 estimate provenance",
+      "g10_smoke.json": "DFM smoke fit metadata",
+      "g10_vintage_manifest.json": "raw vintage manifest",
+      "g10_processed_manifest.json": "processed panel manifest",
     };
     const rootArtifacts = [
       { file: "countries.json", path: "data/countries.json", format: "json", rows: state.countries.length, purpose: "country index" },
@@ -592,12 +616,16 @@
 
   function provenancePanel() {
     const latest = state.payload.latest;
+    const g10Summary = state.payload.extras?.g10Summary;
+    const g10Processed = state.payload.extras?.g10ProcessedManifest;
     const section = div("provenance-panel");
     section.replaceChildren(
       card("Last updated", latest.last_updated_utc, latest.as_of_date),
       card("Site build", siteBuildTime(), "manifest"),
       card("Reference period", latest.reference_period, latest.unit),
       card("Model", latest.model_version, latest.model_status),
+      g10Summary ? card("G10 method", g10Summary.method || "n/a", g10Summary.vintage_date || latest.as_of_date) : document.createDocumentFragment(),
+      g10Processed ? card("Panel coverage", `${g10Processed.monthly_series || 0}M / ${g10Processed.quarterly_series || 0}Q`, `${g10Processed.start || "n/a"} to ${g10Processed.end || "n/a"}`) : document.createDocumentFragment(),
       card("Top source", topSourceLabel(), "largest absolute impact"),
     );
     return section;
@@ -965,7 +993,7 @@
   }
 
   function statusCard(latest) {
-    const article = card("Status", latest.model_status, statusDetail(latest));
+    const article = card("Status", modelStatusLabel(latest), statusDetail(latest));
     article.classList.add(`model-status-${latest.model_status}`);
     return article;
   }
@@ -994,13 +1022,16 @@
     const notice = div("model-notice overview-wide");
     const title = document.createElement("strong");
     const detail = document.createElement("p");
-    title.textContent = "Data-backed experimental tracker";
+    title.textContent = experimentalNoticeTitle();
     detail.textContent = text;
     notice.append(title, detail);
     return notice;
   }
 
   function modelNoticeText() {
+    if (isG10Experimental()) {
+      return "This page is generated from the experimental G10 mixed-frequency pipeline. Treat the estimate as a development output until replay validation and production target extraction are complete.";
+    }
     if (isExperimentalTracker()) {
       return "This page uses real source data with transparent fixed weights. Treat the estimate as an experimental tracking proxy until a full indicator model is added.";
     }
@@ -1008,6 +1039,17 @@
       return "This page is sample scaffold output and is not yet connected to a data-backed indicator model.";
     }
     return "";
+  }
+
+  function experimentalNoticeTitle() {
+    if (isG10Experimental()) {
+      return "Experimental G10 model path";
+    }
+    return "Data-backed experimental tracker";
+  }
+
+  function isG10Experimental() {
+    return state.payload.latest.model_version.startsWith("g10_dfm_experimental");
   }
 
   function isExperimentalTracker() {
@@ -1019,6 +1061,22 @@
     badge.className = `model-status-badge model-status-badge-${status}`;
     badge.textContent = status;
     return badge;
+  }
+
+  function modelStatusBadge(latest) {
+    const badge = statusBadge(latest.model_status);
+    badge.textContent = modelStatusLabel(latest);
+    return badge;
+  }
+
+  function modelStatusLabel(latest) {
+    if (latest.model_version?.startsWith("g10_dfm_experimental")) {
+      return "experimental";
+    }
+    if (latest.model_version?.startsWith("tracking-")) {
+      return "tracker";
+    }
+    return latest.model_status;
   }
 
   function sectionIntro(title, text) {
@@ -1068,7 +1126,11 @@
   async function fetchOptionalJson(path) {
     const response = await fetch(path, { cache: "no-store" });
     if (!response.ok) return null;
-    return response.json();
+    try {
+      return await response.json();
+    } catch {
+      return null;
+    }
   }
 
   async function fetchText(path) {
@@ -1089,6 +1151,18 @@
     if (downloads.includes("data_inventory.csv")) {
       const text = await fetchOptionalText(`${base}/data_inventory.csv`);
       extras.dataInventory = text ? parseCsv(text) : [];
+    }
+    if (downloads.includes("g10_experimental_summary.json")) {
+      extras.g10Summary = await fetchOptionalJson(`${base}/g10_experimental_summary.json`);
+    }
+    if (downloads.includes("g10_smoke.json")) {
+      extras.g10Smoke = await fetchOptionalJson(`${base}/g10_smoke.json`);
+    }
+    if (downloads.includes("g10_vintage_manifest.json")) {
+      extras.g10VintageManifest = await fetchOptionalJson(`${base}/g10_vintage_manifest.json`);
+    }
+    if (downloads.includes("g10_processed_manifest.json")) {
+      extras.g10ProcessedManifest = await fetchOptionalJson(`${base}/g10_processed_manifest.json`);
     }
     return extras;
   }
