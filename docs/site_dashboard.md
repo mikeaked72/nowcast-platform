@@ -42,6 +42,7 @@ Shows:
 
 - net new-release impact by run date
 - summary counts for `new_release`, `carried_forward`, and `pending`
+- source identifiers for each release-impact row
 - the selected run's release-impact table
 - a selected-run CSV download link
 
@@ -51,7 +52,9 @@ Shows a timeline of source release dates for the selected reference period.
 
 ### Downloads
 
-Links directly to the static files used for the selected country/indicator pair.
+Links directly to the static files used for the selected country/indicator pair,
+shows artifact row counts, and surfaces provenance metadata such as schema
+version, model version, source count, and last update time.
 
 ## Release status labels
 

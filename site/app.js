@@ -300,19 +300,22 @@
       .sort((left, right) => statusRank(left.notes) - statusRank(right.notes) || Math.abs(Number(right.impact)) - Math.abs(Number(left.impact)));
     const newRows = rows.filter((row) => row.notes === "new_release");
     const newImpact = newRows.reduce((total, row) => total + Number(row.impact), 0);
+    const sourceCount = unique(rows.map((row) => row.source).filter(Boolean)).length;
     elements.panels["release-impacts"].replaceChildren(
       sectionIntro("Release Impacts", "Latest source surprises and their estimated effect."),
       renderNewsFlowChart(state.payload.releaseImpacts, state.payload.history),
       divWithChildren("impact-summary", [
         card("New releases", String(newRows.length), state.period),
         card("New-release impact", formatSigned(newImpact, state.payload.metadata), "sum of new rows"),
+        card("Sources", String(sourceCount), "selected run"),
         card("Carried forward", String(rows.filter((row) => row.notes === "carried_forward").length), "previous releases"),
         card("Pending", String(rows.filter((row) => row.notes === "pending").length), "not yet released"),
       ]),
       runDownloadLink(rows),
-      table(["Date", "Release", "Actual", "Expected", "Impact", "Status"], rows.map((row) => [
+      table(["Date", "Release", "Source", "Actual", "Expected", "Impact", "Status"], rows.map((row) => [
         row.release_date,
         row.release_name,
+        sourceCell(row),
         number(row.actual_value, state.payload.metadata.decimals),
         number(row.expected_value, state.payload.metadata.decimals),
         formatSigned(row.impact, state.payload.metadata),
@@ -405,6 +408,7 @@
   function renderDownloads() {
     const list = document.createElement("ul");
     const files = state.payload.metadata.downloads || [];
+    const artifacts = downloadArtifacts(files);
     for (const file of files) {
       const item = document.createElement("li");
       const link = document.createElement("a");
@@ -425,12 +429,82 @@
       sectionIntro("Downloads", "Static artifacts for this selection and the country index."),
       divWithChildren("download-grid", [
         card("Artifact count", String(files.length + 1), "including country index"),
+        card("Rows", String(totalRows()), "CSV records"),
+        card("Sources", String(totalSourceCount()), "release-impact source ids"),
         card("Country", state.country.name, state.country.code),
         card("Indicator", state.payload.latest.indicator_name, state.indicator.code),
         card("Schema", `v${state.payload.latest.schema_version}`, state.payload.latest.model_version),
       ]),
+      table(["Artifact", "Format", "Rows", "Purpose"], artifacts.map((artifact) => [
+        artifactLink(artifact),
+        artifact.format,
+        artifact.rows,
+        artifact.purpose,
+      ])),
+      provenancePanel(),
       list,
     );
+  }
+
+  function downloadArtifacts(files) {
+    const rowsByFile = {
+      "history.csv": state.payload.history.length,
+      "contributions.csv": state.payload.contributions.length,
+      "release_impacts.csv": state.payload.releaseImpacts.length,
+      "latest.json": 1,
+      "metadata.json": 1,
+    };
+    const purposeByFile = {
+      "latest.json": "current snapshot",
+      "history.csv": "estimate path",
+      "contributions.csv": "driver chart",
+      "release_impacts.csv": "news table",
+      "metadata.json": "labels and methodology",
+    };
+    return [
+      { file: "countries.json", path: "data/countries.json", format: "json", rows: state.countries.length, purpose: "country index" },
+      ...files.map((file) => ({
+        file,
+        path: `${state.payload.base}/${file}`,
+        format: file.split(".").at(-1),
+        rows: rowsByFile[file] ?? "",
+        purpose: purposeByFile[file] ?? "published artifact",
+      })),
+    ];
+  }
+
+  function artifactLink(artifact) {
+    const link = document.createElement("a");
+    link.href = artifact.path;
+    link.download = artifact.file;
+    link.textContent = artifact.file;
+    return link;
+  }
+
+  function provenancePanel() {
+    const latest = state.payload.latest;
+    const section = div("provenance-panel");
+    section.replaceChildren(
+      card("Last updated", latest.last_updated_utc, latest.as_of_date),
+      card("Reference period", latest.reference_period, latest.unit),
+      card("Model", latest.model_version, latest.model_status),
+      card("Top source", topSourceLabel(), "largest absolute impact"),
+    );
+    return section;
+  }
+
+  function totalRows() {
+    return state.payload.history.length + state.payload.contributions.length + state.payload.releaseImpacts.length;
+  }
+
+  function totalSourceCount() {
+    return unique(state.payload.releaseImpacts.map((row) => row.source).filter(Boolean)).length;
+  }
+
+  function topSourceLabel() {
+    const rows = [...state.payload.releaseImpacts].sort((left, right) => Math.abs(Number(right.impact)) - Math.abs(Number(left.impact)));
+    if (!rows.length) return "n/a";
+    return rows[0].source || rows[0].release_name;
   }
 
   function validatePayload(payload, countryCode, indicatorCode) {
@@ -732,6 +806,10 @@
     const headRow = document.createElement("tr");
     headRow.replaceChildren(...headers.map((header) => headerCell(header)));
     thead.append(headRow);
+    if (!rows.length) {
+      wrap.append(emptyState("No records available for this selection."));
+      return wrap;
+    }
     tbody.replaceChildren(...rows.map((row) => {
       const tr = document.createElement("tr");
       tr.replaceChildren(...row.map((value) => cell(value)));
@@ -840,7 +918,9 @@
 
   function cell(value) {
     const td = document.createElement("td");
-    if (["new_release", "carried_forward", "pending"].includes(value)) {
+    if (value instanceof Node) {
+      td.append(value);
+    } else if (["new_release", "carried_forward", "pending"].includes(value)) {
       const badge = document.createElement("span");
       badge.className = `status-badge ${value}`;
       badge.textContent = value.replace("_", " ");
@@ -849,6 +929,18 @@
       td.textContent = value;
     }
     return td;
+  }
+
+  function sourceCell(row) {
+    const text = row.source || "n/a";
+    if (!row.source_url) {
+      return spanText(text);
+    }
+    const link = document.createElement("a");
+    link.href = row.source_url;
+    link.textContent = text;
+    link.rel = "noreferrer";
+    return link;
   }
 
   function unique(values) {

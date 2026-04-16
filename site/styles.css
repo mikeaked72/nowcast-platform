@@ -120,6 +120,12 @@ select {
   gap: 12px;
 }
 
+.provenance-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
 .download-inline {
   border: 1px solid #c7d4cf;
   border-radius: 8px;
