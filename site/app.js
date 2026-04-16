@@ -170,6 +170,7 @@
       statusCard(latest),
       card("Schema", `v${latest.schema_version}`, latest.model_version),
       card("Cadence", metadata.update_cadence_label, latest.next_update_date),
+      modelNotice(),
       divWithChildren("overview-wide", [
         sectionIntro("Latest news", "Newly incorporated releases for the selected run date."),
         topRows.length
@@ -587,7 +588,9 @@
   function statusText(snapshot, latest) {
     const build = siteBuildTime();
     const extra = build === "unavailable" ? "" : ` Site build ${build}.`;
-    return `Selected run ${snapshot.as_of_date}. Latest update ${latest.as_of_date}. Next update ${latest.next_update_date}.${extra}`;
+    const model = modelNoticeText();
+    const modelText = model ? ` ${model}` : "";
+    return `Selected run ${snapshot.as_of_date}. Latest update ${latest.as_of_date}. Next update ${latest.next_update_date}.${extra}${modelText}`;
   }
 
   function siteBuildTime() {
@@ -912,9 +915,53 @@
   }
 
   function statusCard(latest) {
-    const article = card("Status", latest.model_status, `Updated ${latest.last_updated_utc}`);
+    const article = card("Status", latest.model_status, statusDetail(latest));
     article.classList.add(`model-status-${latest.model_status}`);
     return article;
+  }
+
+  function statusDetail(latest) {
+    if (isExperimentalTracker()) {
+      return "Data-backed experimental tracker";
+    }
+    if (latest.model_status === "sample") {
+      return "Sample scaffold output";
+    }
+    if (latest.model_status === "stale") {
+      return `Stale output, updated ${latest.last_updated_utc}`;
+    }
+    if (latest.model_status === "error") {
+      return `Error output, updated ${latest.last_updated_utc}`;
+    }
+    return `Updated ${latest.last_updated_utc}`;
+  }
+
+  function modelNotice() {
+    const text = modelNoticeText();
+    if (!text) {
+      return document.createDocumentFragment();
+    }
+    const notice = div("model-notice overview-wide");
+    const title = document.createElement("strong");
+    const detail = document.createElement("p");
+    title.textContent = "Data-backed experimental tracker";
+    detail.textContent = text;
+    notice.append(title, detail);
+    return notice;
+  }
+
+  function modelNoticeText() {
+    if (isExperimentalTracker()) {
+      return "This page uses real source data with transparent fixed weights. Treat the estimate as an experimental tracking proxy until a full indicator model is added.";
+    }
+    if (state.payload.latest.model_status === "sample") {
+      return "This page is sample scaffold output and is not yet connected to a data-backed indicator model.";
+    }
+    return "";
+  }
+
+  function isExperimentalTracker() {
+    return state.payload.latest.model_status === "warning" && state.payload.latest.model_version.startsWith("tracking-");
   }
 
   function statusBadge(status) {

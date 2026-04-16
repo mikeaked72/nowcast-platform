@@ -31,6 +31,8 @@ def test_dashboard_tabs_and_selectors_render_in_browser() -> None:
         page.select_option("#country-select", "au")
         page.select_option("#indicator-select", "inflation")
         page.get_by_text("Australia Inflation").wait_for()
+        page.get_by_text("Data-backed experimental tracker").wait_for()
+        page.get_by_text("experimental tracking proxy").wait_for()
 
 
 def test_dashboard_reports_missing_indicator_payload(tmp_path: Path) -> None:

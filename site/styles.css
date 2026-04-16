@@ -146,6 +146,22 @@ select {
   padding: 16px;
 }
 
+.model-notice {
+  border: 1px solid #d6a700;
+  border-radius: 8px;
+  background: #fff9df;
+  color: #3d3420;
+  padding: 16px;
+}
+
+.model-notice strong {
+  display: block;
+}
+
+.model-notice p {
+  margin: 8px 0 0;
+}
+
 article,
 .section-heading,
 .table-wrap,

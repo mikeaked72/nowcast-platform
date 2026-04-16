@@ -30,7 +30,9 @@ def test_site_serves_app_and_generated_payloads() -> None:
         assert "validatePayload" in _text(root + "/app.js")
         assert "provenancePanel" in _text(root + "/app.js")
         assert "renderComparison" in _text(root + "/app.js")
+        assert "Data-backed experimental tracker" in _text(root + "/app.js")
         assert "model-status-badge" in _text(root + "/styles.css")
+        assert "model-notice" in _text(root + "/styles.css")
         manifest = json.loads(_text(root + "/data/manifest.json"))
         assert manifest["schema_version"] == 1
         assert manifest["country_count"] >= 4
@@ -42,6 +44,9 @@ def test_site_serves_app_and_generated_payloads() -> None:
         latest = json.loads(_text(root + "/data/us/gdp/latest.json"))
         assert latest["schema_version"] == 1
         assert latest["model_version"]
+        tracking_latest = json.loads(_text(root + "/data/au/inflation/latest.json"))
+        assert tracking_latest["model_status"] == "warning"
+        assert tracking_latest["model_version"] == "tracking-0.1.0"
         release_header = _text(root + "/data/us/gdp/release_impacts.csv").splitlines()[0]
         assert "source" in release_header
         assert "source_url" in release_header
