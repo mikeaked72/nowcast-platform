@@ -1,4 +1,13 @@
 as_of_date,component_code,component_name,reference_period,contribution,direction,category,unit
-2026-03-15,goods,Goods prices,2026Q3,0.12,positive,prices,percent annualized
-2026-03-15,services,Services prices,2026Q3,0.18,positive,prices,percent annualized
-2026-03-15,energy,Energy prices,2026Q3,-0.08,negative,prices,percent annualized
+2026-01-05,aus_comm_usd,RBA commodity price index,2026Q1,4.6767312807,positive,prices,percent annualized
+2026-01-05,aus_cpi,ABS CPI,2026Q1,7.5585446894,positive,prices,percent annualized
+2026-01-29,aus_comm_usd,RBA commodity price index,2026Q1,4.6767312807,positive,prices,percent annualized
+2026-01-29,aus_cpi,ABS CPI,2026Q1,5.9961641257,positive,prices,percent annualized
+2026-02-05,aus_comm_usd,RBA commodity price index,2026Q1,15.4929568405,positive,prices,percent annualized
+2026-02-05,aus_cpi,ABS CPI,2026Q1,5.9961641257,positive,prices,percent annualized
+2026-03-01,aus_comm_usd,RBA commodity price index,2026Q1,15.4929568405,positive,prices,percent annualized
+2026-03-01,aus_cpi,ABS CPI,2026Q1,4.9191750319,positive,prices,percent annualized
+2026-03-05,aus_comm_usd,RBA commodity price index,2026Q1,6.0085455293,positive,prices,percent annualized
+2026-03-05,aus_cpi,ABS CPI,2026Q1,4.9191750319,positive,prices,percent annualized
+2026-04-05,aus_comm_usd,RBA commodity price index,2026Q2,11.0754114768,positive,prices,percent annualized
+2026-04-05,aus_cpi,ABS CPI,2026Q2,4.9191750319,positive,prices,percent annualized

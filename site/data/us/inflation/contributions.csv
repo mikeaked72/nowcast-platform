@@ -1,4 +1,16 @@
 as_of_date,component_code,component_name,reference_period,contribution,direction,category,unit
-2026-03-15,goods,Goods prices,2026Q3,0.12,positive,prices,percent annualized
-2026-03-15,services,Services prices,2026Q3,0.18,positive,prices,percent annualized
-2026-03-15,energy,Energy prices,2026Q3,-0.08,negative,prices,percent annualized
+2026-01-15,cpiaucsl,Consumer Price Index,2026Q1,-0.3872099105,negative,prices,percent annualized
+2026-01-15,pcepilfe,Core PCE Price Index,2026Q1,0.325854408,positive,prices,percent annualized
+2026-01-15,ppiaco,Producer Price Index,2026Q1,1.8649001036,positive,prices,percent annualized
+2026-01-31,cpiaucsl,Consumer Price Index,2026Q1,-0.3872099105,negative,prices,percent annualized
+2026-01-31,pcepilfe,Core PCE Price Index,2026Q1,0.6027125923,positive,prices,percent annualized
+2026-01-31,ppiaco,Producer Price Index,2026Q1,1.8649001036,positive,prices,percent annualized
+2026-02-15,cpiaucsl,Consumer Price Index,2026Q1,0.1076267464,positive,prices,percent annualized
+2026-02-15,pcepilfe,Core PCE Price Index,2026Q1,0.6027125923,positive,prices,percent annualized
+2026-02-15,ppiaco,Producer Price Index,2026Q1,5.1525820223,positive,prices,percent annualized
+2026-03-03,cpiaucsl,Consumer Price Index,2026Q1,0.1076267464,positive,prices,percent annualized
+2026-03-03,pcepilfe,Core PCE Price Index,2026Q1,0.5045916687,positive,prices,percent annualized
+2026-03-03,ppiaco,Producer Price Index,2026Q1,5.1525820223,positive,prices,percent annualized
+2026-03-15,cpiaucsl,Consumer Price Index,2026Q1,3.3589174975,positive,prices,percent annualized
+2026-03-15,pcepilfe,Core PCE Price Index,2026Q1,0.5045916687,positive,prices,percent annualized
+2026-03-15,ppiaco,Producer Price Index,2026Q1,3.9769842127,positive,prices,percent annualized

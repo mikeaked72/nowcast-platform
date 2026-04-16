@@ -64,6 +64,10 @@ version, model version, source count, and last update time.
 The dashboard also reads `site/data/manifest.json` when present so users can see
 site build freshness without opening every individual payload.
 
+The dashboard reads `site/data/source_coverage.json` when present to show
+data-store freshness, processed parquet coverage, and top source series for the
+selected country.
+
 ## Release status labels
 
 Model-backed indicators can use the `notes` column in `release_impacts.csv` for release status:
@@ -71,3 +75,10 @@ Model-backed indicators can use the `notes` column in `release_impacts.csv` for 
 - `new_release`: the row was newly incorporated on the selected run date
 - `carried_forward`: the row was incorporated on an earlier run and remains active
 - `pending`: the series is not yet released and is held at its expected value
+
+## Experimental tracking outputs
+
+Some early indicator pages use data-backed experimental trackers rather than
+full econometric models. These outputs are marked with `model_status: warning`
+and `model_version: tracking-0.1.0`. The methodology section names the source
+series and states that the result is a transparent tracking proxy.

@@ -1,4 +1,29 @@
 as_of_date,component_code,component_name,reference_period,contribution,direction,category,unit
-2026-03-15,consumption,Consumption,2026Q3,0.22,positive,demand,percent QoQ SAAR
-2026-03-15,investment,Investment,2026Q3,-0.07,negative,investment,percent QoQ SAAR
-2026-03-15,trade,Net trade,2026Q3,0.11,positive,trade,percent QoQ SAAR
+2026-01-05,aus_bbsw90,90-day bank bill swap rate,2026Q1,-0.0109027778,negative,financial,percent QoQ SAAR
+2026-01-05,aus_broadmny,Broad money,2026Q1,-1.3575677907,negative,money,percent QoQ SAAR
+2026-01-05,aus_comm_usd,RBA commodity price index,2026Q1,3.1178208538,positive,trade,percent QoQ SAAR
+2026-01-05,aus_m3,M3 money,2026Q1,-1.6737504492,negative,money,percent QoQ SAAR
+2026-01-30,aus_bbsw90,90-day bank bill swap rate,2026Q1,-0.0109027778,negative,financial,percent QoQ SAAR
+2026-01-30,aus_broadmny,Broad money,2026Q1,0.1791992247,positive,money,percent QoQ SAAR
+2026-01-30,aus_comm_usd,RBA commodity price index,2026Q1,3.1178208538,positive,trade,percent QoQ SAAR
+2026-01-30,aus_m3,M3 money,2026Q1,0.1350238143,positive,money,percent QoQ SAAR
+2026-02-05,aus_bbsw90,90-day bank bill swap rate,2026Q1,-0.01125,negative,financial,percent QoQ SAAR
+2026-02-05,aus_broadmny,Broad money,2026Q1,0.1791992247,positive,money,percent QoQ SAAR
+2026-02-05,aus_comm_usd,RBA commodity price index,2026Q1,10.3286378937,positive,trade,percent QoQ SAAR
+2026-02-05,aus_m3,M3 money,2026Q1,0.1350238143,positive,money,percent QoQ SAAR
+2026-03-02,aus_bbsw90,90-day bank bill swap rate,2026Q1,-0.01125,negative,financial,percent QoQ SAAR
+2026-03-02,aus_broadmny,Broad money,2026Q1,0.7519895343,positive,money,percent QoQ SAAR
+2026-03-02,aus_comm_usd,RBA commodity price index,2026Q1,10.3286378937,positive,trade,percent QoQ SAAR
+2026-03-02,aus_m3,M3 money,2026Q1,0.7989120277,positive,money,percent QoQ SAAR
+2026-03-05,aus_bbsw90,90-day bank bill swap rate,2026Q1,-0.044375,negative,financial,percent QoQ SAAR
+2026-03-05,aus_broadmny,Broad money,2026Q1,0.7519895343,positive,money,percent QoQ SAAR
+2026-03-05,aus_comm_usd,RBA commodity price index,2026Q1,4.0056970195,positive,trade,percent QoQ SAAR
+2026-03-05,aus_m3,M3 money,2026Q1,0.7989120277,positive,money,percent QoQ SAAR
+2026-03-30,aus_bbsw90,90-day bank bill swap rate,2026Q1,-0.044375,negative,financial,percent QoQ SAAR
+2026-03-30,aus_broadmny,Broad money,2026Q1,-0.5059564941,negative,money,percent QoQ SAAR
+2026-03-30,aus_comm_usd,RBA commodity price index,2026Q1,4.0056970195,positive,trade,percent QoQ SAAR
+2026-03-30,aus_m3,M3 money,2026Q1,-0.638504248,negative,money,percent QoQ SAAR
+2026-04-05,aus_bbsw90,90-day bank bill swap rate,2026Q2,-0.0540277778,negative,financial,percent QoQ SAAR
+2026-04-05,aus_broadmny,Broad money,2026Q2,-0.5059564941,negative,money,percent QoQ SAAR
+2026-04-05,aus_comm_usd,RBA commodity price index,2026Q2,7.3836076512,positive,trade,percent QoQ SAAR
+2026-04-05,aus_m3,M3 money,2026Q2,-0.638504248,negative,money,percent QoQ SAAR

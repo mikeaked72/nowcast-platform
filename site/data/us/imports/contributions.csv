@@ -1,4 +1,28 @@
 as_of_date,component_code,component_name,reference_period,contribution,direction,category,unit
-2026-03-15,goods_trade,Goods trade,2026Q3,0.21,positive,trade,percent QoQ SAAR
-2026-03-15,services_trade,Services trade,2026Q3,-0.06,negative,trade,percent QoQ SAAR
-2026-03-15,prices,Trade prices,2026Q3,0.04,positive,prices,percent QoQ SAAR
+2026-01-01,dtwexbgs,Trade Weighted U.S. Dollar Index,2026Q1,-2.8686507771,negative,fx,percent QoQ SAAR
+2026-01-01,payems,Nonfarm Payrolls,2026Q1,-0.3077262615,negative,labor,percent QoQ SAAR
+2026-01-01,rsafs,Advance Retail Sales,2026Q1,-1.6217619754,negative,demand,percent QoQ SAAR
+2026-01-08,dtwexbgs,Trade Weighted U.S. Dollar Index,2026Q1,-2.8686507771,negative,fx,percent QoQ SAAR
+2026-01-08,payems,Nonfarm Payrolls,2026Q1,0.1018338612,positive,labor,percent QoQ SAAR
+2026-01-08,rsafs,Advance Retail Sales,2026Q1,-1.6217619754,negative,demand,percent QoQ SAAR
+2026-01-15,dtwexbgs,Trade Weighted U.S. Dollar Index,2026Q1,-2.8686507771,negative,fx,percent QoQ SAAR
+2026-01-15,payems,Nonfarm Payrolls,2026Q1,0.1018338612,positive,labor,percent QoQ SAAR
+2026-01-15,rsafs,Advance Retail Sales,2026Q1,-2.3574088817,negative,demand,percent QoQ SAAR
+2026-02-01,dtwexbgs,Trade Weighted U.S. Dollar Index,2026Q1,-2.0218441114,negative,fx,percent QoQ SAAR
+2026-02-01,payems,Nonfarm Payrolls,2026Q1,0.1018338612,positive,labor,percent QoQ SAAR
+2026-02-01,rsafs,Advance Retail Sales,2026Q1,-2.3574088817,negative,demand,percent QoQ SAAR
+2026-02-08,dtwexbgs,Trade Weighted U.S. Dollar Index,2026Q1,-2.0218441114,negative,fx,percent QoQ SAAR
+2026-02-08,payems,Nonfarm Payrolls,2026Q1,-0.5455930064,negative,labor,percent QoQ SAAR
+2026-02-08,rsafs,Advance Retail Sales,2026Q1,-2.3574088817,negative,demand,percent QoQ SAAR
+2026-02-15,dtwexbgs,Trade Weighted U.S. Dollar Index,2026Q1,-2.0218441114,negative,fx,percent QoQ SAAR
+2026-02-15,payems,Nonfarm Payrolls,2026Q1,-0.5455930064,negative,labor,percent QoQ SAAR
+2026-02-15,rsafs,Advance Retail Sales,2026Q1,2.0958916419,positive,demand,percent QoQ SAAR
+2026-03-01,dtwexbgs,Trade Weighted U.S. Dollar Index,2026Q1,-3.5152948621,negative,fx,percent QoQ SAAR
+2026-03-01,payems,Nonfarm Payrolls,2026Q1,-0.5455930064,negative,labor,percent QoQ SAAR
+2026-03-01,rsafs,Advance Retail Sales,2026Q1,2.0958916419,positive,demand,percent QoQ SAAR
+2026-03-08,dtwexbgs,Trade Weighted U.S. Dollar Index,2026Q1,-3.5152948621,negative,fx,percent QoQ SAAR
+2026-03-08,payems,Nonfarm Payrolls,2026Q1,0.1877173451,positive,labor,percent QoQ SAAR
+2026-03-08,rsafs,Advance Retail Sales,2026Q1,2.0958916419,positive,demand,percent QoQ SAAR
+2026-04-01,dtwexbgs,Trade Weighted U.S. Dollar Index,2026Q2,5.2993810762,positive,fx,percent QoQ SAAR
+2026-04-01,payems,Nonfarm Payrolls,2026Q2,0.1877173451,positive,labor,percent QoQ SAAR
+2026-04-01,rsafs,Advance Retail Sales,2026Q2,2.0958916419,positive,demand,percent QoQ SAAR
