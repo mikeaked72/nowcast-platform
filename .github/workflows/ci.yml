@@ -35,6 +35,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e .
           if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          python -m playwright install chromium
 
       - name: Run tests
         run: |
@@ -51,6 +52,10 @@ jobs:
       - name: Validate published outputs
         run: |
           python scripts/validate_outputs.py --country us --publish-dir runs/publish/us
+
+      - name: Validate site manifest
+        run: |
+          python -c "import json, pathlib; p = pathlib.Path('runs/publish/manifest.json'); data = json.loads(p.read_text()); assert data['schema_version'] == 1; assert data['artifact_count'] >= 1"
 
       - name: Upload smoke artefacts
         if: always()
