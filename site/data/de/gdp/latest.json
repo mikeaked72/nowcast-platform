@@ -1,0 +1,17 @@
+{
+  "as_of_date": "2026-03-15",
+  "country_code": "de",
+  "country_name": "Germany",
+  "delta_vs_prior": 0.08,
+  "estimate_value": 0.9,
+  "indicator_code": "gdp",
+  "indicator_name": "GDP",
+  "last_updated_utc": "2026-03-15T09:00:00Z",
+  "model_status": "sample",
+  "model_version": "0.1.0",
+  "next_update_date": "2026-03-29",
+  "prior_estimate_value": 0.82,
+  "reference_period": "2026Q3",
+  "schema_version": 1,
+  "unit": "percent QoQ SAAR"
+}

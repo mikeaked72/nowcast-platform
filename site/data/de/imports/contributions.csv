@@ -1,0 +1,4 @@
+as_of_date,component_code,component_name,reference_period,contribution,direction,category,unit
+2026-03-15,goods_trade,Goods trade,2026Q3,0.21,positive,trade,percent QoQ SAAR
+2026-03-15,services_trade,Services trade,2026Q3,-0.06,negative,trade,percent QoQ SAAR
+2026-03-15,prices,Trade prices,2026Q3,0.04,positive,prices,percent QoQ SAAR

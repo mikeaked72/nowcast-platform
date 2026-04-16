@@ -1,0 +1,4 @@
+as_of_date,component_code,component_name,reference_period,contribution,direction,category,unit
+2026-03-15,goods,Goods prices,2026Q3,0.12,positive,prices,percent annualized
+2026-03-15,services,Services prices,2026Q3,0.18,positive,prices,percent annualized
+2026-03-15,energy,Energy prices,2026Q3,-0.08,negative,prices,percent annualized

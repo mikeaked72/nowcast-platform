@@ -471,6 +471,14 @@ def _sample_base(country_code: str, indicator_code: str) -> float:
         ("us", "imports"): 1.7,
         ("au", "gdp"): 1.6,
         ("au", "inflation"): 3.0,
+        ("br", "gdp"): 1.8,
+        ("br", "inflation"): 4.1,
+        ("br", "exports"): 2.2,
+        ("br", "imports"): 1.9,
+        ("de", "gdp"): 0.9,
+        ("de", "inflation"): 2.3,
+        ("de", "exports"): 1.1,
+        ("de", "imports"): 1.0,
     }
     return values.get((country_code, indicator_code), 1.0)
 

@@ -7,7 +7,7 @@
 3. Run pack validation:
 
 ```powershell
-python scripts\run_country.py --country us --validate-pack-only
+python -m nowcast.cli run --country us --skip-model-run --no-validate
 ```
 
 Example:
@@ -35,13 +35,13 @@ Country-specific configuration belongs in `country_packs/`. Do not add country-s
 4. Regenerate site data:
 
 ```powershell
-python scripts\run_all_countries.py --countries us,au --publish-dir site\data
+python scripts\run_all_countries.py --countries us,au,de,br --publish-dir site\data
 ```
 
 5. Validate the output contract:
 
 ```powershell
-python scripts\validate_outputs.py --countries us,au --publish-dir site\data
+python scripts\validate_outputs.py --countries us,au,de,br --publish-dir site\data
 ```
 
 ## Model-output mapping

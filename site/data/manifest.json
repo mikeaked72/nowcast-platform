@@ -1,5 +1,5 @@
 {
-  "artifact_count": 32,
+  "artifact_count": 72,
   "countries": [
     {
       "code": "au",
@@ -32,6 +32,118 @@
         }
       ],
       "name": "Australia"
+    },
+    {
+      "code": "br",
+      "enabled": true,
+      "indicator_count": 4,
+      "indicators": [
+        {
+          "artifact_count": 5,
+          "artifacts": [
+            "contributions.csv",
+            "history.csv",
+            "latest.json",
+            "metadata.json",
+            "release_impacts.csv"
+          ],
+          "code": "gdp",
+          "display_name": "GDP"
+        },
+        {
+          "artifact_count": 5,
+          "artifacts": [
+            "contributions.csv",
+            "history.csv",
+            "latest.json",
+            "metadata.json",
+            "release_impacts.csv"
+          ],
+          "code": "inflation",
+          "display_name": "Inflation"
+        },
+        {
+          "artifact_count": 5,
+          "artifacts": [
+            "contributions.csv",
+            "history.csv",
+            "latest.json",
+            "metadata.json",
+            "release_impacts.csv"
+          ],
+          "code": "exports",
+          "display_name": "Exports"
+        },
+        {
+          "artifact_count": 5,
+          "artifacts": [
+            "contributions.csv",
+            "history.csv",
+            "latest.json",
+            "metadata.json",
+            "release_impacts.csv"
+          ],
+          "code": "imports",
+          "display_name": "Imports"
+        }
+      ],
+      "name": "Brazil"
+    },
+    {
+      "code": "de",
+      "enabled": true,
+      "indicator_count": 4,
+      "indicators": [
+        {
+          "artifact_count": 5,
+          "artifacts": [
+            "contributions.csv",
+            "history.csv",
+            "latest.json",
+            "metadata.json",
+            "release_impacts.csv"
+          ],
+          "code": "gdp",
+          "display_name": "GDP"
+        },
+        {
+          "artifact_count": 5,
+          "artifacts": [
+            "contributions.csv",
+            "history.csv",
+            "latest.json",
+            "metadata.json",
+            "release_impacts.csv"
+          ],
+          "code": "inflation",
+          "display_name": "Inflation"
+        },
+        {
+          "artifact_count": 5,
+          "artifacts": [
+            "contributions.csv",
+            "history.csv",
+            "latest.json",
+            "metadata.json",
+            "release_impacts.csv"
+          ],
+          "code": "exports",
+          "display_name": "Exports"
+        },
+        {
+          "artifact_count": 5,
+          "artifacts": [
+            "contributions.csv",
+            "history.csv",
+            "latest.json",
+            "metadata.json",
+            "release_impacts.csv"
+          ],
+          "code": "imports",
+          "display_name": "Imports"
+        }
+      ],
+      "name": "Germany"
     },
     {
       "code": "us",
@@ -90,8 +202,8 @@
       "name": "United States"
     }
   ],
-  "country_count": 2,
-  "generated_at_utc": "2026-04-16T02:23:21Z",
-  "indicator_count": 6,
+  "country_count": 4,
+  "generated_at_utc": "2026-04-16T11:22:04Z",
+  "indicator_count": 14,
   "schema_version": 1
 }

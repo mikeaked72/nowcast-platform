@@ -1,0 +1,4 @@
+as_of_date,component_code,component_name,reference_period,contribution,direction,category,unit
+2026-03-15,consumption,Consumption,2026Q3,0.22,positive,demand,percent QoQ SAAR
+2026-03-15,investment,Investment,2026Q3,-0.07,negative,investment,percent QoQ SAAR
+2026-03-15,trade,Net trade,2026Q3,0.11,positive,trade,percent QoQ SAAR

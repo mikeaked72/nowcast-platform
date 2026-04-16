@@ -216,8 +216,16 @@ The scaffold publishes:
 - US imports
 - AU GDP
 - AU inflation
+- DE GDP
+- DE inflation
+- DE exports
+- DE imports
+- BR GDP
+- BR inflation
+- BR exports
+- BR imports
 
-US GDP can be generated from the FRED bridge model. The other initial outputs are deterministic sample data that exercise the same static contract.
+US GDP can be generated from the FRED bridge model. The other initial outputs are deterministic sample data that exercise the same static contract while country-specific models are added.
 
 ## Change policy
 

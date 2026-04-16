@@ -1,0 +1,4 @@
+as_of_date,release_date,release_name,indicator_code,indicator_name,latest_as_of_date,prior_as_of_date,reference_period,actual_value,expected_value,surprise,impact,direction,category,unit,notes,source,source_url
+2026-03-15,2026-03-14,Consumption,gdp,GDP,2026-03-15,2026-02-15,2026Q3,2.02,1.8,0.22,0.22,positive,demand,percent QoQ SAAR,sample,consumption,
+2026-03-15,2026-03-13,Investment,gdp,GDP,2026-03-15,2026-02-15,2026Q3,1.73,1.8,-0.07,-0.07,negative,investment,percent QoQ SAAR,sample,investment,
+2026-03-15,2026-03-12,Net trade,gdp,GDP,2026-03-15,2026-02-15,2026Q3,1.91,1.8,0.11,0.11,positive,trade,percent QoQ SAAR,sample,trade,

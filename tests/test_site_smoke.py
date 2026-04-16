@@ -24,13 +24,15 @@ def test_site_serves_app_and_generated_payloads() -> None:
         assert _status(root + "/data/us/gdp/history.csv") == 200
         assert _status(root + "/data/us/gdp/release_impacts.csv") == 200
         assert _status(root + "/data/au/inflation/metadata.json") == 200
+        assert _status(root + "/data/de/gdp/latest.json") == 200
+        assert _status(root + "/data/br/inflation/latest.json") == 200
         assert "validatePayload" in _text(root + "/app.js")
         assert "provenancePanel" in _text(root + "/app.js")
         assert "renderComparison" in _text(root + "/app.js")
         assert "model-status-badge" in _text(root + "/styles.css")
         manifest = json.loads(_text(root + "/data/manifest.json"))
         assert manifest["schema_version"] == 1
-        assert manifest["country_count"] >= 2
+        assert manifest["country_count"] >= 4
         latest = json.loads(_text(root + "/data/us/gdp/latest.json"))
         assert latest["schema_version"] == 1
         assert latest["model_version"]
