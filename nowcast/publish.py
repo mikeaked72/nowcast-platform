@@ -177,7 +177,56 @@ def write_countries_json(publish_dir: Path | str, packs: list[CountryPack]) -> P
             }
         )
     _write_json(countries_path, payload)
+    write_site_manifest(countries_path.parent, packs)
     return countries_path
+
+
+def write_site_manifest(publish_dir: Path | str, packs: list[CountryPack]) -> Path:
+    """Write a lightweight manifest summarising generated site artifacts."""
+
+    root = Path(publish_dir)
+    manifest_path = root / "manifest.json"
+    countries = []
+    artifact_count = 2  # countries.json and manifest.json
+    for pack in sorted(packs, key=lambda item: item.code):
+        indicators = []
+        for indicator_code in pack.indicators:
+            indicator_dir = root / pack.code / indicator_code
+            files = sorted(
+                path.name
+                for path in indicator_dir.iterdir()
+                if path.is_file() and path.suffix in {".csv", ".json"}
+            ) if indicator_dir.exists() else []
+            artifact_count += len(files)
+            indicators.append(
+                {
+                    "code": indicator_code,
+                    "display_name": INDICATORS[indicator_code].display_name,
+                    "artifact_count": len(files),
+                    "artifacts": files,
+                }
+            )
+        countries.append(
+            {
+                "code": pack.code,
+                "name": pack.name,
+                "enabled": pack.enabled,
+                "indicator_count": len(indicators),
+                "indicators": indicators,
+            }
+        )
+    _write_json(
+        manifest_path,
+        {
+            "schema_version": SCHEMA_VERSION,
+            "generated_at_utc": _now_utc_timestamp(),
+            "country_count": len(countries),
+            "indicator_count": sum(country["indicator_count"] for country in countries),
+            "artifact_count": artifact_count,
+            "countries": countries,
+        },
+    )
+    return manifest_path
 
 
 def _payload_from_model_run(pack: CountryPack, meta: IndicatorMeta, model_run: ModelRun) -> dict[str, Any]:
@@ -448,6 +497,10 @@ def _sample_components(indicator_code: str) -> list[tuple[str, str, str, float]]
 
 def _utc_timestamp(day: date) -> str:
     return datetime.combine(day, datetime.min.time(), tzinfo=UTC).replace(hour=9).isoformat().replace("+00:00", "Z")
+
+
+def _now_utc_timestamp() -> str:
+    return datetime.now(tz=UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def _snapshot_prior_as_of_dates(model_run: ModelRun) -> dict[date, str]:

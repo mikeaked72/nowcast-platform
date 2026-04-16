@@ -2,6 +2,7 @@
   const state = {
     schemaVersion: 1,
     countries: [],
+    manifest: null,
     country: null,
     indicator: null,
     period: null,
@@ -18,6 +19,7 @@
     panels: {
       headline: document.getElementById("headline"),
       history: document.getElementById("history"),
+      comparison: document.getElementById("comparison"),
       contributions: document.getElementById("contributions"),
       "release-impacts": document.getElementById("release-impacts"),
       "release-dates": document.getElementById("release-dates"),
@@ -28,7 +30,12 @@
   };
 
   try {
-    state.countries = (await fetchJson("data/countries.json")).filter((country) => country.enabled);
+    const [countries, manifest] = await Promise.all([
+      fetchJson("data/countries.json"),
+      fetchOptionalJson("data/manifest.json"),
+    ]);
+    state.countries = countries.filter((country) => country.enabled);
+    state.manifest = manifest;
     if (!state.countries.length) {
       throw new Error("No enabled countries");
     }
@@ -118,11 +125,15 @@
 
   async function loadCountryOverview(country) {
     return Promise.all(country.indicators.map(async (indicator) => {
-      const [latest, metadata] = await Promise.all([
-        fetchJson(`data/${country.code}/${indicator.code}/latest.json`),
-        fetchJson(`data/${country.code}/${indicator.code}/metadata.json`),
-      ]);
-      return { indicator, latest, metadata };
+      try {
+        const [latest, metadata] = await Promise.all([
+          fetchJson(`data/${country.code}/${indicator.code}/latest.json`),
+          fetchJson(`data/${country.code}/${indicator.code}/metadata.json`),
+        ]);
+        return { indicator, latest, metadata };
+      } catch (error) {
+        return { indicator, error: error.message };
+      }
     }));
   }
 
@@ -130,9 +141,10 @@
     const { latest } = state.payload;
     const snapshot = selectedSnapshot();
     elements.pageTitle.textContent = `${latest.country_name} ${latest.indicator_name}`;
-    elements.status.textContent = `Selected run ${snapshot.as_of_date}. Latest update ${latest.as_of_date}. Next update ${latest.next_update_date}.`;
+    elements.status.textContent = statusText(snapshot, latest);
     renderHeadline();
     renderHistory();
+    renderComparison();
     renderContributions();
     renderReleaseImpacts();
     renderReleaseDates();
@@ -168,11 +180,11 @@
       divWithChildren("overview-wide", [
         sectionIntro(`${latest.country_name} indicators`, "Latest published values across enabled indicators."),
         table(["Indicator", "Latest", "Reference", "Updated", "Status"], state.overview.map((item) => [
-          item.latest.indicator_name,
-          formatValue(item.latest.estimate_value, item.metadata),
-          item.latest.reference_period,
-          item.latest.as_of_date,
-          item.latest.model_status,
+          item.error ? item.indicator.display_name : item.latest.indicator_name,
+          item.error ? "unavailable" : formatValue(item.latest.estimate_value, item.metadata),
+          item.error ? "n/a" : item.latest.reference_period,
+          item.error ? "n/a" : item.latest.as_of_date,
+          item.error ? statusBadge("error") : statusBadge(item.latest.model_status),
         ])),
       ]),
     );
@@ -189,6 +201,42 @@
         row.reference_period,
         formatValue(row.estimate_value, state.payload.metadata),
         formatSigned(row.delta_vs_prior, state.payload.metadata),
+      ])),
+    );
+  }
+
+  function renderComparison() {
+    const snapshot = selectedSnapshot();
+    const prior = priorSnapshot(snapshot);
+    if (!prior) {
+      elements.panels.comparison.replaceChildren(
+        sectionIntro("Run Comparison", "No prior run is available for this reference period."),
+        emptyState("Choose a later run date to compare against a prior estimate."),
+      );
+      return;
+    }
+    const changedReleases = state.payload.releaseImpacts
+      .filter((row) => row.as_of_date === snapshot.as_of_date && row.notes === "new_release")
+      .sort((left, right) => Math.abs(Number(right.impact)) - Math.abs(Number(left.impact)));
+    const contributionRows = contributionDeltas(snapshot.as_of_date, prior.as_of_date);
+    elements.panels.comparison.replaceChildren(
+      sectionIntro("Run Comparison", `${snapshot.as_of_date} compared with ${prior.as_of_date}.`),
+      divWithChildren("impact-summary", [
+        card("Estimate change", formatSigned(Number(snapshot.estimate_value) - Number(prior.estimate_value), state.payload.metadata), "current minus prior"),
+        card("Changed releases", String(changedReleases.length), "new rows"),
+        card("Contribution movers", String(contributionRows.filter((row) => row.delta !== 0).length), "component deltas"),
+      ]),
+      table(["Release", "Source", "Impact", "Category"], changedReleases.map((row) => [
+        row.release_name,
+        sourceCell(row),
+        formatSigned(row.impact, state.payload.metadata),
+        row.category,
+      ])),
+      table(["Component", "Prior", "Current", "Delta"], contributionRows.map((row) => [
+        row.name,
+        formatSigned(row.prior, state.payload.metadata),
+        formatSigned(row.current, state.payload.metadata),
+        formatSigned(row.delta, state.payload.metadata),
       ])),
     );
   }
@@ -486,11 +534,22 @@
     const section = div("provenance-panel");
     section.replaceChildren(
       card("Last updated", latest.last_updated_utc, latest.as_of_date),
+      card("Site build", siteBuildTime(), "manifest"),
       card("Reference period", latest.reference_period, latest.unit),
       card("Model", latest.model_version, latest.model_status),
       card("Top source", topSourceLabel(), "largest absolute impact"),
     );
     return section;
+  }
+
+  function statusText(snapshot, latest) {
+    const build = siteBuildTime();
+    const extra = build === "unavailable" ? "" : ` Site build ${build}.`;
+    return `Selected run ${snapshot.as_of_date}. Latest update ${latest.as_of_date}. Next update ${latest.next_update_date}.${extra}`;
+  }
+
+  function siteBuildTime() {
+    return state.manifest?.generated_at_utc || "unavailable";
   }
 
   function totalRows() {
@@ -597,6 +656,29 @@
 
   function selectedSnapshot() {
     return state.payload.history.find((row) => row.as_of_date === state.period) || state.payload.history.at(-1);
+  }
+
+  function priorSnapshot(snapshot) {
+    const rows = state.payload.history.filter((row) => row.reference_period === snapshot.reference_period);
+    const index = rows.findIndex((row) => row.as_of_date === snapshot.as_of_date);
+    return index > 0 ? rows[index - 1] : null;
+  }
+
+  function contributionDeltas(currentDate, priorDate) {
+    const currentRows = state.payload.contributions.filter((row) => row.as_of_date === currentDate);
+    const priorRows = state.payload.contributions.filter((row) => row.as_of_date === priorDate);
+    const components = unique([...currentRows, ...priorRows].map((row) => row.component_code));
+    return components.map((component) => {
+      const current = contributionValue(state.payload.contributions, currentDate, component);
+      const prior = contributionValue(state.payload.contributions, priorDate, component);
+      return {
+        component,
+        name: labelForComponent(component),
+        current,
+        prior,
+        delta: current - prior,
+      };
+    }).sort((left, right) => Math.abs(right.delta) - Math.abs(left.delta));
   }
 
   function createSvgChart(title, width, height) {
@@ -788,6 +870,13 @@
     return article;
   }
 
+  function statusBadge(status) {
+    const badge = document.createElement("span");
+    badge.className = `model-status-badge model-status-badge-${status}`;
+    badge.textContent = status;
+    return badge;
+  }
+
   function sectionIntro(title, text) {
     const wrapper = div("section-heading");
     const h2 = document.createElement("h2");
@@ -829,6 +918,12 @@
   async function fetchJson(path) {
     const response = await fetch(path, { cache: "no-store" });
     if (!response.ok) throw new Error(`Could not load ${path}`);
+    return response.json();
+  }
+
+  async function fetchOptionalJson(path) {
+    const response = await fetch(path, { cache: "no-store" });
+    if (!response.ok) return null;
     return response.json();
   }
 
@@ -920,6 +1015,8 @@
     const td = document.createElement("td");
     if (value instanceof Node) {
       td.append(value);
+    } else if (["ok", "sample", "warning", "error", "stale"].includes(value)) {
+      td.append(statusBadge(value));
     } else if (["new_release", "carried_forward", "pending"].includes(value)) {
       const badge = document.createElement("span");
       badge.className = `status-badge ${value}`;

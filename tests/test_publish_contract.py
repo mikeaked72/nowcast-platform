@@ -15,6 +15,7 @@ def test_publish_sample_country_writes_required_contract_files(tmp_path: Path) -
 
     indicator_dir = tmp_path / "us" / "gdp"
     assert (tmp_path / "countries.json").exists()
+    assert (tmp_path / "manifest.json").exists()
     assert (indicator_dir / "latest.json").exists()
     assert (indicator_dir / "history.csv").exists()
     assert (indicator_dir / "contributions.csv").exists()
@@ -100,6 +101,37 @@ def test_validator_rejects_missing_schema_version(tmp_path: Path) -> None:
 
     result = validate_publish_dir(tmp_path, countries=["us"])
     assert any("schema_version" in error for error in result.errors)
+
+
+def test_validator_rejects_missing_payload_file(tmp_path: Path) -> None:
+    publish_sample_country("us", tmp_path, input_path="tests/fixtures/us/model_input.csv")
+    (tmp_path / "us" / "gdp" / "latest.json").unlink()
+
+    result = validate_publish_dir(tmp_path, countries=["us"])
+    assert any("latest.json" in error for error in result.errors)
+
+
+def test_validator_rejects_stale_schema_version(tmp_path: Path) -> None:
+    publish_sample_country("us", tmp_path, input_path="tests/fixtures/us/model_input.csv")
+
+    latest_path = tmp_path / "us" / "gdp" / "latest.json"
+    payload = json.loads(latest_path.read_text(encoding="utf-8"))
+    payload["schema_version"] = 0
+    latest_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    result = validate_publish_dir(tmp_path, countries=["us"])
+    assert any("schema_version must be 1" in error for error in result.errors)
+
+
+def test_validator_rejects_malformed_history_header(tmp_path: Path) -> None:
+    publish_sample_country("us", tmp_path, input_path="tests/fixtures/us/model_input.csv")
+
+    history_path = tmp_path / "us" / "gdp" / "history.csv"
+    text = history_path.read_text(encoding="utf-8")
+    history_path.write_text(text.replace("model_version", "model_build", 1), encoding="utf-8")
+
+    result = validate_publish_dir(tmp_path, countries=["us"])
+    assert any("history.csv" in error and "model_version" in error for error in result.errors)
 
 
 def test_workflow_script_smoke_run_and_validation(tmp_path: Path) -> None:

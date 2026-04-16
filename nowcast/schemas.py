@@ -23,6 +23,14 @@ ALLOWED_UNITS = {
     "percentage points",
 }
 COUNTRIES_REQUIRED_FIELDS = {"code", "name", "default_target", "enabled", "indicators"}
+MANIFEST_REQUIRED_FIELDS = {
+    "schema_version",
+    "generated_at_utc",
+    "country_count",
+    "indicator_count",
+    "artifact_count",
+    "countries",
+}
 INDICATOR_REQUIRED_FILES = {
     "latest.json",
     "history.csv",
@@ -119,7 +127,9 @@ def validate_publish_dir(
     root = Path(publish_dir)
     errors: list[str] = []
     countries_path = _countries_path(root)
+    manifest_path = countries_path.parent / "manifest.json"
     country_entries = _validate_countries_json(countries_path, errors, countries)
+    _validate_manifest_json(manifest_path, errors, country_entries)
 
     for entry in country_entries:
         country_code = entry["code"]
@@ -201,6 +211,35 @@ def _validate_countries_json(
             errors.append(f"{countries_path}: missing requested countries {missing_requested}")
 
     return entries
+
+
+def _validate_manifest_json(
+    manifest_path: Path,
+    errors: list[str],
+    country_entries: list[dict[str, Any]],
+) -> None:
+    if not manifest_path.exists():
+        errors.append(f"missing manifest.json at {manifest_path}")
+        return
+    payload = _read_json_object(manifest_path, errors)
+    if payload is None:
+        return
+    missing = MANIFEST_REQUIRED_FIELDS - set(payload)
+    if missing:
+        errors.append(f"{manifest_path}: missing fields {sorted(missing)}")
+    _validate_schema_version(manifest_path, payload.get("schema_version"), errors)
+    _validate_iso_datetime(manifest_path, "generated_at_utc", payload.get("generated_at_utc"), errors)
+    for field in ("country_count", "indicator_count", "artifact_count"):
+        _validate_number(manifest_path, field, payload.get(field), errors)
+    countries = payload.get("countries")
+    if not isinstance(countries, list):
+        errors.append(f"{manifest_path}: countries must be a list")
+        return
+    country_codes = {entry["code"] for entry in country_entries}
+    manifest_codes = {entry.get("code") for entry in countries if isinstance(entry, dict)}
+    missing_codes = sorted(country_codes - manifest_codes)
+    if missing_codes:
+        errors.append(f"{manifest_path}: missing enabled countries {missing_codes}")
 
 
 def _validate_indicator_payload(

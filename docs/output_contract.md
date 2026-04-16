@@ -15,6 +15,7 @@ The publish root is `site/data/`.
 The root must include:
 
 - `site/data/countries.json`
+- `site/data/manifest.json`
 
 For every enabled country and indicator pair, the publish step must generate:
 
@@ -63,6 +64,19 @@ Example:
   }
 ]
 ```
+
+## manifest.json
+
+This file summarises the latest generated site payload.
+
+Required fields:
+
+- `schema_version`: integer, currently `1`
+- `generated_at_utc`: UTC timestamp in `YYYY-MM-DDTHH:MM:SSZ` form
+- `country_count`
+- `indicator_count`
+- `artifact_count`
+- `countries`: list of country entries with indicator artifact summaries
 
 ## metadata.json
 
