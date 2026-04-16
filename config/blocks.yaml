@@ -1,0 +1,32 @@
+# config/blocks.yaml
+# Factor block definitions. Each country's YAML assigns series to blocks.
+# Every series loads on `global` plus at least one themed block.
+
+blocks:
+  global:
+    description: Common business-cycle factor. Every series loads here.
+    factor_multiplicity: 1
+
+  real:
+    description: Industrial production, capacity, real sales, PMI output.
+    factor_multiplicity: 1
+
+  labour:
+    description: Employment, unemployment, hours, earnings, claims.
+    factor_multiplicity: 1
+
+  prices:
+    description: CPI/HICP, core, PPI, import prices, wage pressure.
+    factor_multiplicity: 1
+
+  external:
+    description: Exports, imports, trade balance, real effective FX.
+    factor_multiplicity: 1
+
+  financial:
+    description: Term spread, credit spread, equity index, policy rate, M2.
+    factor_multiplicity: 1
+
+  soft:
+    description: Surveys, consumer & business confidence, PMI sentiment.
+    factor_multiplicity: 1

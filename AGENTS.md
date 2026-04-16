@@ -3,6 +3,10 @@
 ## Purpose
 This repository builds multi-country nowcast outputs from API and source data, validates them, and publishes static artefacts for the `site/` frontend.
 
+The current implementation has two layers that must remain compatible:
+- the existing static site/output contract in `nowcast/`, `country_packs/`, and `site/`
+- the new G10 mixed-frequency DynamicFactorMQ architecture described in `docs/spec.md`
+
 ## Architecture
 - `nowcast/` = Python package for ingestion, transformation, fitting, news decomposition, and publishing.
 - `country_packs/` = country-specific configuration only.
@@ -10,6 +14,8 @@ This repository builds multi-country nowcast outputs from API and source data, v
 - `tests/` = unit, smoke, and contract tests.
 - `runs/` = local artefacts only. Never rely on these as committed source data.
 - `docs/` = architecture, contract, and deployment notes.
+- `config/` = G10 model, block, and country configuration.
+- `prompts/` = reusable project prompts and handoff prompts.
 
 ## Working assumptions
 - The frontend consumes prebuilt files under `site/data/<country>/`.
@@ -66,12 +72,21 @@ Work in:
 Do not change modelling logic during deployment-only tasks unless the deploy is failing because the generated outputs are invalid.
 
 ## Output contract
-For each country, the published site payload must contain:
-- `site/data/<country>/nowcast_latest.json`
-- `site/data/<country>/nowcast_history.csv`
-- `site/data/<country>/news_latest_vs_prior.csv`
+For each enabled country and indicator, the published site payload must contain:
+- `site/data/<country>/<indicator>/latest.json`
+- `site/data/<country>/<indicator>/history.csv`
+- `site/data/<country>/<indicator>/contributions.csv`
+- `site/data/<country>/<indicator>/release_impacts.csv`
+- `site/data/<country>/<indicator>/metadata.json`
+
+Model-backed indicators may publish additional diagnostics listed in `metadata.json`.
 
 See `docs/output_contract.md` for the field-level contract.
+
+## G10 model direction
+The target production model is `statsmodels.tsa.statespace.DynamicFactorMQ`, with country configuration under `config/countries/`.
+
+Until the full DFM/replay path is implemented, keep the existing US component bridge and static website output working. New DFM code should live under `nowcast/g10/` and should not move modelling logic into `site/`.
 
 ## Definition of done
 A task is not done unless:
@@ -89,13 +104,12 @@ A task is not done unless:
 - When changing the contract, update fixtures first so failures become explicit.
 
 ## Commands
-Replace these placeholders with real project commands once the environment is finalised.
-
 - install: `make install`
-- test: `pytest -q`
-- smoke model run: `python -m nowcast.cli run --country us --as-of 2026-03`
-- validate publish contract: `python scripts/validate_outputs.py --country us`
+- test: `make test`
+- smoke model run: `python -m nowcast.cli run --country us --publish-dir site/data --no-download`
+- validate publish contract: `python scripts/validate_outputs.py --countries us,au,de,br --publish-dir site/data`
 - local site preview: `python -m http.server 3000 -d site`
+- G10 config check: `python -m nowcast.cli g10-check-config --iso US`
 
 If these commands are wrong for the repo state, update this file in the same commit that introduces the new canonical commands.
 

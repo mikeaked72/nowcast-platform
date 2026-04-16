@@ -25,6 +25,20 @@ def main(argv: list[str] | None = None) -> int:
     run_parser.add_argument("--no-download", action="store_true", help="Use existing source files without downloading")
     run_parser.add_argument("--no-validate", action="store_true", help="Skip output contract validation")
 
+    g10_check_parser = subparsers.add_parser("g10-check-config", help="Validate one G10 country config")
+    g10_check_parser.add_argument("--iso", default="US", help="ISO country code, for example US")
+
+    g10_daily_parser = subparsers.add_parser("g10-daily", help="Future G10 daily DynamicFactorMQ loop")
+    g10_daily_parser.add_argument("--iso", help="Optional ISO country code")
+
+    g10_replay_parser = subparsers.add_parser("g10-replay", help="Future G10 historical replay")
+    g10_replay_parser.add_argument("--iso", default="US", help="ISO country code")
+    g10_replay_parser.add_argument("--start", help="Replay start vintage")
+    g10_replay_parser.add_argument("--end", help="Replay end vintage")
+
+    g10_refit_parser = subparsers.add_parser("g10-refit", help="Future G10 full DFM refit")
+    g10_refit_parser.add_argument("--iso", default="US", help="ISO country code")
+
     args = parser.parse_args(argv)
 
     if args.command == "run":
@@ -48,6 +62,24 @@ def main(argv: list[str] | None = None) -> int:
         print(f"published {result.country_code} to {result.country_publish_dir}")
         print(f"model input {result.input_path}")
         return 0
+
+    if args.command == "g10-check-config":
+        try:
+            from nowcast.g10.config import load_country_config
+
+            config = load_country_config(args.iso)
+        except Exception as exc:
+            print(f"g10 config check failed: {exc}", file=sys.stderr)
+            return 1
+        print(f"loaded {config['iso']} config with {len(config.get('targets', {}))} targets")
+        return 0
+
+    if args.command in {"g10-daily", "g10-replay", "g10-refit"}:
+        print(
+            f"{args.command} is scaffolded but not implemented yet; see docs/plan.md milestones M4-M5.",
+            file=sys.stderr,
+        )
+        return 2
 
     parser.error(f"unsupported command {args.command}")
     return 2

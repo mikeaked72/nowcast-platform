@@ -7,7 +7,27 @@ name = "nowcast-platform"
 version = "0.1.0"
 description = "Multi-country nowcast publishing scaffold"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "fredapi>=0.5.2",
+    "numpy>=1.26",
+    "pandas>=2.0",
+    "pyarrow>=14.0",
+    "python-dateutil>=2.8",
+    "pyyaml>=6",
+    "requests>=2.28",
+    "statsmodels>=0.14",
+]
+
+[project.optional-dependencies]
+dev = [
+    "mypy>=1.8",
+    "playwright>=1.44",
+    "pytest>=8",
+    "pytest-cov>=5",
+    "ruff>=0.5",
+    "types-PyYAML",
+    "types-requests",
+]
 
 [tool.setuptools.packages.find]
 where = ["."]
@@ -15,3 +35,7 @@ include = ["nowcast*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "network: tests that require external APIs",
+    "slow: long-running model or replay tests",
+]

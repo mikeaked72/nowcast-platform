@@ -1,0 +1,39 @@
+# config/model.yaml
+# Hyperparameters for DynamicFactorMQ. See docs/spec.md §2.2.
+# Changes here should be explained in docs/decisions.md.
+
+dfm:
+  # Order of the VAR on the factors.
+  factor_orders: 2
+
+  # Default multiplicity = 1 factor per block. Override per-block in blocks.yaml
+  # only with evidence.
+  default_factor_multiplicity: 1
+
+  # Idiosyncratic errors as AR(1). Matches Fulton's notebook default.
+  idiosyncratic_ar1: true
+
+  # Internal standardization. Matches statsmodels default. Results are
+  # re-scaled back to original units when reporting.
+  standardize: true
+
+em:
+  max_iterations: 500
+  tolerance: 1.0e-6
+
+  # Starting values. 'two_step' = PCA-based 2-step (Doz, Giannone, Reichlin
+  # 2011) initialisation, which is what DynamicFactorMQ uses by default.
+  init_method: two_step
+
+news:
+  # When computing news impacts, the impact_date convention for quarterly
+  # variables is the last month of the quarter (matches Fulton).
+  quarterly_impact_convention: end_of_quarter
+
+  # How many top contributors to persist per (vintage, target).
+  top_drivers_k: 5
+
+daily_loop:
+  # refit=False on weekdays; full refit on Sundays.
+  weekday_refit: false
+  sunday_refit: true

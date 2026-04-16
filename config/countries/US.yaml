@@ -1,0 +1,125 @@
+# config/countries/US.yaml
+# Country config: what series belong to this country, what their targets are,
+# which blocks each series loads on, and the publication-lag calendar.
+#
+# Edit with care. A change here changes the model.
+
+iso: US
+name: United States
+primary_sources: [fred_md, fred_qd]
+
+# ─────────────────────────────────────────────────────────────────────────
+# Target variables — the things we nowcast.
+# freq:  M or Q
+# lag_days: typical lag from end of reference period to first release.
+# tcode: transformation code per the FRED-MD convention (see docs/spec.md §3.3).
+# ─────────────────────────────────────────────────────────────────────────
+targets:
+  gdp:
+    series: GDPC1
+    description: Real GDP
+    freq: Q
+    tcode: 5      # log diff
+    lag_days: 28
+
+  cpi:
+    series: CPIAUCSL
+    description: CPI, all urban consumers
+    freq: M
+    tcode: 6      # log second diff (matches FRED-MD)
+    lag_days: 14
+
+  employment:
+    series: PAYEMS
+    description: Total nonfarm payrolls
+    freq: M
+    tcode: 5
+    lag_days: 5
+
+  wages:
+    series: CES0500000003
+    description: Average hourly earnings, private
+    freq: M
+    tcode: 5
+    lag_days: 5
+
+  profits:
+    series: CPATAX
+    description: Corporate profits after tax
+    freq: Q
+    tcode: 5
+    lag_days: 56
+
+  imports:
+    series: IMPGS
+    description: Real imports of goods and services
+    freq: Q
+    tcode: 5
+    lag_days: 28
+
+  exports:
+    series: EXPGS
+    description: Real exports of goods and services
+    freq: Q
+    tcode: 5
+    lag_days: 28
+
+  investment:
+    series: GPDIC1
+    description: Real gross private domestic investment
+    freq: Q
+    tcode: 5
+    lag_days: 28
+
+# ─────────────────────────────────────────────────────────────────────────
+# Panel series — the monthly indicators fed into DynamicFactorMQ. This is a
+# minimal seed list. Expand from FRED-MD's full appendix in M1 so that the
+# US panel has ~100 monthly series and the 8 quarterly targets above, matching
+# Fulton's notebook density.
+#
+# Each entry: { series, freq, tcode, blocks }
+# blocks is a list; `global` is always included implicitly.
+# ─────────────────────────────────────────────────────────────────────────
+panel:
+  - { series: INDPRO,    freq: M, tcode: 5, blocks: [real] }
+  - { series: IPMANSICS, freq: M, tcode: 5, blocks: [real] }
+  - { series: CUMFNS,    freq: M, tcode: 1, blocks: [real] }
+  - { series: RPI,       freq: M, tcode: 5, blocks: [real] }
+  - { series: PAYEMS,    freq: M, tcode: 5, blocks: [labour] }
+  - { series: UNRATE,    freq: M, tcode: 2, blocks: [labour] }
+  - { series: AWHMAN,    freq: M, tcode: 1, blocks: [labour] }
+  - { series: ICSA,      freq: M, tcode: 5, blocks: [labour] }
+  - { series: CPIAUCSL,  freq: M, tcode: 6, blocks: [prices] }
+  - { series: CPILFESL,  freq: M, tcode: 6, blocks: [prices] }
+  - { series: PPIACO,    freq: M, tcode: 6, blocks: [prices] }
+  - { series: CES0500000003, freq: M, tcode: 5, blocks: [prices, labour] }
+  - { series: EXUSUKx,   freq: M, tcode: 5, blocks: [external] }
+  - { series: EXJPUSx,   freq: M, tcode: 5, blocks: [external] }
+  - { series: DGS10,     freq: M, tcode: 2, blocks: [financial] }
+  - { series: TB3MS,     freq: M, tcode: 2, blocks: [financial] }
+  - { series: S&P 500,   freq: M, tcode: 5, blocks: [financial] }
+  - { series: BAA,       freq: M, tcode: 2, blocks: [financial] }
+  - { series: UMCSENTx,  freq: M, tcode: 2, blocks: [soft] }
+  - { series: HOUST,     freq: M, tcode: 4, blocks: [real] }
+  # … extend in M1 to the full FRED-MD coverage the panel needs.
+
+# Quarterly panel entries supplement the monthly ones. Include all 8 targets
+# here plus any additional quarterly-only helper series.
+panel_quarterly:
+  - { series: GDPC1,   freq: Q, tcode: 5, blocks: [real] }
+  - { series: CPATAX,  freq: Q, tcode: 5, blocks: [real] }
+  - { series: IMPGS,   freq: Q, tcode: 5, blocks: [external] }
+  - { series: EXPGS,   freq: Q, tcode: 5, blocks: [external] }
+  - { series: GPDIC1,  freq: Q, tcode: 5, blocks: [real] }
+
+# ─────────────────────────────────────────────────────────────────────────
+# Vintage settings.
+# real_vintages_from: earliest date from which we have genuine as-issued
+#                     vintages. Before this date, pseudo vintages are used
+#                     and tagged vintage_kind='pseudo'.
+# ─────────────────────────────────────────────────────────────────────────
+vintages:
+  real_vintages_from:
+    fred_md: 1999-08-01
+    fred_qd: 2018-05-01
+  replay_default_start: 2018-05-01   # earliest joint MD+QD archive
