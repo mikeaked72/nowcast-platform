@@ -12,5 +12,6 @@
   "next_update_date": "2026-03-29",
   "prior_estimate_value": 1.12,
   "reference_period": "2026Q3",
+  "schema_version": 1,
   "unit": "percent QoQ SAAR"
 }

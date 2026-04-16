@@ -51,6 +51,10 @@ jobs:
         run: |
           python scripts/validate_outputs.py --countries "${{ steps.countries.outputs.countries }}" --publish-dir site/data
 
+      - name: Validate site manifest
+        run: |
+          python -c "import json, pathlib; p = pathlib.Path('site/data/manifest.json'); data = json.loads(p.read_text()); assert data['schema_version'] == 1; assert data['artifact_count'] >= 1"
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:

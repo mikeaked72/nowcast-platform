@@ -120,6 +120,12 @@ select {
   gap: 12px;
 }
 
+.provenance-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
 .download-inline {
   border: 1px solid #c7d4cf;
   border-radius: 8px;
@@ -144,6 +150,20 @@ ul {
   border-radius: 8px;
   background: #ffffff;
   padding: 16px;
+}
+
+.model-status-ok {
+  border-color: #3b8c7c;
+}
+
+.model-status-sample,
+.model-status-warning,
+.model-status-stale {
+  border-color: #d6a700;
+}
+
+.model-status-error {
+  border-color: #b85532;
 }
 
 article h2 {
@@ -318,6 +338,31 @@ th {
 .status-badge.pending {
   background: #f5eadf;
   color: #7c3f1d;
+}
+
+.model-status-badge {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.model-status-badge-ok {
+  background: #dff2ec;
+  color: #15594e;
+}
+
+.model-status-badge-sample,
+.model-status-badge-warning,
+.model-status-badge-stale {
+  background: #f3edd2;
+  color: #665000;
+}
+
+.model-status-badge-error {
+  background: #f5dfd8;
+  color: #813516;
 }
 
 dt {

@@ -9,6 +9,10 @@
 ## Why this split
 The model pipeline is Python-heavy and may need package control, scheduling, and validation before deployment. The site is static and should only consume published artefacts.
 
+`site/_headers` sets short cache lifetimes for generated JSON/CSV data and
+longer cache lifetimes for static assets. Keep data cache windows short enough
+that a successful nowcast publish becomes visible without manual cache purges.
+
 ## Recommended Cloudflare mode
 Use Cloudflare Pages Direct Upload from GitHub Actions.
 
@@ -30,7 +34,9 @@ If you also use private data APIs, store those credentials in GitHub secrets as 
 5. Run the publish pipeline for the intended countries.
 6. Write site payloads into `site/data/`.
 7. Validate the published contract.
-8. Deploy `site/` to Cloudflare Pages.
+8. Validate `site/data/manifest.json` so deploy logs show the schema version
+   and generated artifact inventory explicitly.
+9. Deploy `site/` to Cloudflare Pages.
 
 ## Branch model
 - `main` is protected and deployable.

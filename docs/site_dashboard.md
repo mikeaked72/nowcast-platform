@@ -28,6 +28,11 @@ Shows the selected run's estimate, change versus prior run, prior estimate, upda
 
 Shows the estimate path for the selected reference period and a table of run-date estimates.
 
+### Comparison
+
+Shows how the selected run changed versus the prior run in the same reference
+period, including new releases and component contribution deltas.
+
 ### Contributions
 
 Shows:
@@ -42,6 +47,7 @@ Shows:
 
 - net new-release impact by run date
 - summary counts for `new_release`, `carried_forward`, and `pending`
+- source identifiers for each release-impact row
 - the selected run's release-impact table
 - a selected-run CSV download link
 
@@ -51,7 +57,12 @@ Shows a timeline of source release dates for the selected reference period.
 
 ### Downloads
 
-Links directly to the static files used for the selected country/indicator pair.
+Links directly to the static files used for the selected country/indicator pair,
+shows artifact row counts, and surfaces provenance metadata such as schema
+version, model version, source count, and last update time.
+
+The dashboard also reads `site/data/manifest.json` when present so users can see
+site build freshness without opening every individual payload.
 
 ## Release status labels
 

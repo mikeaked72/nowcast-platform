@@ -7,10 +7,30 @@ import json
 from dataclasses import dataclass
 from datetime import date, datetime
 from pathlib import Path
+import re
 from typing import Any
 
 
+SCHEMA_VERSION = 1
+DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+UTC_TIMESTAMP_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
+ALLOWED_MODEL_STATUSES = {"ok", "sample", "warning", "error", "stale"}
+ALLOWED_UNITS = {
+    "index",
+    "percent",
+    "percent annualized",
+    "percent QoQ SAAR",
+    "percentage points",
+}
 COUNTRIES_REQUIRED_FIELDS = {"code", "name", "default_target", "enabled", "indicators"}
+MANIFEST_REQUIRED_FIELDS = {
+    "schema_version",
+    "generated_at_utc",
+    "country_count",
+    "indicator_count",
+    "artifact_count",
+    "countries",
+}
 INDICATOR_REQUIRED_FILES = {
     "latest.json",
     "history.csv",
@@ -19,6 +39,7 @@ INDICATOR_REQUIRED_FILES = {
     "metadata.json",
 }
 LATEST_REQUIRED_FIELDS = {
+    "schema_version",
     "country_code",
     "country_name",
     "indicator_code",
@@ -52,6 +73,7 @@ HISTORY_REQUIRED_COLUMNS = {
     "prior_estimate_value",
     "delta_vs_prior",
     "model_status",
+    "model_version",
 }
 CONTRIBUTIONS_REQUIRED_COLUMNS = {
     "as_of_date",
@@ -64,6 +86,8 @@ CONTRIBUTIONS_REQUIRED_COLUMNS = {
     "unit",
 }
 RELEASE_IMPACTS_REQUIRED_COLUMNS = {
+    "latest_as_of_date",
+    "prior_as_of_date",
     "as_of_date",
     "release_date",
     "release_name",
@@ -78,6 +102,8 @@ RELEASE_IMPACTS_REQUIRED_COLUMNS = {
     "category",
     "unit",
     "notes",
+    "source",
+    "source_url",
 }
 ALLOWED_DIRECTIONS = {"positive", "negative", "neutral"}
 
@@ -101,7 +127,9 @@ def validate_publish_dir(
     root = Path(publish_dir)
     errors: list[str] = []
     countries_path = _countries_path(root)
+    manifest_path = countries_path.parent / "manifest.json"
     country_entries = _validate_countries_json(countries_path, errors, countries)
+    _validate_manifest_json(manifest_path, errors, country_entries)
 
     for entry in country_entries:
         country_code = entry["code"]
@@ -157,8 +185,8 @@ def _validate_countries_json(
             continue
 
         code = entry["code"]
-        if not isinstance(code, str) or not code:
-            errors.append(f"{countries_path}: entry {index} has invalid code")
+        if not isinstance(code, str) or not re.fullmatch(r"[a-z]{2}", code):
+            errors.append(f"{countries_path}: entry {index} code must be a lowercase ISO alpha-2 code")
             continue
         if code in seen_codes:
             errors.append(f"{countries_path}: duplicate country code {code}")
@@ -183,6 +211,35 @@ def _validate_countries_json(
             errors.append(f"{countries_path}: missing requested countries {missing_requested}")
 
     return entries
+
+
+def _validate_manifest_json(
+    manifest_path: Path,
+    errors: list[str],
+    country_entries: list[dict[str, Any]],
+) -> None:
+    if not manifest_path.exists():
+        errors.append(f"missing manifest.json at {manifest_path}")
+        return
+    payload = _read_json_object(manifest_path, errors)
+    if payload is None:
+        return
+    missing = MANIFEST_REQUIRED_FIELDS - set(payload)
+    if missing:
+        errors.append(f"{manifest_path}: missing fields {sorted(missing)}")
+    _validate_schema_version(manifest_path, payload.get("schema_version"), errors)
+    _validate_iso_datetime(manifest_path, "generated_at_utc", payload.get("generated_at_utc"), errors)
+    for field in ("country_count", "indicator_count", "artifact_count"):
+        _validate_number(manifest_path, field, payload.get(field), errors)
+    countries = payload.get("countries")
+    if not isinstance(countries, list):
+        errors.append(f"{manifest_path}: countries must be a list")
+        return
+    country_codes = {entry["code"] for entry in country_entries}
+    manifest_codes = {entry.get("code") for entry in countries if isinstance(entry, dict)}
+    missing_codes = sorted(country_codes - manifest_codes)
+    if missing_codes:
+        errors.append(f"{manifest_path}: missing enabled countries {missing_codes}")
 
 
 def _validate_indicator_payload(
@@ -219,9 +276,12 @@ def _validate_latest(path: Path, country_code: str, indicator_code: str, errors:
         errors.append(f"{path}: country_code must match folder name {country_code}")
     if payload.get("indicator_code") != indicator_code:
         errors.append(f"{path}: indicator_code must match folder name {indicator_code}")
+    _validate_schema_version(path, payload.get("schema_version"), errors)
     _validate_iso_date(path, "as_of_date", payload.get("as_of_date"), errors)
     _validate_iso_date(path, "next_update_date", payload.get("next_update_date"), errors)
     _validate_iso_datetime(path, "last_updated_utc", payload.get("last_updated_utc"), errors)
+    _validate_model_status(path, "model_status", payload.get("model_status"), errors)
+    _validate_unit(path, "unit", payload.get("unit"), errors)
     _validate_number(path, "estimate_value", payload.get("estimate_value"), errors)
     _validate_nullable_number(path, "prior_estimate_value", payload.get("prior_estimate_value"), errors)
     _validate_nullable_number(path, "delta_vs_prior", payload.get("delta_vs_prior"), errors)
@@ -239,6 +299,7 @@ def _validate_metadata(path: Path, country_code: str, indicator_code: str, error
     if payload.get("indicator_code") != indicator_code:
         errors.append(f"{path}: indicator_code must match folder name {indicator_code}")
     _validate_number(path, "decimals", payload.get("decimals"), errors)
+    _validate_unit(path, "unit", payload.get("unit"), errors)
 
 
 def _validate_history(path: Path, errors: list[str]) -> None:
@@ -247,6 +308,8 @@ def _validate_history(path: Path, errors: list[str]) -> None:
         return
     fieldnames, records = rows
     _require_columns(path, fieldnames, HISTORY_REQUIRED_COLUMNS, errors)
+    if not records:
+        errors.append(f"{path}: history must contain at least one row")
     dates: list[date] = []
     for index, row in enumerate(records, start=2):
         parsed_date = _parse_iso_date(row.get("as_of_date"))
@@ -257,6 +320,7 @@ def _validate_history(path: Path, errors: list[str]) -> None:
         _validate_number(path, f"row {index} estimate_value", row.get("estimate_value"), errors)
         _validate_csv_nullable_number(path, f"row {index} prior_estimate_value", row.get("prior_estimate_value"), errors)
         _validate_csv_nullable_number(path, f"row {index} delta_vs_prior", row.get("delta_vs_prior"), errors)
+        _validate_model_status(path, f"row {index} model_status", row.get("model_status"), errors)
     if dates != sorted(dates):
         errors.append(f"{path}: rows must be ordered ascending by as_of_date")
 
@@ -272,6 +336,7 @@ def _validate_contributions(path: Path, errors: list[str]) -> None:
             errors.append(f"{path}: row {index} has invalid as_of_date")
         _validate_number(path, f"row {index} contribution", row.get("contribution"), errors)
         _validate_direction(path, index, row.get("direction"), errors)
+        _validate_unit(path, f"row {index} unit", row.get("unit"), errors)
 
 
 def _validate_release_impacts(path: Path, indicator_code: str, errors: list[str]) -> None:
@@ -283,6 +348,10 @@ def _validate_release_impacts(path: Path, indicator_code: str, errors: list[str]
     for index, row in enumerate(records, start=2):
         if _parse_iso_date(row.get("as_of_date")) is None:
             errors.append(f"{path}: row {index} has invalid as_of_date")
+        if _parse_iso_date(row.get("latest_as_of_date")) is None:
+            errors.append(f"{path}: row {index} has invalid latest_as_of_date")
+        if row.get("prior_as_of_date") and _parse_iso_date(row.get("prior_as_of_date")) is None:
+            errors.append(f"{path}: row {index} has invalid prior_as_of_date")
         if row.get("indicator_code") != indicator_code:
             errors.append(f"{path}: row {index} indicator_code must be {indicator_code}")
         if _parse_iso_date(row.get("release_date")) is None:
@@ -290,6 +359,7 @@ def _validate_release_impacts(path: Path, indicator_code: str, errors: list[str]
         for field in ("actual_value", "expected_value", "surprise", "impact"):
             _validate_number(path, f"row {index} {field}", row.get(field), errors)
         _validate_direction(path, index, row.get("direction"), errors)
+        _validate_unit(path, f"row {index} unit", row.get("unit"), errors)
 
 
 def _read_json_object(path: Path, errors: list[str]) -> dict[str, Any] | None:
@@ -324,19 +394,34 @@ def _validate_direction(path: Path, index: int, value: str | None, errors: list[
         errors.append(f"{path}: row {index} direction must be one of {sorted(ALLOWED_DIRECTIONS)}")
 
 
+def _validate_schema_version(path: Path, value: Any, errors: list[str]) -> None:
+    if value != SCHEMA_VERSION:
+        errors.append(f"{path}: schema_version must be {SCHEMA_VERSION}")
+
+
+def _validate_model_status(path: Path, field: str, value: Any, errors: list[str]) -> None:
+    if value not in ALLOWED_MODEL_STATUSES:
+        errors.append(f"{path}: {field} must be one of {sorted(ALLOWED_MODEL_STATUSES)}")
+
+
+def _validate_unit(path: Path, field: str, value: Any, errors: list[str]) -> None:
+    if value not in ALLOWED_UNITS:
+        errors.append(f"{path}: {field} must be one of {sorted(ALLOWED_UNITS)}")
+
+
 def _validate_iso_date(path: Path, field: str, value: Any, errors: list[str]) -> None:
     if not isinstance(value, str) or _parse_iso_date(value) is None:
-        errors.append(f"{path}: {field} must be an ISO date string")
+        errors.append(f"{path}: {field} must be a YYYY-MM-DD date string")
 
 
 def _validate_iso_datetime(path: Path, field: str, value: Any, errors: list[str]) -> None:
-    if not isinstance(value, str):
-        errors.append(f"{path}: {field} must be an ISO timestamp string")
+    if not isinstance(value, str) or not UTC_TIMESTAMP_RE.fullmatch(value):
+        errors.append(f"{path}: {field} must be a UTC timestamp in YYYY-MM-DDTHH:MM:SSZ form")
         return
     try:
         datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError:
-        errors.append(f"{path}: {field} must be an ISO timestamp string")
+        errors.append(f"{path}: {field} must be a UTC timestamp in YYYY-MM-DDTHH:MM:SSZ form")
 
 
 def _validate_nullable_number(path: Path, field: str, value: Any, errors: list[str]) -> None:
@@ -360,7 +445,7 @@ def _validate_number(path: Path, field: str, value: Any, errors: list[str]) -> N
 
 
 def _parse_iso_date(value: Any) -> date | None:
-    if not isinstance(value, str):
+    if not isinstance(value, str) or not DATE_RE.fullmatch(value):
         return None
     try:
         return date.fromisoformat(value)

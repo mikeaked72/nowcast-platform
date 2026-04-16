@@ -1,0 +1,14 @@
+/data/*.json
+  Cache-Control: public, max-age=60
+
+/data/*.csv
+  Cache-Control: public, max-age=60
+
+/app.js
+  Cache-Control: public, max-age=3600
+
+/styles.css
+  Cache-Control: public, max-age=3600
+
+/*
+  Cache-Control: public, max-age=300
