@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from datetime import date
 from pathlib import Path
 
@@ -36,6 +37,7 @@ def assemble_us_vintage(
     output = Path(vintage_root) / "US" / f"{vintage_date.isoformat()}.parquet"
     output.parent.mkdir(parents=True, exist_ok=True)
     frame.to_parquet(output, index=False)
+    _write_vintage_manifest(output.with_suffix(".json"), frame, md_path, qd_path)
     return output
 
 
@@ -53,3 +55,19 @@ def _latest_raw_file(raw_root: Path | str, source: str, vintage_date: date, file
         raise FileNotFoundError(f"missing raw {source} {filename} for {vintage_date}")
     return latest
 
+
+def _write_vintage_manifest(path: Path, frame: pd.DataFrame, md_path: Path, qd_path: Path) -> None:
+    payload = {
+        "iso": "US",
+        "vintage_date": str(frame["vintage_date"].iloc[0]),
+        "row_count": int(len(frame)),
+        "series_count": int(frame["series_id"].nunique()),
+        "monthly_series": int(frame.loc[frame["freq"] == "M", "series_id"].nunique()),
+        "quarterly_series": int(frame.loc[frame["freq"] == "Q", "series_id"].nunique()),
+        "vintage_kind": sorted(str(item) for item in frame["vintage_kind"].unique()),
+        "sources": {
+            "fred_md": str(md_path),
+            "fred_qd": str(qd_path),
+        },
+    }
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")

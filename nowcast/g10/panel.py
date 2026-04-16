@@ -82,6 +82,10 @@ def _write_manifest(path: Path, iso: str, vintage_date: date, frame: pd.DataFram
         "row_count": int(len(frame)),
         "monthly_series": int(frame.loc[frame["freq"] == "M", "series_id"].nunique()),
         "quarterly_series": int(frame.loc[frame["freq"] == "Q", "series_id"].nunique()),
+        "monthly_rows": int((frame["freq"] == "M").sum()),
+        "quarterly_rows": int((frame["freq"] == "Q").sum()),
+        "start": str(frame["date"].min()) if not frame.empty else None,
+        "end": str(frame["date"].max()) if not frame.empty else None,
         "vintage_kind": sorted(str(item) for item in frame["vintage_kind"].unique()),
     }
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")

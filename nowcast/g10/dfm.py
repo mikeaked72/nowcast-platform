@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
+
+from nowcast.g10.config import load_country_config
 
 
 @dataclass(frozen=True)
@@ -72,10 +75,41 @@ def load_panel_and_fit(
 ) -> Any:
     """Load processed panel files and fit the approved DFM wrapper."""
 
-    monthly = pd.read_parquet(monthly_path)
-    quarterly = pd.read_parquet(quarterly_path) if quarterly_path else None
+    monthly = _monthly_index(pd.read_parquet(monthly_path))
+    quarterly = _quarterly_index(pd.read_parquet(quarterly_path)) if quarterly_path else None
     factors = build_factor_mapping(series_blocks or {column: [] for column in monthly.columns})
     return fit_dynamic_factor_mq(monthly, quarterly=quarterly, factors=factors, options=options)
+
+
+def series_blocks_from_country_config(config: dict[str, Any], available_series: list[str]) -> dict[str, list[str]]:
+    configured = {}
+    for item in [*config.get("panel", []), *config.get("panel_quarterly", [])]:
+        if isinstance(item, dict) and item.get("series") in available_series:
+            configured[str(item["series"])] = [str(block) for block in item.get("blocks", [])]
+    return {series: configured.get(series, []) for series in available_series}
+
+
+def load_country_panel_and_fit(
+    iso: str,
+    *,
+    vintage_date: str,
+    processed_root: Path | str = "data/processed",
+    config_dir: Path | str = "config/countries",
+    options: DFMOptions | None = None,
+) -> Any:
+    root = Path(processed_root) / iso.upper()
+    monthly_path = root / f"monthly_{vintage_date}.parquet"
+    quarterly_path = root / f"quarterly_{vintage_date}.parquet"
+    monthly = _monthly_index(pd.read_parquet(monthly_path))
+    quarterly = _quarterly_index(pd.read_parquet(quarterly_path)) if quarterly_path.exists() else None
+    config = load_country_config(iso, config_dir)
+    series_blocks = series_blocks_from_country_config(config, list(monthly.columns) + ([] if quarterly is None else list(quarterly.columns)))
+    return fit_dynamic_factor_mq(
+        monthly,
+        quarterly=quarterly if quarterly is not None and not quarterly.empty else None,
+        factors=build_factor_mapping(series_blocks),
+        options=options,
+    )
 
 
 def statsmodels_available() -> bool:
@@ -84,3 +118,15 @@ def statsmodels_available() -> bool:
     except ImportError:
         return False
     return True
+
+
+def _monthly_index(frame: pd.DataFrame) -> pd.DataFrame:
+    output = frame.copy()
+    output.index = pd.to_datetime(output.index).to_period("M")
+    return output.sort_index()
+
+
+def _quarterly_index(frame: pd.DataFrame) -> pd.DataFrame:
+    output = frame.copy()
+    output.index = pd.to_datetime(output.index).to_period("Q")
+    return output.sort_index()

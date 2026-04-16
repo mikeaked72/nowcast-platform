@@ -36,6 +36,18 @@ def main(argv: list[str] | None = None) -> int:
     g10_assemble_parser.add_argument("--processed-root", default="data/processed", help="Processed panel root")
     g10_assemble_parser.add_argument("--download", action="store_true", help="Download FRED-MD/QD raw files first")
 
+    g10_coverage_parser = subparsers.add_parser("g10-check-coverage", help="Check country config against a vintage parquet")
+    g10_coverage_parser.add_argument("--iso", default="US", help="ISO country code")
+    g10_coverage_parser.add_argument("--vintage-date", required=True, help="Vintage date in YYYY-MM-DD form")
+    g10_coverage_parser.add_argument("--vintage-root", default="data/vintages", help="Vintage parquet root")
+
+    g10_smoke_parser = subparsers.add_parser("g10-dfm-smoke", help="Fit and persist a tiny G10 DFM smoke run")
+    g10_smoke_parser.add_argument("--iso", default="US", help="ISO country code")
+    g10_smoke_parser.add_argument("--vintage-date", required=True, help="Vintage date in YYYY-MM-DD form")
+    g10_smoke_parser.add_argument("--processed-root", default="data/processed", help="Processed panel root")
+    g10_smoke_parser.add_argument("--artifact-root", default="artifacts", help="Artifact root")
+    g10_smoke_parser.add_argument("--maxiter", type=int, default=2, help="Small EM iteration cap for smoke runs")
+
     g10_daily_parser = subparsers.add_parser("g10-daily", help="Future G10 daily DynamicFactorMQ loop")
     g10_daily_parser.add_argument("--iso", help="Optional ISO country code")
 
@@ -109,6 +121,49 @@ def main(argv: list[str] | None = None) -> int:
         print(f"vintage {vintage_path}")
         print(f"monthly panel {panel_paths.monthly}")
         print(f"quarterly panel {panel_paths.quarterly}")
+        return 0
+
+    if args.command == "g10-check-coverage":
+        try:
+            from nowcast.g10.coverage import check_config_coverage
+
+            vintage_date = parse_as_of(args.vintage_date)
+            if vintage_date is None:
+                raise ValueError("--vintage-date is required")
+            coverage = check_config_coverage(
+                args.iso,
+                vintage_date,
+                vintage_root=Path(args.vintage_root),
+            )
+        except Exception as exc:
+            print(f"g10 coverage check failed: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"{coverage.iso} coverage: {coverage.available_series} available series, "
+            f"{len(coverage.missing_targets)} missing targets, "
+            f"{len(coverage.missing_panel_series)} missing panel series"
+        )
+        if not coverage.ok:
+            print(f"missing targets: {', '.join(coverage.missing_targets) or 'none'}")
+            print(f"missing panel series: {', '.join(coverage.missing_panel_series) or 'none'}")
+            return 1
+        return 0
+
+    if args.command == "g10-dfm-smoke":
+        try:
+            from nowcast.g10.smoke import run_dfm_smoke
+
+            artifact = run_dfm_smoke(
+                args.iso,
+                args.vintage_date,
+                processed_root=Path(args.processed_root),
+                artifact_root=Path(args.artifact_root),
+                maxiter=args.maxiter,
+            )
+        except Exception as exc:
+            print(f"g10 DFM smoke failed: {exc}", file=sys.stderr)
+            return 1
+        print(f"smoke artifact {artifact.path}")
         return 0
 
     if args.command in {"g10-daily", "g10-replay", "g10-refit"}:

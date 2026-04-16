@@ -36,10 +36,10 @@ typecheck:
 ci: test lint typecheck
 
 test-vintage:
-	pytest -q tests/test_g10_transforms.py tests/test_g10_raw_store.py tests/test_g10_vintage.py tests/test_fred_md_loader.py tests/test_g10_assemble_panel.py
+	pytest -q tests/test_g10_transforms.py tests/test_g10_raw_store.py tests/test_g10_vintage.py tests/test_fred_md_loader.py tests/test_g10_assemble_panel.py tests/test_g10_coverage.py
 
 test-replay-smoke:
-	pytest -q -m "not slow and not network" tests/test_g10_dfm.py tests/test_g10_site_adapter.py
+	pytest -q -m "not slow and not network" tests/test_g10_dfm.py tests/test_g10_smoke.py tests/test_g10_site_adapter.py
 
 validate:
 	python scripts/validate_outputs.py --countries us,au,de,br --publish-dir site/data
