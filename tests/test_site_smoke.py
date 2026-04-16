@@ -24,15 +24,20 @@ def test_site_serves_app_and_generated_payloads() -> None:
         assert _status(root + "/data/us/gdp/latest.json") == 200
         assert _status(root + "/data/us/gdp/history.csv") == 200
         assert _status(root + "/data/us/gdp/release_impacts.csv") == 200
+        assert _status(root + "/data/us/gdp/model_summary.json") == 200
+        assert _status(root + "/data/us/gdp/component_diagnostics.csv") == 200
+        assert _status(root + "/data/us/gdp/data_inventory.csv") == 200
         assert _status(root + "/data/au/inflation/metadata.json") == 200
         assert _status(root + "/data/de/gdp/latest.json") == 200
         assert _status(root + "/data/br/inflation/latest.json") == 200
         assert "validatePayload" in _text(root + "/app.js")
         assert "provenancePanel" in _text(root + "/app.js")
         assert "renderComparison" in _text(root + "/app.js")
+        assert "diagnosticsPanel" in _text(root + "/app.js")
         assert "Data-backed experimental tracker" in _text(root + "/app.js")
         assert "model-status-badge" in _text(root + "/styles.css")
         assert "model-notice" in _text(root + "/styles.css")
+        assert "diagnostics-panel" in _text(root + "/styles.css")
         manifest = json.loads(_text(root + "/data/manifest.json"))
         assert manifest["schema_version"] == 1
         assert manifest["country_count"] >= 4
@@ -44,6 +49,15 @@ def test_site_serves_app_and_generated_payloads() -> None:
         latest = json.loads(_text(root + "/data/us/gdp/latest.json"))
         assert latest["schema_version"] == 1
         assert latest["model_version"]
+        metadata = json.loads(_text(root + "/data/us/gdp/metadata.json"))
+        assert "model_summary.json" in metadata["downloads"]
+        assert "component_diagnostics.csv" in metadata["downloads"]
+        summary = json.loads(_text(root + "/data/us/gdp/model_summary.json"))
+        assert summary["latest_components"]
+        diagnostics_header = _text(root + "/data/us/gdp/component_diagnostics.csv").splitlines()[0]
+        assert "training_rmse" in diagnostics_header
+        inventory_header = _text(root + "/data/us/gdp/data_inventory.csv").splitlines()[0]
+        assert "target_quarter_status" in inventory_header
         tracking_latest = json.loads(_text(root + "/data/au/inflation/latest.json"))
         assert tracking_latest["model_status"] == "warning"
         assert tracking_latest["model_version"] == "tracking-0.1.0"

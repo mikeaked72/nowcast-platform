@@ -114,12 +114,14 @@
       fetchText(`${base}/contributions.csv`),
       fetchText(`${base}/release_impacts.csv`),
     ]);
+    const extras = await loadOptionalArtifacts(base, metadata.downloads || []);
     const payload = {
       latest,
       metadata,
       history: parseCsv(historyCsv),
       contributions: parseCsv(contributionsCsv),
       releaseImpacts: parseCsv(releaseImpactsCsv),
+      extras,
       base,
     };
     validatePayload(payload, countryCode, indicatorCode);
@@ -493,6 +495,7 @@
         artifact.rows,
         artifact.purpose,
       ])),
+      diagnosticsPanel(),
       sourceCoveragePanel(),
       provenancePanel(),
       list,
@@ -506,6 +509,9 @@
       "release_impacts.csv": state.payload.releaseImpacts.length,
       "latest.json": 1,
       "metadata.json": 1,
+      "model_summary.json": state.payload.extras?.modelSummary ? 1 : "",
+      "component_diagnostics.csv": state.payload.extras?.componentDiagnostics?.length ?? "",
+      "data_inventory.csv": state.payload.extras?.dataInventory?.length ?? "",
     };
     const purposeByFile = {
       "latest.json": "current snapshot",
@@ -513,6 +519,9 @@
       "contributions.csv": "driver chart",
       "release_impacts.csv": "news table",
       "metadata.json": "labels and methodology",
+      "model_summary.json": "model diagnostics",
+      "component_diagnostics.csv": "component fit diagnostics",
+      "data_inventory.csv": "source freshness inventory",
     };
     const rootArtifacts = [
       { file: "countries.json", path: "data/countries.json", format: "json", rows: state.countries.length, purpose: "country index" },
@@ -538,6 +547,47 @@
     link.download = artifact.file;
     link.textContent = artifact.file;
     return link;
+  }
+
+  function diagnosticsPanel() {
+    const diagnostics = state.payload.extras || {};
+    if (!diagnostics.modelSummary && !diagnostics.componentDiagnostics?.length && !diagnostics.dataInventory?.length) {
+      return emptyState("Model diagnostics are not published for this selection.");
+    }
+    const summary = diagnostics.modelSummary || {};
+    const components = diagnostics.componentDiagnostics || [];
+    const inventory = diagnostics.dataInventory || [];
+    const pending = inventory.filter((row) => row.target_quarter_status === "pending");
+    const released = inventory.filter((row) => row.target_quarter_status === "released");
+    const worstFit = [...components].sort((left, right) => Number(right.training_rmse || 0) - Number(left.training_rmse || 0)).slice(0, 5);
+    const staleInputs = [...inventory].sort((left, right) => left.latest_observation_date.localeCompare(right.latest_observation_date)).slice(0, 8);
+    return divWithChildren("diagnostics-panel", [
+      sectionIntro("Model Diagnostics", "Published run diagnostics for this model-backed output."),
+      divWithChildren("download-grid", [
+        card("Model run", summary.model || state.payload.latest.model_version, summary.latest_as_of_date || state.payload.latest.as_of_date),
+        card("Training window", `${summary.training_start || "n/a"} to ${summary.training_end || "n/a"}`, `${summary.training_rows || "n/a"} rows`),
+        card("Components", String(components.length), "component bridges"),
+        card("Inventory", String(inventory.length), `${released.length} released, ${pending.length} pending`),
+      ]),
+      components.length
+        ? table(["Component", "RMSE", "MAE", "Latest contribution", "Status"], worstFit.map((row) => [
+            row.component_name,
+            number(row.training_rmse, 2),
+            number(row.training_mae, 2),
+            formatSigned(row.latest_contribution, state.payload.metadata),
+            row.latest_release_status,
+          ]))
+        : emptyState("Component diagnostics are unavailable."),
+      inventory.length
+        ? table(["Series", "Role", "Frequency", "Latest observation", "Target-quarter status"], staleInputs.map((row) => [
+            row.series_id,
+            row.role,
+            row.frequency,
+            row.latest_observation_date,
+            row.target_quarter_status,
+          ]))
+        : emptyState("Data inventory is unavailable."),
+    ]);
   }
 
   function provenancePanel() {
@@ -1024,6 +1074,28 @@
   async function fetchText(path) {
     const response = await fetch(path, { cache: "no-store" });
     if (!response.ok) throw new Error(`Could not load ${path}`);
+    return response.text();
+  }
+
+  async function loadOptionalArtifacts(base, downloads) {
+    const extras = {};
+    if (downloads.includes("model_summary.json")) {
+      extras.modelSummary = await fetchOptionalJson(`${base}/model_summary.json`);
+    }
+    if (downloads.includes("component_diagnostics.csv")) {
+      const text = await fetchOptionalText(`${base}/component_diagnostics.csv`);
+      extras.componentDiagnostics = text ? parseCsv(text) : [];
+    }
+    if (downloads.includes("data_inventory.csv")) {
+      const text = await fetchOptionalText(`${base}/data_inventory.csv`);
+      extras.dataInventory = text ? parseCsv(text) : [];
+    }
+    return extras;
+  }
+
+  async function fetchOptionalText(path) {
+    const response = await fetch(path, { cache: "no-store" });
+    if (!response.ok) return "";
     return response.text();
   }
 

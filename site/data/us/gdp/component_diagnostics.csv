@@ -1,0 +1,11 @@
+component_code,component_name,target_series,category,features,aggregation_weight,training_rows,training_start,training_end,training_rmse,training_mae,expected_value,latest_forecast,latest_contribution,latest_release_date,latest_release_status
+pce_durables,Consumer spending: durable goods,PCDGCC96,consumer spending,RSAFS|DSPIC96|PAYEMS,0.0890085775,75,2007Q2,2025Q4,5.8665662592,4.3787965862,4.2234521798,1.4036277797,-0.2509885587,2026-03-08,carried_forward
+pce_nondurables,Consumer spending: nondurable goods,PCNDGC96,consumer spending,RSAFS|DSPIC96|CMRMTSPL,0.1473558774,75,2007Q2,2025Q4,2.5732226675,1.9583960145,2.0027563855,2.1808579914,0.0262443184,2026-03-03,carried_forward
+pce_services,Consumer spending: services,PCESVC96,consumer spending,DSPIC96|PAYEMS,0.4577559402,75,2007Q2,2025Q4,2.3799935581,1.609819583,1.8489232591,1.4711688333,-0.1729193323,2026-03-08,carried_forward
+nonres_fixed_investment,Nonresidential fixed investment,PNFI,investment,DGORDER|AMTMNO|TLNRESCONS|INDPRO,0.181429063,95,2002Q2,2025Q4,4.2025667828,3.3400453524,4.8662636971,3.6930190558,-0.2128606759,2026-03-17,new_release
+residential_investment,Residential investment,PRFI,investment,HOUST|PERMIT|TLRESCONS,0.0491514523,95,2002Q2,2025Q4,7.4354181443,5.5514924769,3.3128081401,6.8710335239,0.1748919452,2026-02-01,carried_forward
+private_inventories,Change in private inventories,A014RE1Q156NBEA,inventories,BUSINV|ISRATIO|AMTMNO,1.0,135,1992Q2,2025Q4,0.3262128657,0.2466150566,0.3044444444,0.0831254297,-0.2213190147,2026-02-25,carried_forward
+exports,Exports,EXPGSC1,trade,INDPRO|CMRMTSPL|DTWEXBGS,0.1116886446,79,2006Q2,2025Q4,6.6644920497,5.1290043041,2.7235689116,5.6322047309,0.3248615923,2026-03-17,new_release
+imports,Imports,IMPGSC1,trade,RSAFS|CMRMTSPL|DTWEXBGS,-0.1519558173,79,2006Q2,2025Q4,8.7615170104,5.9904927527,2.3697883954,6.1230487786,-0.5703297491,2026-03-17,new_release
+federal_government,Federal government spending,FGCEC1,government,PAYEMS|FEDFUNDS,0.0606361914,75,2007Q2,2025Q4,5.1524757964,3.8641876371,1.1057645599,1.3516577332,0.0149100255,2026-03-08,carried_forward
+state_local_government,State and local government spending,SLCEC1,government,PAYEMS|FEDFUNDS,0.1037959783,75,2007Q2,2025Q4,2.7403644519,2.2633046895,0.8710903585,0.809849157,-0.0063565904,2026-03-08,carried_forward

@@ -1,5 +1,5 @@
 {
-  "artifact_count": 72,
+  "artifact_count": 75,
   "countries": [
     {
       "code": "au",
@@ -151,12 +151,15 @@
       "indicator_count": 4,
       "indicators": [
         {
-          "artifact_count": 5,
+          "artifact_count": 8,
           "artifacts": [
+            "component_diagnostics.csv",
             "contributions.csv",
+            "data_inventory.csv",
             "history.csv",
             "latest.json",
             "metadata.json",
+            "model_summary.json",
             "release_impacts.csv"
           ],
           "code": "gdp",
@@ -203,7 +206,7 @@
     }
   ],
   "country_count": 4,
-  "generated_at_utc": "2026-04-16T14:17:23Z",
+  "generated_at_utc": "2026-04-16T14:21:23Z",
   "indicator_count": 14,
   "schema_version": 1
 }

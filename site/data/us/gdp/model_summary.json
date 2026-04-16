@@ -1,0 +1,315 @@
+{
+  "components": [
+    {
+      "aggregation_weight": 0.08900857753379453,
+      "code": "pce_durables",
+      "coefficients": {
+        "DSPIC96": 0.2203178101224386,
+        "PAYEMS": -0.4362627367927584,
+        "RSAFS": 1.201327251546715,
+        "intercept": -0.5392539829567542
+      },
+      "features": [
+        "RSAFS",
+        "DSPIC96",
+        "PAYEMS"
+      ],
+      "target_series": "PCDGCC96",
+      "training_mae": 4.37879658620377,
+      "training_rmse": 5.866566259171488,
+      "training_rows": 75
+    },
+    {
+      "aggregation_weight": 0.14735587738299064,
+      "code": "pce_nondurables",
+      "coefficients": {
+        "CMRMTSPL": 0.2264356851230231,
+        "DSPIC96": -0.027401473505922605,
+        "RSAFS": 0.19549806059595598,
+        "intercept": 1.0283143813586544
+      },
+      "features": [
+        "RSAFS",
+        "DSPIC96",
+        "CMRMTSPL"
+      ],
+      "target_series": "PCNDGC96",
+      "training_mae": 1.9583960145350539,
+      "training_rmse": 2.5732226674703416,
+      "training_rows": 75
+    },
+    {
+      "aggregation_weight": 0.4577559401704765,
+      "code": "pce_services",
+      "coefficients": {
+        "DSPIC96": -0.05358974953828333,
+        "PAYEMS": 0.9871682142843727,
+        "intercept": 1.2240942593989033
+      },
+      "features": [
+        "DSPIC96",
+        "PAYEMS"
+      ],
+      "target_series": "PCESVC96",
+      "training_mae": 1.6098195830019133,
+      "training_rmse": 2.379993558094111,
+      "training_rows": 75
+    },
+    {
+      "aggregation_weight": 0.18142906296536435,
+      "code": "nonres_fixed_investment",
+      "coefficients": {
+        "AMTMNO": 0.18257301887991417,
+        "DGORDER": -0.021134751530676094,
+        "INDPRO": 0.4811970194438264,
+        "TLNRESCONS": 0.36641835152608215,
+        "intercept": 2.616974292671465
+      },
+      "features": [
+        "DGORDER",
+        "AMTMNO",
+        "TLNRESCONS",
+        "INDPRO"
+      ],
+      "target_series": "PNFI",
+      "training_mae": 3.340045352434946,
+      "training_rmse": 4.20256678283653,
+      "training_rows": 95
+    },
+    {
+      "aggregation_weight": 0.04915145232019173,
+      "code": "residential_investment",
+      "coefficients": {
+        "HOUST": 0.0704198134117481,
+        "PERMIT": 0.09757327761327103,
+        "TLRESCONS": 0.6225004273118311,
+        "intercept": 1.1732279158288854
+      },
+      "features": [
+        "HOUST",
+        "PERMIT",
+        "TLRESCONS"
+      ],
+      "target_series": "PRFI",
+      "training_mae": 5.551492476879869,
+      "training_rmse": 7.435418144270197,
+      "training_rows": 95
+    },
+    {
+      "aggregation_weight": 1.0,
+      "code": "private_inventories",
+      "coefficients": {
+        "AMTMNO": 0.0020766135761826976,
+        "BUSINV": 0.05121936720508817,
+        "ISRATIO": 0.004382330961361081,
+        "intercept": 0.11726839268710762
+      },
+      "features": [
+        "BUSINV",
+        "ISRATIO",
+        "AMTMNO"
+      ],
+      "target_series": "A014RE1Q156NBEA",
+      "training_mae": 0.2466150565856059,
+      "training_rmse": 0.32621286570151503,
+      "training_rows": 135
+    },
+    {
+      "aggregation_weight": 0.11168864457307066,
+      "code": "exports",
+      "coefficients": {
+        "CMRMTSPL": -0.12424624034117371,
+        "DTWEXBGS": -0.17376219754527672,
+        "INDPRO": 1.456610684271562,
+        "intercept": 2.8227568601719852
+      },
+      "features": [
+        "INDPRO",
+        "CMRMTSPL",
+        "DTWEXBGS"
+      ],
+      "target_series": "EXPGSC1",
+      "training_mae": 5.129004304116635,
+      "training_rmse": 6.664492049674364,
+      "training_rows": 79
+    },
+    {
+      "aggregation_weight": -0.1519558172975616,
+      "code": "imports",
+      "coefficients": {
+        "CMRMTSPL": 1.5203094947836853,
+        "DTWEXBGS": 0.2234716762657351,
+        "RSAFS": 0.19296794876932455,
+        "intercept": -0.49111606289878473
+      },
+      "features": [
+        "RSAFS",
+        "CMRMTSPL",
+        "DTWEXBGS"
+      ],
+      "target_series": "IMPGSC1",
+      "training_mae": 5.990492752737386,
+      "training_rmse": 8.76151701043207,
+      "training_rows": 79
+    },
+    {
+      "aggregation_weight": 0.06063619137362964,
+      "code": "federal_government",
+      "coefficients": {
+        "FEDFUNDS": -0.0003969635957462474,
+        "PAYEMS": -0.5667083152124189,
+        "intercept": 1.5310568224029608
+      },
+      "features": [
+        "PAYEMS",
+        "FEDFUNDS"
+      ],
+      "target_series": "FGCEC1",
+      "training_mae": 3.864187637119058,
+      "training_rmse": 5.152475796417167,
+      "training_rows": 75
+    },
+    {
+      "aggregation_weight": 0.10379597825035504,
+      "code": "state_local_government",
+      "coefficients": {
+        "FEDFUNDS": 0.0030060346291017693,
+        "PAYEMS": -0.03820165790705238,
+        "intercept": 0.9046015685543235
+      },
+      "features": [
+        "PAYEMS",
+        "FEDFUNDS"
+      ],
+      "target_series": "SLCEC1",
+      "training_mae": 2.263304689464874,
+      "training_rmse": 2.7403644519191173,
+      "training_rows": 75
+    }
+  ],
+  "latest_as_of_date": "2026-03-17",
+  "latest_components": [
+    {
+      "aggregation_weight": 0.0890085775,
+      "category": "consumer spending",
+      "code": "pce_durables",
+      "contribution": -0.2509885587,
+      "expected_value": 4.2234521798,
+      "forecast_value": 1.4036277797,
+      "name": "Consumer spending: durable goods",
+      "release_date": "2026-03-08",
+      "release_status": "carried_forward"
+    },
+    {
+      "aggregation_weight": 0.1473558774,
+      "category": "consumer spending",
+      "code": "pce_nondurables",
+      "contribution": 0.0262443184,
+      "expected_value": 2.0027563855,
+      "forecast_value": 2.1808579914,
+      "name": "Consumer spending: nondurable goods",
+      "release_date": "2026-03-03",
+      "release_status": "carried_forward"
+    },
+    {
+      "aggregation_weight": 0.4577559402,
+      "category": "consumer spending",
+      "code": "pce_services",
+      "contribution": -0.1729193323,
+      "expected_value": 1.8489232591,
+      "forecast_value": 1.4711688333,
+      "name": "Consumer spending: services",
+      "release_date": "2026-03-08",
+      "release_status": "carried_forward"
+    },
+    {
+      "aggregation_weight": 0.181429063,
+      "category": "investment",
+      "code": "nonres_fixed_investment",
+      "contribution": -0.2128606759,
+      "expected_value": 4.8662636971,
+      "forecast_value": 3.6930190558,
+      "name": "Nonresidential fixed investment",
+      "release_date": "2026-03-17",
+      "release_status": "new_release"
+    },
+    {
+      "aggregation_weight": 0.0491514523,
+      "category": "investment",
+      "code": "residential_investment",
+      "contribution": 0.1748919452,
+      "expected_value": 3.3128081401,
+      "forecast_value": 6.8710335239,
+      "name": "Residential investment",
+      "release_date": "2026-02-01",
+      "release_status": "carried_forward"
+    },
+    {
+      "aggregation_weight": 1.0,
+      "category": "inventories",
+      "code": "private_inventories",
+      "contribution": -0.2213190147,
+      "expected_value": 0.3044444444,
+      "forecast_value": 0.0831254297,
+      "name": "Change in private inventories",
+      "release_date": "2026-02-25",
+      "release_status": "carried_forward"
+    },
+    {
+      "aggregation_weight": 0.1116886446,
+      "category": "trade",
+      "code": "exports",
+      "contribution": 0.3248615923,
+      "expected_value": 2.7235689116,
+      "forecast_value": 5.6322047309,
+      "name": "Exports",
+      "release_date": "2026-03-17",
+      "release_status": "new_release"
+    },
+    {
+      "aggregation_weight": -0.1519558173,
+      "category": "trade",
+      "code": "imports",
+      "contribution": -0.5703297491,
+      "expected_value": 2.3697883954,
+      "forecast_value": 6.1230487786,
+      "name": "Imports",
+      "release_date": "2026-03-17",
+      "release_status": "new_release"
+    },
+    {
+      "aggregation_weight": 0.0606361914,
+      "category": "government",
+      "code": "federal_government",
+      "contribution": 0.0149100255,
+      "expected_value": 1.1057645599,
+      "forecast_value": 1.3516577332,
+      "name": "Federal government spending",
+      "release_date": "2026-03-08",
+      "release_status": "carried_forward"
+    },
+    {
+      "aggregation_weight": 0.1037959783,
+      "category": "government",
+      "code": "state_local_government",
+      "contribution": -0.0063565904,
+      "expected_value": 0.8710903585,
+      "forecast_value": 0.809849157,
+      "name": "State and local government spending",
+      "release_date": "2026-03-08",
+      "release_status": "carried_forward"
+    }
+  ],
+  "latest_reference_period": "2026Q1",
+  "latest_release_status_counts": {
+    "carried_forward": 7,
+    "new_release": 3
+  },
+  "model": "us_gdp_component_bridge_v0.3.0",
+  "nowcast_value": 2.0752400138,
+  "target": "GDPC1 real GDP QoQ saar",
+  "target_quarter": "2026Q1",
+  "training_end": "2025Q4",
+  "training_rows": 75,
+  "training_start": "1992Q2"
+}

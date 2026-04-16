@@ -131,6 +131,11 @@ select {
   gap: 12px;
 }
 
+.diagnostics-panel {
+  display: grid;
+  gap: 12px;
+}
+
 .download-inline {
   border: 1px solid #c7d4cf;
   border-radius: 8px;

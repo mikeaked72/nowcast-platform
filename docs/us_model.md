@@ -46,6 +46,8 @@ The model run also writes diagnostics under `runs/input/us/`:
 - `component_diagnostics.csv`: per-component fit diagnostics, training errors, latest forecasts, and latest contribution effects
 - `data_inventory.csv`: per-series freshness, role, frequency, target-quarter availability, and release-date approximation
 
+These diagnostics are copied into `site/data/us/gdp/` and listed in `metadata.json` so the static dashboard can expose them in the downloads and diagnostics view.
+
 ## Current limitations
 - Approximate release lags are used for FRED source series; the model does not yet track official real-time release timestamps or vintages.
 - Missing within-quarter monthly observations are handled through the available quarterly average, not a vintage-aware ragged-edge method.

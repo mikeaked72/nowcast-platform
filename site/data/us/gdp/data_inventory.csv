@@ -1,0 +1,27 @@
+series_id,name,role,components,frequency,category,rows,latest_observation_date,latest_observation_quarter,latest_release_date,target_quarter,target_quarter_observations,target_quarter_latest_period,target_quarter_latest_release_date,target_quarter_status
+A014RE1Q156NBEA,Change in private inventories contribution,component_target,private_inventories,quarterly,inventories,144,2025-10-01,2025Q4,2025-10-01,2026Q1,0,,,pending
+AMTMNO,Manufacturers' new orders: total manufacturing,bridge_feature,nonres_fixed_investment|private_inventories,monthly,production,409,2026-02-01,2026Q1,2026-02-25,2026Q1,2,2026-02-01,2026-02-25,released
+BUSINV,Total business inventories,bridge_feature,private_inventories,monthly,inventories,409,2026-01-01,2026Q1,2026-02-15,2026Q1,1,2026-01-01,2026-02-15,released
+CMRMTSPL,Real manufacturing and trade sales,bridge_feature,exports|imports|pce_nondurables,monthly,demand,433,2026-01-01,2026Q1,2026-02-15,2026Q1,1,2026-01-01,2026-02-15,released
+DGORDER,Manufacturers' new orders: durable goods,bridge_feature,nonres_fixed_investment,monthly,investment,409,2026-02-01,2026Q1,2026-02-25,2026Q1,2,2026-02-01,2026-02-25,released
+DSPIC96,Real Disposable Personal Income,bridge_feature,pce_durables|pce_nondurables|pce_services,monthly,income,434,2026-02-01,2026Q1,2026-03-03,2026Q1,2,2026-02-01,2026-03-03,released
+DTWEXBGS,Trade weighted U.S. dollar index,bridge_feature,exports|imports,daily,trade,5082,2026-04-10,2026Q2,2026-04-11,2026Q1,61,2026-03-31,2026-04-01,released
+EXPGSC1,Real exports of goods and services,component_target,exports,quarterly,trade,144,2025-10-01,2025Q4,2025-10-01,2026Q1,0,,,pending
+FEDFUNDS,Federal funds rate,bridge_feature,federal_government|state_local_government,monthly,financial,435,2026-03-01,2026Q1,2026-03-02,2026Q1,3,2026-03-01,2026-03-02,released
+FGCEC1,Real federal government consumption and investment,component_target,federal_government,quarterly,government,76,2025-10-01,2025Q4,2025-10-01,2026Q1,0,,,pending
+GDPC1,Real Gross Domestic Product,headline_target,,quarterly,target,144,2025-10-01,2025Q4,2025-10-01,2026Q1,0,,,pending
+HOUST,Housing Starts,bridge_feature,residential_investment,monthly,housing,433,2026-01-01,2026Q1,2026-01-21,2026Q1,1,2026-01-01,2026-01-21,released
+IMPGSC1,Real imports of goods and services,component_target,imports,quarterly,trade,144,2025-10-01,2025Q4,2025-10-01,2026Q1,0,,,pending
+INDPRO,Industrial Production Index,bridge_feature,exports|nonres_fixed_investment,monthly,production,435,2026-03-01,2026Q1,2026-03-17,2026Q1,3,2026-03-01,2026-03-17,released
+ISRATIO,Total business inventories to sales ratio,bridge_feature,private_inventories,monthly,inventories,409,2026-01-01,2026Q1,2026-02-15,2026Q1,1,2026-01-01,2026-02-15,released
+PAYEMS,"All Employees, Total Nonfarm",bridge_feature,federal_government|pce_durables|pce_services|state_local_government,monthly,labor,435,2026-03-01,2026Q1,2026-03-08,2026Q1,3,2026-03-01,2026-03-08,released
+PCDGCC96,Real PCE: durable goods,component_target,pce_durables,quarterly,consumer spending,76,2025-10-01,2025Q4,2025-10-01,2026Q1,0,,,pending
+PCESVC96,Real PCE: services,component_target,pce_services,quarterly,consumer spending,76,2025-10-01,2025Q4,2025-10-01,2026Q1,0,,,pending
+PCNDGC96,Real PCE: nondurable goods,component_target,pce_nondurables,quarterly,consumer spending,76,2025-10-01,2025Q4,2025-10-01,2026Q1,0,,,pending
+PERMIT,New private housing permits,bridge_feature,residential_investment,monthly,housing,433,2026-01-01,2026Q1,2026-01-21,2026Q1,1,2026-01-01,2026-01-21,released
+PNFI,Real private nonresidential fixed investment,component_target,nonres_fixed_investment,quarterly,investment,144,2025-10-01,2025Q4,2025-10-01,2026Q1,0,,,pending
+PRFI,Real private residential fixed investment,component_target,residential_investment,quarterly,investment,144,2025-10-01,2025Q4,2025-10-01,2026Q1,0,,,pending
+RSAFS,Advance Retail Sales,bridge_feature,imports|pce_durables|pce_nondurables,monthly,demand,410,2026-02-01,2026Q1,2026-02-15,2026Q1,2,2026-02-01,2026-02-15,released
+SLCEC1,Real state and local government consumption and investment,component_target,state_local_government,quarterly,government,76,2025-10-01,2025Q4,2025-10-01,2026Q1,0,,,pending
+TLNRESCONS,Nonresidential construction spending,bridge_feature,nonres_fixed_investment,monthly,construction,289,2026-01-01,2026Q1,2026-02-01,2026Q1,1,2026-01-01,2026-02-01,released
+TLRESCONS,Residential construction spending,bridge_feature,residential_investment,monthly,construction,289,2026-01-01,2026Q1,2026-02-01,2026Q1,1,2026-01-01,2026-02-01,released

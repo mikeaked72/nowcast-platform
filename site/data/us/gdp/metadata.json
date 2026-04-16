@@ -10,7 +10,10 @@
     "history.csv",
     "contributions.csv",
     "release_impacts.csv",
-    "metadata.json"
+    "metadata.json",
+    "model_summary.json",
+    "component_diagnostics.csv",
+    "data_inventory.csv"
   ],
   "explanatory_text": "A quarterly growth estimate based on source releases available before the official estimate.",
   "faq": [

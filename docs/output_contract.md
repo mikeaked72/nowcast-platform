@@ -29,6 +29,12 @@ For every enabled country and indicator pair, the publish step must generate:
 - `site/data/{country_code}/{indicator_code}/release_impacts.csv`
 - `site/data/{country_code}/{indicator_code}/metadata.json`
 
+Model-backed indicators may also publish diagnostic artifacts listed in `metadata.json` under `downloads`. US GDP currently publishes:
+
+- `site/data/us/gdp/model_summary.json`
+- `site/data/us/gdp/component_diagnostics.csv`
+- `site/data/us/gdp/data_inventory.csv`
+
 Examples:
 
 - `site/data/us/gdp/latest.json`
@@ -117,7 +123,7 @@ Optional but recommended fields:
 - `default_period`
 - `methodology`
 - `faq`
-- `downloads`
+- `downloads`: list of available artifact filenames in the indicator folder
 
 ## latest.json
 
