@@ -32,7 +32,7 @@
     }
   ],
   "indicator_code": "gdp",
-  "methodology": "US GDP uses a transparent bridge model. Public FRED series are converted to quarterly annualized growth rates, a small ridge-regularized regression is estimated against real GDP growth, and each run date incorporates source releases available by that date. Pending releases are held at their training-sample expected values until they arrive.",
+  "methodology": "US GDP uses a transparent component bridge model. Public FRED series are mapped to major expenditure components: consumer spending, fixed investment, inventories, trade, and government spending. Each component bridge is estimated from quarterly component history and monthly or daily source releases, then aggregated with GDP-share weights into a quarter-over-quarter annualized GDP growth estimate. Pending component inputs are held at training-sample expected values until their source releases arrive.",
   "unit": "percent QoQ SAAR",
   "update_cadence_label": "Updated when major activity releases arrive"
 }

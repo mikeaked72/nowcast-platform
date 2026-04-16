@@ -1,51 +1,171 @@
 as_of_date,component_code,component_name,reference_period,contribution,direction,category,unit
-2026-01-08,dspic96,Real Disposable Personal Income,2026Q1,0.0,neutral,income,percent QoQ SAAR
-2026-01-08,houst,Housing Starts,2026Q1,0.0,neutral,housing,percent QoQ SAAR
-2026-01-08,indpro,Industrial Production Index,2026Q1,0.0,neutral,production,percent QoQ SAAR
-2026-01-08,payems,"All Employees, Total Nonfarm",2026Q1,-0.2801802983,negative,labor,percent QoQ SAAR
-2026-01-08,rsafs,Advance Retail Sales,2026Q1,0.0,neutral,demand,percent QoQ SAAR
-2026-01-15,payems,"All Employees, Total Nonfarm",2026Q1,-0.2801802983,negative,labor,percent QoQ SAAR
-2026-01-15,dspic96,Real Disposable Personal Income,2026Q1,0.0,neutral,income,percent QoQ SAAR
-2026-01-15,houst,Housing Starts,2026Q1,0.0,neutral,housing,percent QoQ SAAR
-2026-01-15,indpro,Industrial Production Index,2026Q1,0.0,neutral,production,percent QoQ SAAR
-2026-01-15,rsafs,Advance Retail Sales,2026Q1,-0.6186445995,negative,demand,percent QoQ SAAR
-2026-01-17,payems,"All Employees, Total Nonfarm",2026Q1,-0.2801802983,negative,labor,percent QoQ SAAR
-2026-01-17,rsafs,Advance Retail Sales,2026Q1,-0.6186445995,negative,demand,percent QoQ SAAR
-2026-01-17,dspic96,Real Disposable Personal Income,2026Q1,0.0,neutral,income,percent QoQ SAAR
-2026-01-17,houst,Housing Starts,2026Q1,0.0,neutral,housing,percent QoQ SAAR
-2026-01-17,indpro,Industrial Production Index,2026Q1,0.4188212825,positive,production,percent QoQ SAAR
-2026-01-21,payems,"All Employees, Total Nonfarm",2026Q1,-0.2801802983,negative,labor,percent QoQ SAAR
-2026-01-21,rsafs,Advance Retail Sales,2026Q1,-0.6186445995,negative,demand,percent QoQ SAAR
-2026-01-21,indpro,Industrial Production Index,2026Q1,0.4188212825,positive,production,percent QoQ SAAR
-2026-01-21,dspic96,Real Disposable Personal Income,2026Q1,0.0,neutral,income,percent QoQ SAAR
-2026-01-21,houst,Housing Starts,2026Q1,0.52979656,positive,housing,percent QoQ SAAR
-2026-01-31,payems,"All Employees, Total Nonfarm",2026Q1,-0.2801802983,negative,labor,percent QoQ SAAR
-2026-01-31,rsafs,Advance Retail Sales,2026Q1,-0.6186445995,negative,demand,percent QoQ SAAR
-2026-01-31,indpro,Industrial Production Index,2026Q1,0.4188212825,positive,production,percent QoQ SAAR
-2026-01-31,houst,Housing Starts,2026Q1,0.52979656,positive,housing,percent QoQ SAAR
-2026-01-31,dspic96,Real Disposable Personal Income,2026Q1,-0.001834828,negative,income,percent QoQ SAAR
-2026-02-08,rsafs,Advance Retail Sales,2026Q1,-0.6186445995,negative,demand,percent QoQ SAAR
-2026-02-08,indpro,Industrial Production Index,2026Q1,0.4188212825,positive,production,percent QoQ SAAR
-2026-02-08,houst,Housing Starts,2026Q1,0.52979656,positive,housing,percent QoQ SAAR
-2026-02-08,dspic96,Real Disposable Personal Income,2026Q1,-0.001834828,negative,income,percent QoQ SAAR
-2026-02-08,payems,"All Employees, Total Nonfarm",2026Q1,-0.3458120034,negative,labor,percent QoQ SAAR
-2026-02-15,indpro,Industrial Production Index,2026Q1,0.4188212825,positive,production,percent QoQ SAAR
-2026-02-15,houst,Housing Starts,2026Q1,0.52979656,positive,housing,percent QoQ SAAR
-2026-02-15,dspic96,Real Disposable Personal Income,2026Q1,-0.001834828,negative,income,percent QoQ SAAR
-2026-02-15,payems,"All Employees, Total Nonfarm",2026Q1,-0.3458120034,negative,labor,percent QoQ SAAR
-2026-02-15,rsafs,Advance Retail Sales,2026Q1,-0.4451447324,negative,demand,percent QoQ SAAR
-2026-02-17,houst,Housing Starts,2026Q1,0.52979656,positive,housing,percent QoQ SAAR
-2026-02-17,dspic96,Real Disposable Personal Income,2026Q1,-0.001834828,negative,income,percent QoQ SAAR
-2026-02-17,payems,"All Employees, Total Nonfarm",2026Q1,-0.3458120034,negative,labor,percent QoQ SAAR
-2026-02-17,rsafs,Advance Retail Sales,2026Q1,-0.4451447324,negative,demand,percent QoQ SAAR
-2026-02-17,indpro,Industrial Production Index,2026Q1,0.4717772247,positive,production,percent QoQ SAAR
-2026-03-03,houst,Housing Starts,2026Q1,0.52979656,positive,housing,percent QoQ SAAR
-2026-03-03,payems,"All Employees, Total Nonfarm",2026Q1,-0.3458120034,negative,labor,percent QoQ SAAR
-2026-03-03,rsafs,Advance Retail Sales,2026Q1,-0.4451447324,negative,demand,percent QoQ SAAR
-2026-03-03,indpro,Industrial Production Index,2026Q1,0.4717772247,positive,production,percent QoQ SAAR
-2026-03-03,dspic96,Real Disposable Personal Income,2026Q1,-0.0148934073,negative,income,percent QoQ SAAR
-2026-03-08,houst,Housing Starts,2026Q1,0.52979656,positive,housing,percent QoQ SAAR
-2026-03-08,rsafs,Advance Retail Sales,2026Q1,-0.4451447324,negative,demand,percent QoQ SAAR
-2026-03-08,indpro,Industrial Production Index,2026Q1,0.4717772247,positive,production,percent QoQ SAAR
-2026-03-08,dspic96,Real Disposable Personal Income,2026Q1,-0.0148934073,negative,income,percent QoQ SAAR
-2026-03-08,payems,"All Employees, Total Nonfarm",2026Q1,-0.3091272314,negative,labor,percent QoQ SAAR
+2026-01-02,exports,Exports,2026Q1,0.0,neutral,trade,percent QoQ SAAR
+2026-01-02,federal_government,Federal government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-01-02,imports,Imports,2026Q1,-0.0,neutral,trade,percent QoQ SAAR
+2026-01-02,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,0.0,neutral,investment,percent QoQ SAAR
+2026-01-02,pce_durables,Consumer spending: durable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-02,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-02,pce_services,Consumer spending: services,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-02,private_inventories,Change in private inventories,2026Q1,0.0,neutral,inventories,percent QoQ SAAR
+2026-01-02,residential_investment,Residential investment,2026Q1,0.0,neutral,investment,percent QoQ SAAR
+2026-01-02,state_local_government,State and local government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-01-08,exports,Exports,2026Q1,0.0,neutral,trade,percent QoQ SAAR
+2026-01-08,federal_government,Federal government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-01-08,imports,Imports,2026Q1,-0.0,neutral,trade,percent QoQ SAAR
+2026-01-08,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,0.0,neutral,investment,percent QoQ SAAR
+2026-01-08,pce_durables,Consumer spending: durable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-08,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-08,pce_services,Consumer spending: services,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-08,private_inventories,Change in private inventories,2026Q1,0.0,neutral,inventories,percent QoQ SAAR
+2026-01-08,residential_investment,Residential investment,2026Q1,0.0,neutral,investment,percent QoQ SAAR
+2026-01-08,state_local_government,State and local government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-01-15,exports,Exports,2026Q1,0.0,neutral,trade,percent QoQ SAAR
+2026-01-15,federal_government,Federal government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-01-15,imports,Imports,2026Q1,-0.0,neutral,trade,percent QoQ SAAR
+2026-01-15,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,0.0,neutral,investment,percent QoQ SAAR
+2026-01-15,pce_durables,Consumer spending: durable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-15,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-15,pce_services,Consumer spending: services,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-15,private_inventories,Change in private inventories,2026Q1,0.0,neutral,inventories,percent QoQ SAAR
+2026-01-15,residential_investment,Residential investment,2026Q1,0.0,neutral,investment,percent QoQ SAAR
+2026-01-15,state_local_government,State and local government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-01-17,exports,Exports,2026Q1,0.0,neutral,trade,percent QoQ SAAR
+2026-01-17,federal_government,Federal government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-01-17,imports,Imports,2026Q1,-0.0,neutral,trade,percent QoQ SAAR
+2026-01-17,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,0.0,neutral,investment,percent QoQ SAAR
+2026-01-17,pce_durables,Consumer spending: durable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-17,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-17,pce_services,Consumer spending: services,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-17,private_inventories,Change in private inventories,2026Q1,0.0,neutral,inventories,percent QoQ SAAR
+2026-01-17,residential_investment,Residential investment,2026Q1,0.0,neutral,investment,percent QoQ SAAR
+2026-01-17,state_local_government,State and local government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-01-21,exports,Exports,2026Q1,0.0,neutral,trade,percent QoQ SAAR
+2026-01-21,federal_government,Federal government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-01-21,imports,Imports,2026Q1,-0.0,neutral,trade,percent QoQ SAAR
+2026-01-21,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,0.0,neutral,investment,percent QoQ SAAR
+2026-01-21,pce_durables,Consumer spending: durable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-21,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-21,pce_services,Consumer spending: services,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-21,private_inventories,Change in private inventories,2026Q1,0.0,neutral,inventories,percent QoQ SAAR
+2026-01-21,residential_investment,Residential investment,2026Q1,0.1207587755,positive,investment,percent QoQ SAAR
+2026-01-21,state_local_government,State and local government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-01-25,exports,Exports,2026Q1,0.0,neutral,trade,percent QoQ SAAR
+2026-01-25,federal_government,Federal government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-01-25,imports,Imports,2026Q1,-0.0,neutral,trade,percent QoQ SAAR
+2026-01-25,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,0.0,neutral,investment,percent QoQ SAAR
+2026-01-25,pce_durables,Consumer spending: durable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-25,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-25,pce_services,Consumer spending: services,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-25,private_inventories,Change in private inventories,2026Q1,0.0,neutral,inventories,percent QoQ SAAR
+2026-01-25,residential_investment,Residential investment,2026Q1,0.1207587755,positive,investment,percent QoQ SAAR
+2026-01-25,state_local_government,State and local government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-01-31,exports,Exports,2026Q1,0.0,neutral,trade,percent QoQ SAAR
+2026-01-31,federal_government,Federal government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-01-31,imports,Imports,2026Q1,-0.0,neutral,trade,percent QoQ SAAR
+2026-01-31,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,0.0,neutral,investment,percent QoQ SAAR
+2026-01-31,pce_durables,Consumer spending: durable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-31,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-31,pce_services,Consumer spending: services,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-01-31,private_inventories,Change in private inventories,2026Q1,0.0,neutral,inventories,percent QoQ SAAR
+2026-01-31,residential_investment,Residential investment,2026Q1,0.1207587755,positive,investment,percent QoQ SAAR
+2026-01-31,state_local_government,State and local government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-02-01,exports,Exports,2026Q1,0.0,neutral,trade,percent QoQ SAAR
+2026-02-01,federal_government,Federal government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-02-01,imports,Imports,2026Q1,-0.0,neutral,trade,percent QoQ SAAR
+2026-02-01,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,-0.3739380874,negative,investment,percent QoQ SAAR
+2026-02-01,pce_durables,Consumer spending: durable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-02-01,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-02-01,pce_services,Consumer spending: services,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-02-01,private_inventories,Change in private inventories,2026Q1,0.0,neutral,inventories,percent QoQ SAAR
+2026-02-01,residential_investment,Residential investment,2026Q1,0.1748919452,positive,investment,percent QoQ SAAR
+2026-02-01,state_local_government,State and local government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-02-02,residential_investment,Residential investment,2026Q1,0.1748919452,positive,investment,percent QoQ SAAR
+2026-02-02,exports,Exports,2026Q1,0.0,neutral,trade,percent QoQ SAAR
+2026-02-02,federal_government,Federal government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-02-02,imports,Imports,2026Q1,-0.0,neutral,trade,percent QoQ SAAR
+2026-02-02,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,-0.3739380874,negative,investment,percent QoQ SAAR
+2026-02-02,pce_durables,Consumer spending: durable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-02-02,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-02-02,pce_services,Consumer spending: services,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-02-02,private_inventories,Change in private inventories,2026Q1,0.0,neutral,inventories,percent QoQ SAAR
+2026-02-02,state_local_government,State and local government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-02-08,residential_investment,Residential investment,2026Q1,0.1748919452,positive,investment,percent QoQ SAAR
+2026-02-08,exports,Exports,2026Q1,0.0,neutral,trade,percent QoQ SAAR
+2026-02-08,federal_government,Federal government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-02-08,imports,Imports,2026Q1,-0.0,neutral,trade,percent QoQ SAAR
+2026-02-08,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,-0.3739380874,negative,investment,percent QoQ SAAR
+2026-02-08,pce_durables,Consumer spending: durable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-02-08,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-02-08,pce_services,Consumer spending: services,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-02-08,private_inventories,Change in private inventories,2026Q1,0.0,neutral,inventories,percent QoQ SAAR
+2026-02-08,state_local_government,State and local government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-02-15,residential_investment,Residential investment,2026Q1,0.1748919452,positive,investment,percent QoQ SAAR
+2026-02-15,exports,Exports,2026Q1,-0.0383439307,negative,trade,percent QoQ SAAR
+2026-02-15,federal_government,Federal government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-02-15,imports,Imports,2026Q1,-0.5703297491,negative,trade,percent QoQ SAAR
+2026-02-15,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,-0.3739380874,negative,investment,percent QoQ SAAR
+2026-02-15,pce_durables,Consumer spending: durable goods,2026Q1,-0.2551248376,negative,consumer spending,percent QoQ SAAR
+2026-02-15,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0237705072,positive,consumer spending,percent QoQ SAAR
+2026-02-15,pce_services,Consumer spending: services,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-02-15,private_inventories,Change in private inventories,2026Q1,-0.2206251172,negative,inventories,percent QoQ SAAR
+2026-02-15,state_local_government,State and local government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-02-17,residential_investment,Residential investment,2026Q1,0.1748919452,positive,investment,percent QoQ SAAR
+2026-02-17,exports,Exports,2026Q1,-0.0383439307,negative,trade,percent QoQ SAAR
+2026-02-17,federal_government,Federal government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-02-17,imports,Imports,2026Q1,-0.5703297491,negative,trade,percent QoQ SAAR
+2026-02-17,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,-0.3739380874,negative,investment,percent QoQ SAAR
+2026-02-17,pce_durables,Consumer spending: durable goods,2026Q1,-0.2551248376,negative,consumer spending,percent QoQ SAAR
+2026-02-17,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0237705072,positive,consumer spending,percent QoQ SAAR
+2026-02-17,pce_services,Consumer spending: services,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-02-17,private_inventories,Change in private inventories,2026Q1,-0.2206251172,negative,inventories,percent QoQ SAAR
+2026-02-17,state_local_government,State and local government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-02-25,residential_investment,Residential investment,2026Q1,0.1748919452,positive,investment,percent QoQ SAAR
+2026-02-25,exports,Exports,2026Q1,-0.0383439307,negative,trade,percent QoQ SAAR
+2026-02-25,federal_government,Federal government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-02-25,imports,Imports,2026Q1,-0.5703297491,negative,trade,percent QoQ SAAR
+2026-02-25,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,-0.3723858713,negative,investment,percent QoQ SAAR
+2026-02-25,pce_durables,Consumer spending: durable goods,2026Q1,-0.2551248376,negative,consumer spending,percent QoQ SAAR
+2026-02-25,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0237705072,positive,consumer spending,percent QoQ SAAR
+2026-02-25,pce_services,Consumer spending: services,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-02-25,private_inventories,Change in private inventories,2026Q1,-0.2213190147,negative,inventories,percent QoQ SAAR
+2026-02-25,state_local_government,State and local government spending,2026Q1,0.0,neutral,government,percent QoQ SAAR
+2026-03-02,residential_investment,Residential investment,2026Q1,0.1748919452,positive,investment,percent QoQ SAAR
+2026-03-02,private_inventories,Change in private inventories,2026Q1,-0.2213190147,negative,inventories,percent QoQ SAAR
+2026-03-02,exports,Exports,2026Q1,-0.0383439307,negative,trade,percent QoQ SAAR
+2026-03-02,federal_government,Federal government spending,2026Q1,0.0006176082,positive,government,percent QoQ SAAR
+2026-03-02,imports,Imports,2026Q1,-0.5703297491,negative,trade,percent QoQ SAAR
+2026-03-02,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,-0.3723858713,negative,investment,percent QoQ SAAR
+2026-03-02,pce_durables,Consumer spending: durable goods,2026Q1,-0.2551248376,negative,consumer spending,percent QoQ SAAR
+2026-03-02,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0237705072,positive,consumer spending,percent QoQ SAAR
+2026-03-02,pce_services,Consumer spending: services,2026Q1,0.0,neutral,consumer spending,percent QoQ SAAR
+2026-03-02,state_local_government,State and local government spending,2026Q1,-0.0080058041,negative,government,percent QoQ SAAR
+2026-03-03,residential_investment,Residential investment,2026Q1,0.1748919452,positive,investment,percent QoQ SAAR
+2026-03-03,private_inventories,Change in private inventories,2026Q1,-0.2213190147,negative,inventories,percent QoQ SAAR
+2026-03-03,exports,Exports,2026Q1,-0.0383439307,negative,trade,percent QoQ SAAR
+2026-03-03,federal_government,Federal government spending,2026Q1,0.0006176082,positive,government,percent QoQ SAAR
+2026-03-03,imports,Imports,2026Q1,-0.5703297491,negative,trade,percent QoQ SAAR
+2026-03-03,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,-0.3723858713,negative,investment,percent QoQ SAAR
+2026-03-03,pce_durables,Consumer spending: durable goods,2026Q1,-0.2671393635,negative,consumer spending,percent QoQ SAAR
+2026-03-03,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0262443184,positive,consumer spending,percent QoQ SAAR
+2026-03-03,pce_services,Consumer spending: services,2026Q1,0.0150293738,positive,consumer spending,percent QoQ SAAR
+2026-03-03,state_local_government,State and local government spending,2026Q1,-0.0080058041,negative,government,percent QoQ SAAR
+2026-03-08,residential_investment,Residential investment,2026Q1,0.1748919452,positive,investment,percent QoQ SAAR
+2026-03-08,private_inventories,Change in private inventories,2026Q1,-0.2213190147,negative,inventories,percent QoQ SAAR
+2026-03-08,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0262443184,positive,consumer spending,percent QoQ SAAR
+2026-03-08,exports,Exports,2026Q1,-0.0383439307,negative,trade,percent QoQ SAAR
+2026-03-08,federal_government,Federal government spending,2026Q1,0.0149100255,positive,government,percent QoQ SAAR
+2026-03-08,imports,Imports,2026Q1,-0.5703297491,negative,trade,percent QoQ SAAR
+2026-03-08,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,-0.3723858713,negative,investment,percent QoQ SAAR
+2026-03-08,pce_durables,Consumer spending: durable goods,2026Q1,-0.2509885587,negative,consumer spending,percent QoQ SAAR
+2026-03-08,pce_services,Consumer spending: services,2026Q1,-0.1729193323,negative,consumer spending,percent QoQ SAAR
+2026-03-08,state_local_government,State and local government spending,2026Q1,-0.0063565904,negative,government,percent QoQ SAAR
+2026-03-17,residential_investment,Residential investment,2026Q1,0.1748919452,positive,investment,percent QoQ SAAR
+2026-03-17,private_inventories,Change in private inventories,2026Q1,-0.2213190147,negative,inventories,percent QoQ SAAR
+2026-03-17,pce_nondurables,Consumer spending: nondurable goods,2026Q1,0.0262443184,positive,consumer spending,percent QoQ SAAR
+2026-03-17,federal_government,Federal government spending,2026Q1,0.0149100255,positive,government,percent QoQ SAAR
+2026-03-17,pce_durables,Consumer spending: durable goods,2026Q1,-0.2509885587,negative,consumer spending,percent QoQ SAAR
+2026-03-17,pce_services,Consumer spending: services,2026Q1,-0.1729193323,negative,consumer spending,percent QoQ SAAR
+2026-03-17,state_local_government,State and local government spending,2026Q1,-0.0063565904,negative,government,percent QoQ SAAR
+2026-03-17,exports,Exports,2026Q1,0.3248615923,positive,trade,percent QoQ SAAR
+2026-03-17,imports,Imports,2026Q1,-0.5703297491,negative,trade,percent QoQ SAAR
+2026-03-17,nonres_fixed_investment,Nonresidential fixed investment,2026Q1,-0.2128606759,negative,investment,percent QoQ SAAR

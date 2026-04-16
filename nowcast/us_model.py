@@ -1,4 +1,4 @@
-"""A transparent first-pass US GDP bridge nowcast model."""
+"""A transparent first-pass US GDP component nowcast model."""
 
 from __future__ import annotations
 
@@ -14,22 +14,29 @@ from nowcast.fred import US_FRED_SERIES, download_us_fred_series, read_fred_seri
 
 
 TARGET_SERIES = "GDPC1"
-INDICATOR_SERIES = ("INDPRO", "PAYEMS", "RSAFS", "HOUST", "DSPIC96")
 TRAINING_START_QUARTER = "1992Q1"
-SERIES_RELEASE_LAGS = {
-    "PAYEMS": 7,
-    "RSAFS": 14,
-    "INDPRO": 16,
-    "HOUST": 20,
-    "DSPIC96": 30,
-}
+MODEL_VERSION = "us_gdp_component_bridge_v0.2.0"
+
+
+@dataclass(frozen=True)
+class ComponentSpec:
+    code: str
+    name: str
+    target_series: str
+    category: str
+    features: tuple[str, ...]
+    sign: float = 1.0
+    target_transform: str = "growth"
 
 
 @dataclass(frozen=True)
 class BridgeModel:
+    component: ComponentSpec
     feature_names: tuple[str, ...]
     coefficients: tuple[float, ...]
     feature_means: tuple[float, ...]
+    expected_component_value: float
+    aggregation_weight: float
     training_rows: int
     training_start: str
     training_end: str
@@ -39,6 +46,41 @@ class BridgeModel:
         return self.coefficients[0]
 
 
+COMPONENTS = (
+    ComponentSpec("pce_durables", "Consumer spending: durable goods", "PCDGCC96", "consumer spending", ("RSAFS", "DSPIC96", "PAYEMS")),
+    ComponentSpec("pce_nondurables", "Consumer spending: nondurable goods", "PCNDGC96", "consumer spending", ("RSAFS", "DSPIC96", "CMRMTSPL")),
+    ComponentSpec("pce_services", "Consumer spending: services", "PCESVC96", "consumer spending", ("DSPIC96", "PAYEMS")),
+    ComponentSpec("nonres_fixed_investment", "Nonresidential fixed investment", "PNFI", "investment", ("DGORDER", "AMTMNO", "TLNRESCONS", "INDPRO")),
+    ComponentSpec("residential_investment", "Residential investment", "PRFI", "investment", ("HOUST", "PERMIT", "TLRESCONS")),
+    ComponentSpec("private_inventories", "Change in private inventories", "A014RE1Q156NBEA", "inventories", ("BUSINV", "ISRATIO", "AMTMNO"), target_transform="contribution"),
+    ComponentSpec("exports", "Exports", "EXPGSC1", "trade", ("INDPRO", "CMRMTSPL", "DTWEXBGS")),
+    ComponentSpec("imports", "Imports", "IMPGSC1", "trade", ("RSAFS", "CMRMTSPL", "DTWEXBGS"), sign=-1.0),
+    ComponentSpec("federal_government", "Federal government spending", "FGCEC1", "government", ("PAYEMS", "FEDFUNDS")),
+    ComponentSpec("state_local_government", "State and local government spending", "SLCEC1", "government", ("PAYEMS", "FEDFUNDS")),
+)
+
+INDICATOR_SERIES = tuple(sorted({feature for component in COMPONENTS for feature in component.features}))
+
+SERIES_RELEASE_LAGS = {
+    "PAYEMS": 7,
+    "RSAFS": 14,
+    "INDPRO": 16,
+    "HOUST": 20,
+    "DSPIC96": 30,
+    "PERMIT": 20,
+    "DGORDER": 24,
+    "AMTMNO": 24,
+    "BUSINV": 45,
+    "ISRATIO": 45,
+    "TTLCONS": 31,
+    "TLRESCONS": 31,
+    "TLNRESCONS": 31,
+    "CMRMTSPL": 45,
+    "DTWEXBGS": 1,
+    "FEDFUNDS": 1,
+}
+
+
 def run_us_gdp_nowcast(
     *,
     source_dir: Path | str = "runs/source/us/fred",
@@ -46,71 +88,218 @@ def run_us_gdp_nowcast(
     download: bool = True,
     observation_start: str = "1990-01-01",
 ) -> Path:
-    """Download FRED data, estimate the bridge model, and write model input CSV."""
+    """Download FRED data, estimate component bridges, and write model input CSV."""
 
     source_root = Path(source_dir)
     if download:
         download_us_fred_series(source_root, observation_start=observation_start)
 
+    needed_series = {TARGET_SERIES, *INDICATOR_SERIES, *(component.target_series for component in COMPONENTS)}
     series = {
         series_id: read_fred_series(source_root / f"{series_id}.csv", series_id)
-        for series_id in (TARGET_SERIES, *INDICATOR_SERIES)
-    }
-    target_growth = _target_growth(series[TARGET_SERIES])
-    indicator_growth = {
-        series_id: _indicator_growth(series[series_id])
-        for series_id in INDICATOR_SERIES
+        for series_id in sorted(needed_series)
     }
 
+    target_growth = _growth(series[TARGET_SERIES])
     latest_target_quarter = max(target_growth)
     target_quarter = _next_quarter(latest_target_quarter)
-    feature_quarters = _feature_quarters(indicator_growth)
-    training_quarters = [
-        quarter
-        for quarter in sorted(set(target_growth) & set(feature_quarters))
-        if quarter >= TRAINING_START_QUARTER and quarter < target_quarter
+    indicator_growth = {series_id: _growth(series[series_id]) for series_id in INDICATOR_SERIES}
+    models = [
+        _fit_component_model(component, series, indicator_growth, target_quarter)
+        for component in COMPONENTS
     ]
-    if len(training_quarters) < len(INDICATOR_SERIES) + 3:
-        raise ValueError("not enough overlapping FRED history to estimate US GDP model")
-
-    x_train = [[indicator_growth[series_id][quarter][0] for series_id in INDICATOR_SERIES] for quarter in training_quarters]
-    y_train = [target_growth[quarter] for quarter in training_quarters]
-    model = _fit_bridge_model(x_train, y_train, training_quarters)
 
     rows = _historical_model_input_rows(
-        model,
+        models,
         series,
+        indicator_growth,
         target_quarter=target_quarter,
         history_start=date(2026, 1, 1),
+        max_as_of=date.today(),
     )
 
     output_path = Path(input_dir) / "model_input.csv"
     output_path.parent.mkdir(parents=True, exist_ok=True)
     _write_model_input(output_path, rows)
-    _write_summary(output_path.parent / "model_summary.json", model, target_quarter, rows)
+    _write_summary(output_path.parent / "model_summary.json", models, target_quarter, rows)
     return output_path
 
 
-def _target_growth(observations: list[tuple[date, float]]) -> dict[str, float]:
+def _fit_component_model(
+    component: ComponentSpec,
+    series: dict[str, list[tuple[date, float]]],
+    indicator_growth: dict[str, dict[str, tuple[float, date]]],
+    target_quarter: str,
+) -> BridgeModel:
+    target_values = _component_target_values(series[component.target_series], component.target_transform)
+    training_quarters = [
+        quarter
+        for quarter in sorted(set(target_values) & set(_feature_quarters({feature: indicator_growth[feature] for feature in component.features})))
+        if quarter >= TRAINING_START_QUARTER and quarter < target_quarter
+    ]
+    if len(training_quarters) < len(component.features) + 3:
+        raise ValueError(f"not enough history to estimate {component.code}")
+
+    x_train = [[indicator_growth[feature][quarter][0] for feature in component.features] for quarter in training_quarters]
+    y_train = [target_values[quarter] for quarter in training_quarters]
+    feature_means = tuple(_average(row[index] for row in x_train) for index in range(len(component.features)))
+    design = [[1.0, *row] for row in x_train]
+    coefficients = _solve_ridge_normal_equations(design, y_train, ridge=0.50)
+    expected_component_value = coefficients[0] + sum(
+        coefficient * expected
+        for coefficient, expected in zip(coefficients[1:], feature_means)
+    )
+    weight = _aggregation_weight(component, series)
+    return BridgeModel(
+        component=component,
+        feature_names=component.features,
+        coefficients=tuple(coefficients),
+        feature_means=feature_means,
+        expected_component_value=expected_component_value,
+        aggregation_weight=weight,
+        training_rows=len(y_train),
+        training_start=training_quarters[0],
+        training_end=training_quarters[-1],
+    )
+
+
+def _historical_model_input_rows(
+    models: list[BridgeModel],
+    series: dict[str, list[tuple[date, float]]],
+    indicator_growth: dict[str, dict[str, tuple[float, date]]],
+    *,
+    target_quarter: str,
+    history_start: date,
+    max_as_of: date,
+) -> list[dict[str, object]]:
+    rows: list[dict[str, object]] = []
+    snapshot_dates = [
+        release_date
+        for release_date in _target_quarter_release_dates(series, target_quarter)
+        if history_start <= release_date <= max_as_of
+    ]
+    if not snapshot_dates:
+        latest_date = max(
+            _release_date(series_id, period)
+            for series_id in INDICATOR_SERIES
+            for period, _ in series[series_id]
+            if _release_date(series_id, period) <= max_as_of
+        )
+        snapshot_dates = [latest_date]
+
+    for snapshot_date in snapshot_dates:
+        rows.extend(_model_input_rows_as_of(models, indicator_growth, target_quarter, snapshot_date))
+    return rows
+
+
+def _model_input_rows_as_of(
+    models: list[BridgeModel],
+    indicator_growth: dict[str, dict[str, tuple[float, date]]],
+    target_quarter: str,
+    as_of_date: date,
+) -> list[dict[str, object]]:
+    component_forecasts = [
+        _component_forecast_as_of(model, indicator_growth, target_quarter, as_of_date)
+        for model in models
+    ]
+    baseline_nowcast = sum(model.expected_component_value * model.aggregation_weight for model in models)
+    return [
+        {
+            "as_of_date": as_of_date.isoformat(),
+            "reference_period": target_quarter,
+            "baseline_nowcast": round(baseline_nowcast, 10),
+            "series_code": model.component.code,
+            "series_name": model.component.name,
+            "release_date": release_date.isoformat(),
+            "actual_value": round(forecast_value, 10),
+            "expected_value": round(model.expected_component_value, 10),
+            "impact_weight": round(model.aggregation_weight, 10),
+            "category": model.component.category,
+            "units": "percentage points" if model.component.target_transform == "contribution" else "percent",
+            "release_status": release_status,
+        }
+        for model, (forecast_value, release_date, release_status) in zip(models, component_forecasts)
+    ]
+
+
+def _component_forecast_as_of(
+    model: BridgeModel,
+    indicator_growth: dict[str, dict[str, tuple[float, date]]],
+    target_quarter: str,
+    as_of_date: date,
+) -> tuple[float, date, str]:
+    feature_values = []
+    release_dates = []
+    released_any = False
+    for feature, expected in zip(model.feature_names, model.feature_means):
+        actual_value, release_date, released = _feature_value_as_of(
+            feature,
+            indicator_growth[feature],
+            target_quarter,
+            as_of_date,
+            expected,
+        )
+        feature_values.append(actual_value)
+        release_dates.append(release_date)
+        released_any = released_any or released
+    forecast = model.intercept + sum(
+        coefficient * value
+        for coefficient, value in zip(model.coefficients[1:], feature_values)
+    )
+    latest_release = max(release_dates)
+    if not released_any:
+        release_status = "pending"
+    elif latest_release == as_of_date:
+        release_status = "new_release"
+    else:
+        release_status = "carried_forward"
+    return forecast, latest_release, release_status
+
+
+def _feature_value_as_of(
+    series_id: str,
+    growth: dict[str, tuple[float, date]],
+    target_quarter: str,
+    as_of_date: date,
+    expected_value: float,
+) -> tuple[float, date, bool]:
+    values = [
+        (release_date, value)
+        for quarter, (value, period) in growth.items()
+        if quarter == target_quarter
+        for release_date in [_release_date(series_id, period)]
+        if release_date <= as_of_date
+    ]
+    if not values:
+        return expected_value, as_of_date, False
+    release_date, value = max(values, key=lambda item: item[0])
+    return value, release_date, True
+
+
+def _component_target_values(observations: list[tuple[date, float]], transform: str) -> dict[str, float]:
+    if transform == "growth":
+        return _growth(observations, include_release_date=False)
+    if transform == "contribution":
+        return {_quarter_label(period): value for period, value in observations}
+    raise ValueError(f"unsupported component transform {transform}")
+
+
+def _growth(observations: list[tuple[date, float]], *, include_release_date: bool = True) -> dict[str, tuple[float, date]] | dict[str, float]:
     rows = sorted(observations)
-    growth: dict[str, float] = {}
-    for (period, value), (_, prior_value) in zip(rows[1:], rows[:-1]):
-        growth[_quarter_label(period)] = 400.0 * math.log(value / prior_value)
-    return growth
-
-
-def _indicator_growth(observations: list[tuple[date, float]]) -> dict[str, tuple[float, date]]:
+    growth = {}
     quarter_values: dict[str, list[tuple[date, float]]] = {}
-    for period, value in observations:
+    for period, value in rows:
         quarter_values.setdefault(_quarter_label(period), []).append((period, value))
 
-    growth: dict[str, tuple[float, date]] = {}
     sorted_quarters = sorted(quarter_values)
     for quarter, prior_quarter in zip(sorted_quarters[1:], sorted_quarters[:-1]):
         current_average = _average(value for _, value in quarter_values[quarter])
         prior_average = _average(value for _, value in quarter_values[prior_quarter])
-        latest_release_date = max(period for period, _ in quarter_values[quarter])
-        growth[quarter] = (400.0 * math.log(current_average / prior_average), latest_release_date)
+        if current_average <= 0 or prior_average <= 0:
+            continue
+        value = 400.0 * math.log(current_average / prior_average)
+        latest_period = max(period for period, _ in quarter_values[quarter])
+        growth[quarter] = (value, latest_period) if include_release_date else value
     return growth
 
 
@@ -124,126 +313,12 @@ def _feature_quarters(indicator_growth: dict[str, dict[str, tuple[float, date]]]
     return sorted(quarters or set())
 
 
-def _fit_bridge_model(x_train: list[list[float]], y_train: list[float], quarters: list[str]) -> BridgeModel:
-    feature_means = tuple(_average(row[index] for row in x_train) for index in range(len(INDICATOR_SERIES)))
-    design = [[1.0, *row] for row in x_train]
-    coefficients = _solve_ridge_normal_equations(design, y_train, ridge=0.25)
-    return BridgeModel(
-        feature_names=INDICATOR_SERIES,
-        coefficients=tuple(coefficients),
-        feature_means=feature_means,
-        training_rows=len(y_train),
-        training_start=quarters[0],
-        training_end=quarters[-1],
-    )
-
-
-def _historical_model_input_rows(
-    model: BridgeModel,
-    series: dict[str, list[tuple[date, float]]],
-    *,
-    target_quarter: str,
-    history_start: date,
-) -> list[dict[str, object]]:
-    rows: list[dict[str, object]] = []
-    latest_indicator_date = max(
-        _release_date(series_id, period)
-        for series_id in INDICATOR_SERIES
-        for period, _ in series[series_id]
-    )
-    snapshot_dates = [
-        release_date
-        for release_date in _target_quarter_release_dates(series, target_quarter)
-        if release_date >= history_start and release_date <= latest_indicator_date
-    ]
-    if not snapshot_dates:
-        snapshot_dates = [latest_indicator_date]
-
-    for snapshot_date in snapshot_dates:
-        rows.extend(_model_input_rows_as_of(model, series, target_quarter, snapshot_date))
-
-    if not rows:
-        rows = _model_input_rows(
-            model,
-            {
-                series_id: _indicator_growth(series[series_id])
-                for series_id in INDICATOR_SERIES
-            },
-            [target_quarter],
-        )
-    return rows
-
-
-def _model_input_rows_as_of(
-    model: BridgeModel,
-    series: dict[str, list[tuple[date, float]]],
-    target_quarter: str,
-    as_of_date: date,
-) -> list[dict[str, object]]:
-    baseline_nowcast = model.intercept + sum(
-        coefficient * expected
-        for coefficient, expected in zip(model.coefficients[1:], model.feature_means)
-    )
-    rows: list[dict[str, object]] = []
-    for series_id, coefficient, expected_value in zip(
-        INDICATOR_SERIES,
-        model.coefficients[1:],
-        model.feature_means,
-    ):
-        actual_value, release_date, release_status = _quarter_growth_as_of(
-            series_id,
-            series[series_id],
-            target_quarter,
-            as_of_date,
-            expected_value,
-        )
-        metadata = US_FRED_SERIES[series_id]
-        rows.append(
-            {
-                "as_of_date": as_of_date.isoformat(),
-                "reference_period": target_quarter,
-                "baseline_nowcast": round(baseline_nowcast, 10),
-                "series_code": series_id.lower(),
-                "series_name": metadata.name,
-                "release_date": release_date.isoformat(),
-                "actual_value": round(actual_value, 10),
-                "expected_value": round(expected_value, 10),
-                "impact_weight": round(coefficient, 10),
-                "category": metadata.category,
-                "units": metadata.units,
-                "release_status": release_status,
-            }
-        )
-    return rows
-
-
-def _quarter_growth_as_of(
-    series_id: str,
-    observations: list[tuple[date, float]],
-    target_quarter: str,
-    as_of_date: date,
-    expected_value: float,
-) -> tuple[float, date, str]:
-    prior_quarter = _previous_quarter(target_quarter)
-    current_values = [
-        (period, value)
-        for period, value in observations
-        if _quarter_label(period) == target_quarter and _release_date(series_id, period) <= as_of_date
-    ]
-    if not current_values:
-        return expected_value, as_of_date, "pending"
-    prior_values = [
-        value
-        for period, value in observations
-        if _quarter_label(period) == prior_quarter
-    ]
-    if not prior_values:
-        return expected_value, as_of_date, "pending"
-    current_average = _average(value for _, value in current_values)
-    prior_average = _average(prior_values)
-    latest_release_date = max(_release_date(series_id, period) for period, _ in current_values)
-    release_status = "new_release" if latest_release_date == as_of_date else "carried_forward"
-    return 400.0 * math.log(current_average / prior_average), latest_release_date, release_status
+def _aggregation_weight(component: ComponentSpec, series: dict[str, list[tuple[date, float]]]) -> float:
+    if component.target_transform == "contribution":
+        return 1.0
+    component_level = series[component.target_series][-1][1]
+    gdp_level = series[TARGET_SERIES][-1][1]
+    return component.sign * component_level / gdp_level
 
 
 def _target_quarter_release_dates(series: dict[str, list[tuple[date, float]]], target_quarter: str) -> list[date]:
@@ -252,52 +327,13 @@ def _target_quarter_release_dates(series: dict[str, list[tuple[date, float]]], t
         for series_id in INDICATOR_SERIES
         for period, _ in series[series_id]
         if _quarter_label(period) == target_quarter
+        and US_FRED_SERIES[series_id].frequency != "daily"
     }
     return sorted(dates)
 
 
 def _release_date(series_id: str, period: date) -> date:
     return period + timedelta(days=SERIES_RELEASE_LAGS[series_id])
-
-
-def _model_input_rows(
-    model: BridgeModel,
-    indicator_growth: dict[str, dict[str, tuple[float, date]]],
-    quarters: list[str],
-    *,
-    as_of_date: date | None = None,
-) -> list[dict[str, object]]:
-    rows: list[dict[str, object]] = []
-    for quarter in quarters:
-        feature_values = [indicator_growth[series_id][quarter][0] for series_id in INDICATOR_SERIES]
-        baseline_nowcast = model.intercept + sum(
-            coefficient * expected
-            for coefficient, expected in zip(model.coefficients[1:], model.feature_means)
-        )
-        row_as_of_date = as_of_date or max(indicator_growth[series_id][quarter][1] for series_id in INDICATOR_SERIES)
-        for series_id, coefficient, expected_value, actual_value in zip(
-            INDICATOR_SERIES,
-            model.coefficients[1:],
-            model.feature_means,
-            feature_values,
-        ):
-            metadata = US_FRED_SERIES[series_id]
-            rows.append(
-                {
-                    "as_of_date": row_as_of_date.isoformat(),
-                    "reference_period": quarter,
-                    "baseline_nowcast": round(baseline_nowcast, 10),
-                    "series_code": series_id.lower(),
-                    "series_name": metadata.name,
-                    "release_date": indicator_growth[series_id][quarter][1].isoformat(),
-                    "actual_value": round(actual_value, 10),
-                    "expected_value": round(expected_value, 10),
-                    "impact_weight": round(coefficient, 10),
-                    "category": metadata.category,
-                    "units": metadata.units,
-                }
-            )
-    return rows
 
 
 def _write_model_input(path: Path, rows: list[dict[str, object]]) -> None:
@@ -321,7 +357,7 @@ def _write_model_input(path: Path, rows: list[dict[str, object]]) -> None:
         writer.writerows(rows)
 
 
-def _write_summary(path: Path, model: BridgeModel, target_quarter: str, rows: list[dict[str, object]]) -> None:
+def _write_summary(path: Path, models: list[BridgeModel], target_quarter: str, rows: list[dict[str, object]]) -> None:
     latest_as_of_date = rows[-1]["as_of_date"]
     latest_rows = [
         row
@@ -333,18 +369,25 @@ def _write_summary(path: Path, model: BridgeModel, target_quarter: str, rows: li
         for row in latest_rows
     )
     payload = {
-        "model": "us_gdp_bridge_v1",
+        "model": MODEL_VERSION,
         "target": "GDPC1 real GDP QoQ saar",
         "target_quarter": target_quarter,
         "latest_reference_period": latest_rows[0]["reference_period"],
         "latest_as_of_date": latest_rows[0]["as_of_date"],
         "nowcast_value": round(nowcast_value, 10),
-        "training_rows": model.training_rows,
-        "training_start": model.training_start,
-        "training_end": model.training_end,
-        "features": list(model.feature_names),
-        "coefficients": list(model.coefficients),
-        "feature_means": list(model.feature_means),
+        "training_rows": min(model.training_rows for model in models),
+        "training_start": min(model.training_start for model in models),
+        "training_end": max(model.training_end for model in models),
+        "components": [
+            {
+                "code": model.component.code,
+                "target_series": model.component.target_series,
+                "features": list(model.feature_names),
+                "aggregation_weight": model.aggregation_weight,
+                "training_rows": model.training_rows,
+            }
+            for model in models
+        ],
     }
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
@@ -395,26 +438,6 @@ def _next_quarter(quarter: str) -> str:
     if quarter_number == 4:
         return f"{year + 1}Q1"
     return f"{year}Q{quarter_number + 1}"
-
-
-def _previous_quarter(quarter: str) -> str:
-    year = int(quarter[:4])
-    quarter_number = int(quarter[-1])
-    if quarter_number == 1:
-        return f"{year - 1}Q4"
-    return f"{year}Q{quarter_number - 1}"
-
-
-def _month_start_dates(start: date, end: date) -> list[date]:
-    dates: list[date] = []
-    current = date(start.year, start.month, 1)
-    while current <= end:
-        dates.append(current)
-        if current.month == 12:
-            current = date(current.year + 1, 1, 1)
-        else:
-            current = date(current.year, current.month + 1, 1)
-    return dates
 
 
 def _average(values: Iterable[float]) -> float:

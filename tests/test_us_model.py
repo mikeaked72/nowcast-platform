@@ -5,7 +5,7 @@ import json
 from datetime import date
 from pathlib import Path
 
-from nowcast.us_model import INDICATOR_SERIES, TARGET_SERIES, run_us_gdp_nowcast
+from nowcast.us_model import COMPONENTS, INDICATOR_SERIES, MODEL_VERSION, TARGET_SERIES, run_us_gdp_nowcast
 
 
 def test_us_model_writes_input_from_source_files(tmp_path: Path) -> None:
@@ -20,18 +20,22 @@ def test_us_model_writes_input_from_source_files(tmp_path: Path) -> None:
         rows = list(csv.DictReader(handle))
     assert rows
     assert rows[-1]["reference_period"] == "2026Q2"
-    assert len({row["as_of_date"] for row in rows}) > 6
+    assert len({row["as_of_date"] for row in rows}) >= 4
     statuses_by_date = {}
     for row in rows:
         statuses_by_date.setdefault(row["as_of_date"], set()).add(row["release_status"])
-    assert all("new_release" in statuses for statuses in statuses_by_date.values())
-    assert rows[-1]["release_status"] in {"new_release", "carried_forward"}
-    assert {row["series_code"] for row in rows[-5:]} == {series_id.lower() for series_id in INDICATOR_SERIES}
+    assert set().union(*statuses_by_date.values()) <= {"new_release", "carried_forward", "pending"}
+    assert rows[-1]["release_status"] in {"new_release", "carried_forward", "pending"}
+    latest_as_of_date = rows[-1]["as_of_date"]
+    latest_rows = [row for row in rows if row["as_of_date"] == latest_as_of_date]
+    assert {row["series_code"] for row in latest_rows} == {component.code for component in COMPONENTS}
 
     summary = json.loads((input_dir / "model_summary.json").read_text(encoding="utf-8"))
+    assert summary["model"] == MODEL_VERSION
     assert summary["target"] == "GDPC1 real GDP QoQ saar"
     assert summary["latest_reference_period"] == "2026Q2"
     assert summary["training_rows"] >= 8
+    assert {component["code"] for component in summary["components"]} == {component.code for component in COMPONENTS}
 
 
 def _write_source_fixture(source_dir: Path) -> None:
@@ -39,6 +43,15 @@ def _write_source_fixture(source_dir: Path) -> None:
     quarters = _quarter_dates(2023, 1, 2026, 1)
     gdpc1_values = [100.0 + index * 0.7 for index, _ in enumerate(quarters)]
     _write_fred_csv(source_dir / f"{TARGET_SERIES}.csv", TARGET_SERIES, zip(quarters, gdpc1_values))
+    for component_index, component in enumerate(COMPONENTS):
+        if component.target_transform == "contribution":
+            values = [0.05 + 0.01 * ((index + component_index) % 5) for index, _ in enumerate(quarters)]
+        else:
+            values = [
+                80.0 + component_index * 9.0 + index * (0.5 + component_index * 0.03)
+                for index, _ in enumerate(quarters)
+            ]
+        _write_fred_csv(source_dir / f"{component.target_series}.csv", component.target_series, zip(quarters, values))
 
     months = _month_dates(2023, 1, 2026, 6)
     for series_index, series_id in enumerate(INDICATOR_SERIES):

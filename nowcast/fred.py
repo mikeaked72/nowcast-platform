@@ -24,11 +24,32 @@ class FredSeries:
 
 US_FRED_SERIES = {
     "GDPC1": FredSeries("GDPC1", "Real Gross Domestic Product", "target", "percent", "quarterly"),
+    "PCDGCC96": FredSeries("PCDGCC96", "Real PCE: durable goods", "consumer spending", "percent", "quarterly"),
+    "PCNDGC96": FredSeries("PCNDGC96", "Real PCE: nondurable goods", "consumer spending", "percent", "quarterly"),
+    "PCESVC96": FredSeries("PCESVC96", "Real PCE: services", "consumer spending", "percent", "quarterly"),
+    "PNFI": FredSeries("PNFI", "Real private nonresidential fixed investment", "investment", "percent", "quarterly"),
+    "PRFI": FredSeries("PRFI", "Real private residential fixed investment", "investment", "percent", "quarterly"),
+    "A014RE1Q156NBEA": FredSeries("A014RE1Q156NBEA", "Change in private inventories contribution", "inventories", "percentage points", "quarterly"),
+    "EXPGSC1": FredSeries("EXPGSC1", "Real exports of goods and services", "trade", "percent", "quarterly"),
+    "IMPGSC1": FredSeries("IMPGSC1", "Real imports of goods and services", "trade", "percent", "quarterly"),
+    "FGCEC1": FredSeries("FGCEC1", "Real federal government consumption and investment", "government", "percent", "quarterly"),
+    "SLCEC1": FredSeries("SLCEC1", "Real state and local government consumption and investment", "government", "percent", "quarterly"),
     "INDPRO": FredSeries("INDPRO", "Industrial Production Index", "production", "percent", "monthly"),
     "PAYEMS": FredSeries("PAYEMS", "All Employees, Total Nonfarm", "labor", "percent", "monthly"),
     "RSAFS": FredSeries("RSAFS", "Advance Retail Sales", "demand", "percent", "monthly"),
     "HOUST": FredSeries("HOUST", "Housing Starts", "housing", "percent", "monthly"),
     "DSPIC96": FredSeries("DSPIC96", "Real Disposable Personal Income", "income", "percent", "monthly"),
+    "PERMIT": FredSeries("PERMIT", "New private housing permits", "housing", "percent", "monthly"),
+    "DGORDER": FredSeries("DGORDER", "Manufacturers' new orders: durable goods", "investment", "percent", "monthly"),
+    "AMTMNO": FredSeries("AMTMNO", "Manufacturers' new orders: total manufacturing", "production", "percent", "monthly"),
+    "BUSINV": FredSeries("BUSINV", "Total business inventories", "inventories", "percent", "monthly"),
+    "ISRATIO": FredSeries("ISRATIO", "Total business inventories to sales ratio", "inventories", "percent", "monthly"),
+    "TTLCONS": FredSeries("TTLCONS", "Total construction spending", "construction", "percent", "monthly"),
+    "TLRESCONS": FredSeries("TLRESCONS", "Residential construction spending", "construction", "percent", "monthly"),
+    "TLNRESCONS": FredSeries("TLNRESCONS", "Nonresidential construction spending", "construction", "percent", "monthly"),
+    "CMRMTSPL": FredSeries("CMRMTSPL", "Real manufacturing and trade sales", "demand", "percent", "monthly"),
+    "DTWEXBGS": FredSeries("DTWEXBGS", "Trade weighted U.S. dollar index", "trade", "percent", "daily"),
+    "FEDFUNDS": FredSeries("FEDFUNDS", "Federal funds rate", "financial", "percent", "monthly"),
 }
 
 

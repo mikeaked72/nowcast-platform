@@ -244,7 +244,7 @@ The scaffold publishes:
 - BR exports
 - BR imports
 
-US GDP can be generated from the FRED bridge model. US inflation, US exports, US imports, AU GDP, and AU inflation are data-backed experimental tracking outputs using existing FRED, ABS, and RBA data. They use `model_status: warning` and `model_version: tracking-0.1.0` until country-specific indicator models are added. Remaining country/indicator pages are deterministic sample data that exercise the same static contract.
+US GDP can be generated from the FRED component bridge model. It maps public FRED component and release series to consumer spending, investment, inventories, trade, and government contribution rows before publishing the same static contract. US inflation, US exports, US imports, AU GDP, and AU inflation are data-backed experimental tracking outputs using existing FRED, ABS, and RBA data. They use `model_status: warning` and `model_version: tracking-0.1.0` until country-specific indicator models are added. Remaining country/indicator pages are deterministic sample data that exercise the same static contract.
 
 ## Change policy
 

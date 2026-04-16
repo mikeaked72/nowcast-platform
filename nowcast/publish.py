@@ -19,6 +19,9 @@ from nowcast.model_input import ModelRun, load_model_run, resolve_model_input_pa
 from nowcast.schemas import SCHEMA_VERSION
 
 
+US_GDP_MODEL_VERSION = "us_gdp_component_bridge_v0.2.0"
+
+
 @dataclass(frozen=True)
 class CountryPack:
     code: str
@@ -146,7 +149,12 @@ def publish_sample_country(
             try:
                 model_input_path = resolve_model_input_path(country_code, input_dir=input_dir, input_path=input_path)
                 model_run = load_model_run(model_input_path, as_of=as_of)
-                payload = _payload_from_model_run(pack, INDICATORS[indicator_code], model_run)
+                payload = _payload_from_model_run(
+                    pack,
+                    INDICATORS[indicator_code],
+                    model_run,
+                    model_version=US_GDP_MODEL_VERSION,
+                )
             except FileNotFoundError:
                 payload = _sample_indicator_payload(pack, INDICATORS[indicator_code])
         elif has_tracking_run(country_code, indicator_code):
@@ -438,10 +446,11 @@ def _metadata(pack: CountryPack, meta: IndicatorMeta, default_period: str, *, me
     ]
     if pack.code == "us" and meta.code == "gdp":
         methodology = (
-            "US GDP uses a transparent bridge model. Public FRED series are converted to quarterly "
-            "annualized growth rates, a small ridge-regularized regression is estimated against real GDP growth, "
-            "and each run date incorporates source releases available by that date. Pending releases are held at "
-            "their training-sample expected values until they arrive."
+            "US GDP uses a transparent component bridge model. Public FRED series are mapped to major expenditure "
+            "components: consumer spending, fixed investment, inventories, trade, and government spending. Each "
+            "component bridge is estimated from quarterly component history and monthly or daily source releases, "
+            "then aggregated with GDP-share weights into a quarter-over-quarter annualized GDP growth estimate. "
+            "Pending component inputs are held at training-sample expected values until their source releases arrive."
         )
         faq = [
             {
