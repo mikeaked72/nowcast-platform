@@ -260,6 +260,17 @@ for iso3, geo in EUROSTAT_COUNTRIES.items():
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+EUROSTAT_COUNTRY_SERIES.append(
+    (
+        "DEU_INDPRO_M",
+        "sts_inpr_m",
+        "M.PRD.B-D.SCA.I21.DE",
+        "2000",
+        "DEU industrial production index, 2021=100",
+    )
+)
+
+
 if __name__ == "__main__":
     print(f"RAW_EUROSTAT: {RAW_EUROSTAT}\n")
 

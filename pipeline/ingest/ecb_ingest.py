@@ -122,6 +122,14 @@ ECB_SERIES = {
     "EUR_USD":   ("EXR/D.USD.EUR.SP00.A",         "EUR/USD Reference Rate"),
     "EUR_GBP":   ("EXR/D.GBP.EUR.SP00.A",         "EUR/GBP Reference Rate"),
     "EUR_JPY":   ("EXR/D.JPY.EUR.SP00.A",         "EUR/JPY Reference Rate"),
+    "DEU_HH_CREDIT": (
+        "BSI/M.DE.N.A.A20.A.1.U2.2250.Z01.E",
+        "Germany MFI loans to households",
+    ),
+    "DEU_NFC_CREDIT": (
+        "BSI/M.DE.N.A.A20.A.1.U2.2240.Z01.E",
+        "Germany MFI loans to non-financial corporations",
+    ),
 }
 
 

@@ -1,24 +1,24 @@
 {
-  "last_full_update": "2026-04-15T21:57:04Z",
+  "last_full_update": "2026-04-16T05:49:26Z",
   "series": {
     "ECB_DFR": {
-      "last_updated": "2026-04-15T21:49:45Z",
-      "rows": 9602,
+      "last_updated": "2026-04-16T05:37:19Z",
+      "rows": 9603,
       "start": null,
       "end": null,
       "source": "ecb:FM/D.U2.EUR.4F.KR.DFR.LEV",
       "status": "OK"
     },
     "ECB_MRO": {
-      "last_updated": "2026-04-15T21:49:52Z",
-      "rows": 6571,
+      "last_updated": "2026-04-16T05:37:31Z",
+      "rows": 6572,
       "start": null,
       "end": null,
       "source": "ecb:FM/D.U2.EUR.4F.KR.MRR_FR.LEV",
       "status": "OK"
     },
     "DE_BUND10": {
-      "last_updated": "2026-04-15T21:50:00Z",
+      "last_updated": "2026-04-16T05:37:45Z",
       "rows": 5522,
       "start": null,
       "end": null,
@@ -26,7 +26,7 @@
       "status": "OK"
     },
     "EA_HICP": {
-      "last_updated": "2026-04-15T21:50:05Z",
+      "last_updated": "2026-04-16T05:37:50Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -34,7 +34,7 @@
       "status": "OK"
     },
     "EA_UNEMP": {
-      "last_updated": "2026-04-15T21:50:11Z",
+      "last_updated": "2026-04-16T05:37:55Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -42,7 +42,7 @@
       "status": "OK"
     },
     "EUR_USD": {
-      "last_updated": "2026-04-15T21:50:18Z",
+      "last_updated": "2026-04-16T05:38:14Z",
       "rows": 6787,
       "start": null,
       "end": null,
@@ -50,7 +50,7 @@
       "status": "OK"
     },
     "EUR_GBP": {
-      "last_updated": "2026-04-15T21:50:24Z",
+      "last_updated": "2026-04-16T05:38:21Z",
       "rows": 6787,
       "start": null,
       "end": null,
@@ -58,7 +58,7 @@
       "status": "OK"
     },
     "EUR_JPY": {
-      "last_updated": "2026-04-15T21:50:31Z",
+      "last_updated": "2026-04-16T05:38:36Z",
       "rows": 6787,
       "start": null,
       "end": null,
@@ -66,7 +66,7 @@
       "status": "OK"
     },
     "EA_GDP_REAL": {
-      "last_updated": "2026-04-15T21:50:33Z",
+      "last_updated": "2026-04-16T05:38:50Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -74,7 +74,7 @@
       "status": "OK"
     },
     "EA_GDP_NOM": {
-      "last_updated": "2026-04-15T21:50:35Z",
+      "last_updated": "2026-04-16T05:38:52Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -82,7 +82,7 @@
       "status": "OK"
     },
     "EA_HH_CONSUMPTION": {
-      "last_updated": "2026-04-15T21:50:36Z",
+      "last_updated": "2026-04-16T05:38:53Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -90,7 +90,7 @@
       "status": "OK"
     },
     "EA_INVESTMENT": {
-      "last_updated": "2026-04-15T21:50:38Z",
+      "last_updated": "2026-04-16T05:38:55Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -98,7 +98,7 @@
       "status": "OK"
     },
     "EA_EXPORTS": {
-      "last_updated": "2026-04-15T21:50:40Z",
+      "last_updated": "2026-04-16T05:38:57Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -106,7 +106,7 @@
       "status": "OK"
     },
     "EA_IMPORTS": {
-      "last_updated": "2026-04-15T21:50:41Z",
+      "last_updated": "2026-04-16T05:38:59Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -114,7 +114,7 @@
       "status": "OK"
     },
     "EA_UNEMPLOYMENT": {
-      "last_updated": "2026-04-15T21:50:43Z",
+      "last_updated": "2026-04-16T05:39:01Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -122,7 +122,7 @@
       "status": "OK"
     },
     "EA_EMPLOYMENT": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -131,7 +131,7 @@
       "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_BUILD_PERMITS": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -140,7 +140,7 @@
       "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_INDPRO": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -149,7 +149,7 @@
       "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_INDPRO_MFG": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -158,7 +158,7 @@
       "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_RETAIL": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -167,7 +167,7 @@
       "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_NEW_ORDERS": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -176,7 +176,7 @@
       "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_HICP_ALL": {
-      "last_updated": "2026-04-15T21:50:45Z",
+      "last_updated": "2026-04-16T05:39:03Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -184,7 +184,7 @@
       "status": "OK"
     },
     "EA_HICP_CORE": {
-      "last_updated": "2026-04-15T21:50:47Z",
+      "last_updated": "2026-04-16T05:39:05Z",
       "rows": 301,
       "start": null,
       "end": null,
@@ -192,7 +192,7 @@
       "status": "OK"
     },
     "EA_HICP_ENERGY": {
-      "last_updated": "2026-04-15T21:50:49Z",
+      "last_updated": "2026-04-16T05:39:07Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -200,7 +200,7 @@
       "status": "OK"
     },
     "EA_HICP_SERVICES": {
-      "last_updated": "2026-04-15T21:50:51Z",
+      "last_updated": "2026-04-16T05:39:09Z",
       "rows": 301,
       "start": null,
       "end": null,
@@ -208,7 +208,7 @@
       "status": "OK"
     },
     "EA_HICP_YOY": {
-      "last_updated": "2026-04-15T21:50:53Z",
+      "last_updated": "2026-04-16T05:39:12Z",
       "rows": 301,
       "start": null,
       "end": null,
@@ -216,7 +216,7 @@
       "status": "OK"
     },
     "EA_PPI": {
-      "last_updated": "2026-04-15T21:50:55Z",
+      "last_updated": "2026-04-16T05:39:14Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -224,7 +224,7 @@
       "status": "OK"
     },
     "EA_CONS_CONF": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -233,7 +233,7 @@
       "reason": "Held for Eurostat SDMX codelist discovery"
     },
     "EA_ESI": {
-      "last_updated": "2026-04-15T21:50:57Z",
+      "last_updated": "2026-04-16T05:39:16Z",
       "rows": 492,
       "start": null,
       "end": null,
@@ -241,7 +241,7 @@
       "status": "OK"
     },
     "CAN_OVERNIGHT": {
-      "last_updated": "2026-04-15T21:54:12Z",
+      "last_updated": "2026-04-16T05:43:11Z",
       "rows": 4418,
       "start": "2009-04-21",
       "end": "2026-04-14",
@@ -249,7 +249,7 @@
       "status": "OK"
     },
     "CAN_10Y": {
-      "last_updated": "2026-04-15T21:54:14Z",
+      "last_updated": "2026-04-16T05:43:13Z",
       "rows": 6322,
       "start": "2001-01-02",
       "end": "2026-04-14",
@@ -257,7 +257,7 @@
       "status": "OK"
     },
     "CAN_2Y": {
-      "last_updated": "2026-04-15T21:54:16Z",
+      "last_updated": "2026-04-16T05:43:15Z",
       "rows": 6321,
       "start": "2001-01-02",
       "end": "2026-04-14",
@@ -265,7 +265,7 @@
       "status": "OK"
     },
     "USDCAD": {
-      "last_updated": "2026-04-15T21:54:18Z",
+      "last_updated": "2026-04-16T05:43:17Z",
       "rows": 2316,
       "start": "2017-01-03",
       "end": "2026-04-15",
@@ -273,7 +273,7 @@
       "status": "OK"
     },
     "CAN_CPI": {
-      "last_updated": "2026-04-15T21:54:20Z",
+      "last_updated": "2026-04-16T05:43:20Z",
       "rows": 1346,
       "start": "1914-01-01",
       "end": "2026-02-01",
@@ -281,7 +281,7 @@
       "status": "OK"
     },
     "CAN_UNEMP": {
-      "last_updated": "2026-04-15T21:54:23Z",
+      "last_updated": "2026-04-16T05:43:22Z",
       "rows": 603,
       "start": "1976-01-01",
       "end": "2026-03-01",
@@ -289,7 +289,7 @@
       "status": "OK"
     },
     "UK_CPI": {
-      "last_updated": "2026-04-15T21:54:26Z",
+      "last_updated": "2026-04-16T05:43:26Z",
       "rows": 631,
       "start": "1989-01-01",
       "end": "2026-02-01",
@@ -297,7 +297,7 @@
       "status": "OK"
     },
     "UK_CPIH": {
-      "last_updated": "2026-04-15T21:54:28Z",
+      "last_updated": "2026-04-16T05:43:29Z",
       "rows": 648,
       "start": "1988-01-01",
       "end": "2026-02-01",
@@ -305,7 +305,7 @@
       "status": "OK"
     },
     "UK_CPI_CORE": {
-      "last_updated": "2026-04-15T21:54:31Z",
+      "last_updated": "2026-04-16T05:43:31Z",
       "rows": 631,
       "start": "1989-01-01",
       "end": "2026-02-01",
@@ -313,7 +313,7 @@
       "status": "OK"
     },
     "UK_UNEMP": {
-      "last_updated": "2026-04-15T21:54:34Z",
+      "last_updated": "2026-04-16T05:43:34Z",
       "rows": 934,
       "start": "1971-02-01",
       "end": "2025-12-31",
@@ -321,7 +321,7 @@
       "status": "OK"
     },
     "UK_EMPRATE": {
-      "last_updated": "2026-04-15T21:54:37Z",
+      "last_updated": "2026-04-16T05:43:37Z",
       "rows": 934,
       "start": "1971-02-01",
       "end": "2025-12-31",
@@ -329,7 +329,7 @@
       "status": "OK"
     },
     "UK_PAYE": {
-      "last_updated": "2026-04-15T21:54:39Z",
+      "last_updated": "2026-04-16T05:43:40Z",
       "rows": 334,
       "start": "1959-06-30",
       "end": "2025-12-31",
@@ -337,7 +337,7 @@
       "status": "OK"
     },
     "UK_GDP_Q": {
-      "last_updated": "2026-04-15T21:54:41Z",
+      "last_updated": "2026-04-16T05:43:42Z",
       "rows": 77,
       "start": "1949-12-31",
       "end": "2025-12-31",
@@ -345,7 +345,7 @@
       "status": "OK"
     },
     "UK_IP": {
-      "last_updated": "2026-04-15T21:54:43Z",
+      "last_updated": "2026-04-16T05:43:46Z",
       "rows": 1327,
       "start": "1948-01-01",
       "end": "2026-01-01",
@@ -353,7 +353,7 @@
       "status": "OK"
     },
     "UK_RETAIL": {
-      "last_updated": "2026-04-15T21:54:46Z",
+      "last_updated": "2026-04-16T05:43:48Z",
       "rows": 512,
       "start": "1996-01-01",
       "end": "2026-02-01",
@@ -361,7 +361,7 @@
       "status": "OK"
     },
     "UK_BANK_RATE": {
-      "last_updated": "2026-04-15T21:54:47Z",
+      "last_updated": "2026-04-16T05:43:50Z",
       "rows": 435,
       "start": "1990-01-31",
       "end": "2026-03-31",
@@ -369,7 +369,7 @@
       "status": "OK"
     },
     "UK_GILT_10Y": {
-      "last_updated": "2026-04-15T21:54:53Z",
+      "last_updated": "2026-04-16T05:43:57Z",
       "rows": 9168,
       "start": "1990-01-02",
       "end": "2026-04-13",
@@ -377,7 +377,7 @@
       "status": "OK"
     },
     "UK_GILT_2Y": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -386,7 +386,7 @@
       "reason": "Held for Bank of England IADB code discovery"
     },
     "UK_GILT_5Y": {
-      "last_updated": "2026-04-15T21:54:50Z",
+      "last_updated": "2026-04-16T05:43:54Z",
       "rows": 9168,
       "start": "1990-01-02",
       "end": "2026-04-13",
@@ -394,7 +394,7 @@
       "status": "OK"
     },
     "UK_GILT_30Y": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -403,7 +403,7 @@
       "reason": "Held for Bank of England IADB code discovery"
     },
     "UK_MORT_RATE": {
-      "last_updated": "2026-04-15T21:54:57Z",
+      "last_updated": "2026-04-16T05:44:02Z",
       "rows": 375,
       "start": "1995-01-31",
       "end": "2026-03-31",
@@ -411,7 +411,7 @@
       "status": "OK"
     },
     "UK_SONIA": {
-      "last_updated": "2026-04-15T21:54:59Z",
+      "last_updated": "2026-04-16T05:44:04Z",
       "rows": 7397,
       "start": "1997-01-02",
       "end": "2026-04-13",
@@ -419,7 +419,7 @@
       "status": "OK"
     },
     "UK_ERI": {
-      "last_updated": "2026-04-15T21:55:00Z",
+      "last_updated": "2026-04-16T05:44:06Z",
       "rows": 375,
       "start": "1995-01-31",
       "end": "2026-03-31",
@@ -427,7 +427,7 @@
       "status": "OK"
     },
     "UK_M4": {
-      "last_updated": "2026-04-15T21:55:02Z",
+      "last_updated": "2026-04-16T05:44:08Z",
       "rows": 434,
       "start": "1990-01-31",
       "end": "2026-02-28",
@@ -435,7 +435,7 @@
       "status": "OK"
     },
     "UK_MORT_APPROVALS": {
-      "last_updated": "2026-04-15T21:55:03Z",
+      "last_updated": "2026-04-16T05:44:09Z",
       "rows": 435,
       "start": "1990-01-31",
       "end": "2026-03-31",
@@ -443,7 +443,7 @@
       "status": "OK"
     },
     "UK_CONS_CREDIT": {
-      "last_updated": "2026-04-15T21:55:04Z",
+      "last_updated": "2026-04-16T05:44:11Z",
       "rows": 434,
       "start": "1990-01-31",
       "end": "2026-02-28",
@@ -451,7 +451,7 @@
       "status": "OK"
     },
     "DE_BUND_3M": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -460,7 +460,7 @@
       "reason": "Removed from active Bundesbank catalog"
     },
     "DE_BUND_2Y": {
-      "last_updated": "2026-04-15T21:55:06Z",
+      "last_updated": "2026-04-16T05:44:13Z",
       "rows": 315,
       "start": "2000-01-01",
       "end": "2026-03-01",
@@ -468,7 +468,7 @@
       "status": "OK"
     },
     "DE_BUND_5Y": {
-      "last_updated": "2026-04-15T21:55:07Z",
+      "last_updated": "2026-04-16T05:44:15Z",
       "rows": 315,
       "start": "2000-01-01",
       "end": "2026-03-01",
@@ -476,7 +476,7 @@
       "status": "OK"
     },
     "DE_BUND_10Y": {
-      "last_updated": "2026-04-15T21:55:09Z",
+      "last_updated": "2026-04-16T05:44:17Z",
       "rows": 315,
       "start": "2000-01-01",
       "end": "2026-03-01",
@@ -484,7 +484,7 @@
       "status": "OK"
     },
     "DE_BUND_30Y": {
-      "last_updated": "2026-04-15T21:55:11Z",
+      "last_updated": "2026-04-16T05:44:19Z",
       "rows": 315,
       "start": "2000-01-01",
       "end": "2026-03-01",
@@ -492,7 +492,7 @@
       "status": "OK"
     },
     "DE_HH_LOANS": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -501,7 +501,7 @@
       "reason": "Removed from active Bundesbank catalog"
     },
     "DE_NFC_LOANS": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -510,7 +510,7 @@
       "reason": "Removed from active Bundesbank catalog"
     },
     "FR_OAT_10Y": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -519,7 +519,7 @@
       "reason": "BDF credentials not configured"
     },
     "FR_HH_LOANS": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -528,7 +528,7 @@
       "reason": "BDF credentials not configured"
     },
     "FR_NFC_LOANS": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -537,7 +537,7 @@
       "reason": "BDF credentials not configured"
     },
     "JP_CALL_RATE": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -546,7 +546,7 @@
       "reason": "Removed from active BoJ catalog"
     },
     "JP_TIBOR_3M": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -555,7 +555,7 @@
       "reason": "Removed from active BoJ catalog"
     },
     "JP_MONETARY_BASE": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -564,7 +564,7 @@
       "reason": "Removed from active BoJ catalog"
     },
     "JP_M2": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -573,7 +573,7 @@
       "reason": "Removed from active BoJ catalog"
     },
     "JP_CGPI": {
-      "last_updated": "2026-04-15T21:55:14Z",
+      "last_updated": "2026-04-16T05:44:22Z",
       "rows": 75,
       "start": "2020-01-01",
       "end": "2026-03-01",
@@ -581,7 +581,7 @@
       "status": "OK"
     },
     "JP_BOJ_IR": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -590,7 +590,7 @@
       "reason": "Removed from active BoJ catalog"
     },
     "JP_BOJ_MD": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -599,7 +599,7 @@
       "reason": "Removed from active BoJ catalog"
     },
     "JP_BOJ_PR": {
-      "last_updated": "2026-04-15T21:55:13Z",
+      "last_updated": "2026-04-16T05:44:21Z",
       "rows": 3042,
       "start": null,
       "end": null,
@@ -607,7 +607,7 @@
       "status": "OK"
     },
     "IMF_EM_CPI": {
-      "last_updated": "2026-04-15T21:56:03Z",
+      "last_updated": "2026-04-16T05:45:14Z",
       "rows": 7834,
       "start": "1993-M01",
       "end": "2026-M02",
@@ -615,7 +615,7 @@
       "status": "OK"
     },
     "IMF_EM_CPI_PCT": {
-      "last_updated": "2026-04-15T21:56:48Z",
+      "last_updated": "2026-04-16T05:46:05Z",
       "rows": 7726,
       "start": "1994-M01",
       "end": "2026-M02",
@@ -632,7 +632,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_LENDING_RATE": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -641,7 +641,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_DEPOSIT_RATE": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -650,7 +650,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_TBILL_RATE": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -668,7 +668,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_REER": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -686,7 +686,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_GDP_NOM": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -695,7 +695,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_GDP_REAL": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -704,7 +704,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "IMF_EM_UNEMP": {
-      "last_updated": "2026-04-15T21:49:39Z",
+      "last_updated": "2026-04-16T05:37:05Z",
       "rows": 0,
       "start": null,
       "end": null,
@@ -713,7 +713,7 @@
       "reason": "Held for SDMX codelist discovery"
     },
     "WB_GDP_USD": {
-      "last_updated": "2026-04-15T21:56:49Z",
+      "last_updated": "2026-04-16T05:46:12Z",
       "rows": 1050,
       "start": "1990",
       "end": "2024",
@@ -721,7 +721,7 @@
       "status": "OK"
     },
     "WB_GDP_REAL": {
-      "last_updated": "2026-04-15T21:56:50Z",
+      "last_updated": "2026-04-16T05:46:29Z",
       "rows": 1050,
       "start": "1990",
       "end": "2024",
@@ -729,7 +729,7 @@
       "status": "OK"
     },
     "WB_GDP_GROWTH": {
-      "last_updated": "2026-04-15T21:56:51Z",
+      "last_updated": "2026-04-16T05:46:38Z",
       "rows": 1047,
       "start": "1990",
       "end": "2024",
@@ -737,7 +737,7 @@
       "status": "OK"
     },
     "WB_GDP_DEFLATOR": {
-      "last_updated": "2026-04-15T21:56:52Z",
+      "last_updated": "2026-04-16T05:46:39Z",
       "rows": 1047,
       "start": "1990",
       "end": "2024",
@@ -745,7 +745,7 @@
       "status": "OK"
     },
     "WB_CPI_INFLATION": {
-      "last_updated": "2026-04-15T21:56:53Z",
+      "last_updated": "2026-04-16T05:46:46Z",
       "rows": 1029,
       "start": "2008",
       "end": "2024",
@@ -753,7 +753,7 @@
       "status": "OK"
     },
     "WB_UNEMPLOYMENT": {
-      "last_updated": "2026-04-15T21:56:54Z",
+      "last_updated": "2026-04-16T05:46:49Z",
       "rows": 1050,
       "start": "1991",
       "end": "2025",
@@ -761,7 +761,7 @@
       "status": "OK"
     },
     "WB_REAL_INTEREST": {
-      "last_updated": "2026-04-15T21:56:55Z",
+      "last_updated": "2026-04-16T05:47:05Z",
       "rows": 708,
       "start": "1990",
       "end": "2024",
@@ -769,7 +769,7 @@
       "status": "OK"
     },
     "WB_FX_OFFICIAL": {
-      "last_updated": "2026-04-15T21:56:57Z",
+      "last_updated": "2026-04-16T05:47:22Z",
       "rows": 1047,
       "start": "1990",
       "end": "2024",
@@ -777,7 +777,7 @@
       "status": "OK"
     },
     "WB_BROAD_MONEY_GDP": {
-      "last_updated": "2026-04-15T21:56:58Z",
+      "last_updated": "2026-04-16T05:47:23Z",
       "rows": 937,
       "start": "1990",
       "end": "2024",
@@ -785,7 +785,7 @@
       "status": "OK"
     },
     "WB_CA_BALANCE_GDP": {
-      "last_updated": "2026-04-15T21:56:59Z",
+      "last_updated": "2026-04-16T05:47:39Z",
       "rows": 998,
       "start": "2023",
       "end": "2024",
@@ -793,7 +793,7 @@
       "status": "OK"
     },
     "WB_EXPORTS_GDP": {
-      "last_updated": "2026-04-15T21:57:00Z",
+      "last_updated": "2026-04-16T05:47:50Z",
       "rows": 1032,
       "start": "2001",
       "end": "2024",
@@ -801,7 +801,7 @@
       "status": "OK"
     },
     "WB_IMPORTS_GDP": {
-      "last_updated": "2026-04-15T21:57:01Z",
+      "last_updated": "2026-04-16T05:48:16Z",
       "rows": 1032,
       "start": "2001",
       "end": "2024",
@@ -809,7 +809,7 @@
       "status": "OK"
     },
     "WB_GOVT_DEBT_GDP": {
-      "last_updated": "2026-04-15T21:57:02Z",
+      "last_updated": "2026-04-16T05:48:45Z",
       "rows": 522,
       "start": "2013",
       "end": "2023",
@@ -817,7 +817,7 @@
       "status": "OK"
     },
     "WB_GDP_PER_CAPITA": {
-      "last_updated": "2026-04-15T21:57:03Z",
+      "last_updated": "2026-04-16T05:49:17Z",
       "rows": 1050,
       "start": "1990",
       "end": "2024",
@@ -825,7 +825,7 @@
       "status": "OK"
     },
     "WB_POPULATION": {
-      "last_updated": "2026-04-15T21:57:04Z",
+      "last_updated": "2026-04-16T05:49:26Z",
       "rows": 1050,
       "start": "1990",
       "end": "2024",
@@ -1682,7 +1682,7 @@
       "status": "OK"
     },
     "DEU_GDP_REAL_Q": {
-      "last_updated": "2026-04-15T21:50:58Z",
+      "last_updated": "2026-04-16T05:39:18Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1690,7 +1690,7 @@
       "status": "OK"
     },
     "DEU_GDP_NOM_Q": {
-      "last_updated": "2026-04-15T21:51:00Z",
+      "last_updated": "2026-04-16T05:39:20Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1698,7 +1698,7 @@
       "status": "OK"
     },
     "DEU_EXPORTS_Q": {
-      "last_updated": "2026-04-15T21:51:02Z",
+      "last_updated": "2026-04-16T05:39:22Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1706,7 +1706,7 @@
       "status": "OK"
     },
     "DEU_IMPORTS_Q": {
-      "last_updated": "2026-04-15T21:51:03Z",
+      "last_updated": "2026-04-16T05:39:24Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1714,7 +1714,7 @@
       "status": "OK"
     },
     "DEU_UNEMP_M": {
-      "last_updated": "2026-04-15T21:51:06Z",
+      "last_updated": "2026-04-16T05:39:26Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -1722,7 +1722,7 @@
       "status": "OK"
     },
     "DEU_HICP_YOY_M": {
-      "last_updated": "2026-04-15T21:51:08Z",
+      "last_updated": "2026-04-16T05:39:28Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -1730,7 +1730,7 @@
       "status": "OK"
     },
     "DEU_HICP_INDEX_M": {
-      "last_updated": "2026-04-15T21:51:10Z",
+      "last_updated": "2026-04-16T05:39:30Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -1738,7 +1738,7 @@
       "status": "OK"
     },
     "DEU_PPI_M": {
-      "last_updated": "2026-04-15T21:51:12Z",
+      "last_updated": "2026-04-16T05:39:32Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -1746,7 +1746,7 @@
       "status": "OK"
     },
     "FRA_GDP_REAL_Q": {
-      "last_updated": "2026-04-15T21:51:13Z",
+      "last_updated": "2026-04-16T05:39:34Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1754,7 +1754,7 @@
       "status": "OK"
     },
     "FRA_GDP_NOM_Q": {
-      "last_updated": "2026-04-15T21:51:15Z",
+      "last_updated": "2026-04-16T05:39:36Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1762,7 +1762,7 @@
       "status": "OK"
     },
     "FRA_EXPORTS_Q": {
-      "last_updated": "2026-04-15T21:51:16Z",
+      "last_updated": "2026-04-16T05:39:37Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1770,7 +1770,7 @@
       "status": "OK"
     },
     "FRA_IMPORTS_Q": {
-      "last_updated": "2026-04-15T21:51:18Z",
+      "last_updated": "2026-04-16T05:39:39Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1778,7 +1778,7 @@
       "status": "OK"
     },
     "FRA_UNEMP_M": {
-      "last_updated": "2026-04-15T21:51:20Z",
+      "last_updated": "2026-04-16T05:39:41Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -1786,7 +1786,7 @@
       "status": "OK"
     },
     "FRA_HICP_YOY_M": {
-      "last_updated": "2026-04-15T21:51:22Z",
+      "last_updated": "2026-04-16T05:39:44Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -1794,7 +1794,7 @@
       "status": "OK"
     },
     "FRA_HICP_INDEX_M": {
-      "last_updated": "2026-04-15T21:51:24Z",
+      "last_updated": "2026-04-16T05:39:46Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -1802,7 +1802,7 @@
       "status": "OK"
     },
     "FRA_PPI_M": {
-      "last_updated": "2026-04-15T21:51:26Z",
+      "last_updated": "2026-04-16T05:39:48Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -1810,7 +1810,7 @@
       "status": "OK"
     },
     "ITA_GDP_REAL_Q": {
-      "last_updated": "2026-04-15T21:51:28Z",
+      "last_updated": "2026-04-16T05:39:50Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1818,7 +1818,7 @@
       "status": "OK"
     },
     "ITA_GDP_NOM_Q": {
-      "last_updated": "2026-04-15T21:51:29Z",
+      "last_updated": "2026-04-16T05:39:51Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1826,7 +1826,7 @@
       "status": "OK"
     },
     "ITA_EXPORTS_Q": {
-      "last_updated": "2026-04-15T21:51:31Z",
+      "last_updated": "2026-04-16T05:39:53Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1834,7 +1834,7 @@
       "status": "OK"
     },
     "ITA_IMPORTS_Q": {
-      "last_updated": "2026-04-15T21:51:33Z",
+      "last_updated": "2026-04-16T05:39:55Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1842,7 +1842,7 @@
       "status": "OK"
     },
     "ITA_UNEMP_M": {
-      "last_updated": "2026-04-15T21:51:35Z",
+      "last_updated": "2026-04-16T05:39:58Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -1850,7 +1850,7 @@
       "status": "OK"
     },
     "ITA_HICP_YOY_M": {
-      "last_updated": "2026-04-15T21:51:37Z",
+      "last_updated": "2026-04-16T05:40:00Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -1858,7 +1858,7 @@
       "status": "OK"
     },
     "ITA_HICP_INDEX_M": {
-      "last_updated": "2026-04-15T21:51:39Z",
+      "last_updated": "2026-04-16T05:40:02Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -1866,7 +1866,7 @@
       "status": "OK"
     },
     "ITA_PPI_M": {
-      "last_updated": "2026-04-15T21:51:41Z",
+      "last_updated": "2026-04-16T05:40:04Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -1874,7 +1874,7 @@
       "status": "OK"
     },
     "ESP_GDP_REAL_Q": {
-      "last_updated": "2026-04-15T21:51:43Z",
+      "last_updated": "2026-04-16T05:40:06Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1882,7 +1882,7 @@
       "status": "OK"
     },
     "ESP_GDP_NOM_Q": {
-      "last_updated": "2026-04-15T21:51:44Z",
+      "last_updated": "2026-04-16T05:40:08Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1890,7 +1890,7 @@
       "status": "OK"
     },
     "ESP_EXPORTS_Q": {
-      "last_updated": "2026-04-15T21:51:46Z",
+      "last_updated": "2026-04-16T05:40:10Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1898,7 +1898,7 @@
       "status": "OK"
     },
     "ESP_IMPORTS_Q": {
-      "last_updated": "2026-04-15T21:51:48Z",
+      "last_updated": "2026-04-16T05:40:11Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1906,7 +1906,7 @@
       "status": "OK"
     },
     "ESP_UNEMP_M": {
-      "last_updated": "2026-04-15T21:51:50Z",
+      "last_updated": "2026-04-16T05:40:14Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -1914,7 +1914,7 @@
       "status": "OK"
     },
     "ESP_HICP_YOY_M": {
-      "last_updated": "2026-04-15T21:51:52Z",
+      "last_updated": "2026-04-16T05:40:16Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -1922,7 +1922,7 @@
       "status": "OK"
     },
     "ESP_HICP_INDEX_M": {
-      "last_updated": "2026-04-15T21:51:54Z",
+      "last_updated": "2026-04-16T05:40:18Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -1930,7 +1930,7 @@
       "status": "OK"
     },
     "ESP_PPI_M": {
-      "last_updated": "2026-04-15T21:51:56Z",
+      "last_updated": "2026-04-16T05:40:21Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -1938,7 +1938,7 @@
       "status": "OK"
     },
     "NLD_GDP_REAL_Q": {
-      "last_updated": "2026-04-15T21:51:58Z",
+      "last_updated": "2026-04-16T05:40:22Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1946,7 +1946,7 @@
       "status": "OK"
     },
     "NLD_GDP_NOM_Q": {
-      "last_updated": "2026-04-15T21:51:59Z",
+      "last_updated": "2026-04-16T05:40:24Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1954,7 +1954,7 @@
       "status": "OK"
     },
     "NLD_EXPORTS_Q": {
-      "last_updated": "2026-04-15T21:52:01Z",
+      "last_updated": "2026-04-16T05:40:26Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1962,7 +1962,7 @@
       "status": "OK"
     },
     "NLD_IMPORTS_Q": {
-      "last_updated": "2026-04-15T21:52:02Z",
+      "last_updated": "2026-04-16T05:40:28Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -1970,7 +1970,7 @@
       "status": "OK"
     },
     "NLD_UNEMP_M": {
-      "last_updated": "2026-04-15T21:52:05Z",
+      "last_updated": "2026-04-16T05:40:30Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -1978,7 +1978,7 @@
       "status": "OK"
     },
     "NLD_HICP_YOY_M": {
-      "last_updated": "2026-04-15T21:52:07Z",
+      "last_updated": "2026-04-16T05:40:32Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -1986,7 +1986,7 @@
       "status": "OK"
     },
     "NLD_HICP_INDEX_M": {
-      "last_updated": "2026-04-15T21:52:09Z",
+      "last_updated": "2026-04-16T05:40:34Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -1994,7 +1994,7 @@
       "status": "OK"
     },
     "NLD_PPI_M": {
-      "last_updated": "2026-04-15T21:52:11Z",
+      "last_updated": "2026-04-16T05:40:37Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -2002,7 +2002,7 @@
       "status": "OK"
     },
     "BEL_GDP_REAL_Q": {
-      "last_updated": "2026-04-15T21:52:12Z",
+      "last_updated": "2026-04-16T05:40:38Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2010,7 +2010,7 @@
       "status": "OK"
     },
     "BEL_GDP_NOM_Q": {
-      "last_updated": "2026-04-15T21:52:14Z",
+      "last_updated": "2026-04-16T05:40:40Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2018,7 +2018,7 @@
       "status": "OK"
     },
     "BEL_EXPORTS_Q": {
-      "last_updated": "2026-04-15T21:52:15Z",
+      "last_updated": "2026-04-16T05:40:42Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2026,7 +2026,7 @@
       "status": "OK"
     },
     "BEL_IMPORTS_Q": {
-      "last_updated": "2026-04-15T21:52:17Z",
+      "last_updated": "2026-04-16T05:40:44Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2034,7 +2034,7 @@
       "status": "OK"
     },
     "BEL_UNEMP_M": {
-      "last_updated": "2026-04-15T21:52:19Z",
+      "last_updated": "2026-04-16T05:40:46Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -2042,7 +2042,7 @@
       "status": "OK"
     },
     "BEL_HICP_YOY_M": {
-      "last_updated": "2026-04-15T21:52:20Z",
+      "last_updated": "2026-04-16T05:40:53Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -2050,7 +2050,7 @@
       "status": "OK"
     },
     "BEL_HICP_INDEX_M": {
-      "last_updated": "2026-04-15T21:52:22Z",
+      "last_updated": "2026-04-16T05:40:55Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -2058,7 +2058,7 @@
       "status": "OK"
     },
     "BEL_PPI_M": {
-      "last_updated": "2026-04-15T21:52:25Z",
+      "last_updated": "2026-04-16T05:40:57Z",
       "rows": 302,
       "start": null,
       "end": null,
@@ -2066,7 +2066,7 @@
       "status": "OK"
     },
     "AUT_GDP_REAL_Q": {
-      "last_updated": "2026-04-15T21:52:26Z",
+      "last_updated": "2026-04-16T05:40:59Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2074,7 +2074,7 @@
       "status": "OK"
     },
     "AUT_GDP_NOM_Q": {
-      "last_updated": "2026-04-15T21:52:28Z",
+      "last_updated": "2026-04-16T05:41:00Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2082,7 +2082,7 @@
       "status": "OK"
     },
     "AUT_EXPORTS_Q": {
-      "last_updated": "2026-04-15T21:52:29Z",
+      "last_updated": "2026-04-16T05:41:02Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2090,7 +2090,7 @@
       "status": "OK"
     },
     "AUT_IMPORTS_Q": {
-      "last_updated": "2026-04-15T21:52:31Z",
+      "last_updated": "2026-04-16T05:41:04Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2098,7 +2098,7 @@
       "status": "OK"
     },
     "AUT_UNEMP_M": {
-      "last_updated": "2026-04-15T21:52:33Z",
+      "last_updated": "2026-04-16T05:41:06Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -2106,7 +2106,7 @@
       "status": "OK"
     },
     "AUT_HICP_YOY_M": {
-      "last_updated": "2026-04-15T21:52:35Z",
+      "last_updated": "2026-04-16T05:41:09Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -2114,7 +2114,7 @@
       "status": "OK"
     },
     "AUT_HICP_INDEX_M": {
-      "last_updated": "2026-04-15T21:52:37Z",
+      "last_updated": "2026-04-16T05:41:11Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -2122,7 +2122,7 @@
       "status": "OK"
     },
     "AUT_PPI_M": {
-      "last_updated": "2026-04-15T21:52:39Z",
+      "last_updated": "2026-04-16T05:41:13Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -2130,7 +2130,7 @@
       "status": "OK"
     },
     "PRT_GDP_REAL_Q": {
-      "last_updated": "2026-04-15T21:52:40Z",
+      "last_updated": "2026-04-16T05:41:14Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2138,7 +2138,7 @@
       "status": "OK"
     },
     "PRT_GDP_NOM_Q": {
-      "last_updated": "2026-04-15T21:52:42Z",
+      "last_updated": "2026-04-16T05:41:16Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2146,7 +2146,7 @@
       "status": "OK"
     },
     "PRT_EXPORTS_Q": {
-      "last_updated": "2026-04-15T21:52:44Z",
+      "last_updated": "2026-04-16T05:41:18Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2154,7 +2154,7 @@
       "status": "OK"
     },
     "PRT_IMPORTS_Q": {
-      "last_updated": "2026-04-15T21:52:45Z",
+      "last_updated": "2026-04-16T05:41:20Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2162,7 +2162,7 @@
       "status": "OK"
     },
     "PRT_UNEMP_M": {
-      "last_updated": "2026-04-15T21:52:47Z",
+      "last_updated": "2026-04-16T05:41:22Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -2170,7 +2170,7 @@
       "status": "OK"
     },
     "PRT_HICP_YOY_M": {
-      "last_updated": "2026-04-15T21:52:49Z",
+      "last_updated": "2026-04-16T05:41:24Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -2178,7 +2178,7 @@
       "status": "OK"
     },
     "PRT_HICP_INDEX_M": {
-      "last_updated": "2026-04-15T21:52:51Z",
+      "last_updated": "2026-04-16T05:41:26Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -2186,7 +2186,7 @@
       "status": "OK"
     },
     "PRT_PPI_M": {
-      "last_updated": "2026-04-15T21:52:53Z",
+      "last_updated": "2026-04-16T05:41:28Z",
       "rows": 254,
       "start": null,
       "end": null,
@@ -2194,7 +2194,7 @@
       "status": "OK"
     },
     "IRL_GDP_REAL_Q": {
-      "last_updated": "2026-04-15T21:52:54Z",
+      "last_updated": "2026-04-16T05:41:30Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2202,7 +2202,7 @@
       "status": "OK"
     },
     "IRL_GDP_NOM_Q": {
-      "last_updated": "2026-04-15T21:52:55Z",
+      "last_updated": "2026-04-16T05:41:32Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2210,7 +2210,7 @@
       "status": "OK"
     },
     "IRL_EXPORTS_Q": {
-      "last_updated": "2026-04-15T21:52:57Z",
+      "last_updated": "2026-04-16T05:41:33Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2218,7 +2218,7 @@
       "status": "OK"
     },
     "IRL_IMPORTS_Q": {
-      "last_updated": "2026-04-15T21:52:58Z",
+      "last_updated": "2026-04-16T05:41:35Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2226,7 +2226,7 @@
       "status": "OK"
     },
     "IRL_UNEMP_M": {
-      "last_updated": "2026-04-15T21:53:00Z",
+      "last_updated": "2026-04-16T05:41:37Z",
       "rows": 315,
       "start": null,
       "end": null,
@@ -2234,7 +2234,7 @@
       "status": "OK"
     },
     "IRL_HICP_YOY_M": {
-      "last_updated": "2026-04-15T21:53:01Z",
+      "last_updated": "2026-04-16T05:41:39Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -2242,7 +2242,7 @@
       "status": "OK"
     },
     "IRL_HICP_INDEX_M": {
-      "last_updated": "2026-04-15T21:53:03Z",
+      "last_updated": "2026-04-16T05:41:42Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -2250,7 +2250,7 @@
       "status": "OK"
     },
     "IRL_PPI_M": {
-      "last_updated": "2026-04-15T21:53:04Z",
+      "last_updated": "2026-04-16T05:41:44Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -2258,7 +2258,7 @@
       "status": "OK"
     },
     "FIN_GDP_REAL_Q": {
-      "last_updated": "2026-04-15T21:53:05Z",
+      "last_updated": "2026-04-16T05:41:46Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2266,7 +2266,7 @@
       "status": "OK"
     },
     "FIN_GDP_NOM_Q": {
-      "last_updated": "2026-04-15T21:53:06Z",
+      "last_updated": "2026-04-16T05:41:47Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2274,7 +2274,7 @@
       "status": "OK"
     },
     "FIN_EXPORTS_Q": {
-      "last_updated": "2026-04-15T21:53:08Z",
+      "last_updated": "2026-04-16T05:41:49Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2282,7 +2282,7 @@
       "status": "OK"
     },
     "FIN_IMPORTS_Q": {
-      "last_updated": "2026-04-15T21:53:09Z",
+      "last_updated": "2026-04-16T05:41:51Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2290,7 +2290,7 @@
       "status": "OK"
     },
     "FIN_UNEMP_M": {
-      "last_updated": "2026-04-15T21:53:11Z",
+      "last_updated": "2026-04-16T05:41:53Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -2298,7 +2298,7 @@
       "status": "OK"
     },
     "FIN_HICP_YOY_M": {
-      "last_updated": "2026-04-15T21:53:12Z",
+      "last_updated": "2026-04-16T05:41:56Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -2306,7 +2306,7 @@
       "status": "OK"
     },
     "FIN_HICP_INDEX_M": {
-      "last_updated": "2026-04-15T21:53:14Z",
+      "last_updated": "2026-04-16T05:41:58Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -2314,7 +2314,7 @@
       "status": "OK"
     },
     "FIN_PPI_M": {
-      "last_updated": "2026-04-15T21:53:15Z",
+      "last_updated": "2026-04-16T05:42:00Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -2322,7 +2322,7 @@
       "status": "OK"
     },
     "SWE_GDP_REAL_Q": {
-      "last_updated": "2026-04-15T21:53:17Z",
+      "last_updated": "2026-04-16T05:42:02Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2330,7 +2330,7 @@
       "status": "OK"
     },
     "SWE_GDP_NOM_Q": {
-      "last_updated": "2026-04-15T21:53:18Z",
+      "last_updated": "2026-04-16T05:42:04Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2338,7 +2338,7 @@
       "status": "OK"
     },
     "SWE_EXPORTS_Q": {
-      "last_updated": "2026-04-15T21:53:19Z",
+      "last_updated": "2026-04-16T05:42:06Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2346,7 +2346,7 @@
       "status": "OK"
     },
     "SWE_IMPORTS_Q": {
-      "last_updated": "2026-04-15T21:53:20Z",
+      "last_updated": "2026-04-16T05:42:08Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2354,7 +2354,7 @@
       "status": "OK"
     },
     "SWE_UNEMP_M": {
-      "last_updated": "2026-04-15T21:53:22Z",
+      "last_updated": "2026-04-16T05:42:10Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -2362,7 +2362,7 @@
       "status": "OK"
     },
     "SWE_HICP_YOY_M": {
-      "last_updated": "2026-04-15T21:53:23Z",
+      "last_updated": "2026-04-16T05:42:12Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -2370,7 +2370,7 @@
       "status": "OK"
     },
     "SWE_HICP_INDEX_M": {
-      "last_updated": "2026-04-15T21:53:25Z",
+      "last_updated": "2026-04-16T05:42:14Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -2378,7 +2378,7 @@
       "status": "OK"
     },
     "SWE_PPI_M": {
-      "last_updated": "2026-04-15T21:53:27Z",
+      "last_updated": "2026-04-16T05:42:16Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -2386,7 +2386,7 @@
       "status": "OK"
     },
     "DNK_GDP_REAL_Q": {
-      "last_updated": "2026-04-15T21:53:29Z",
+      "last_updated": "2026-04-16T05:42:18Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2394,7 +2394,7 @@
       "status": "OK"
     },
     "DNK_GDP_NOM_Q": {
-      "last_updated": "2026-04-15T21:53:30Z",
+      "last_updated": "2026-04-16T05:42:20Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2402,7 +2402,7 @@
       "status": "OK"
     },
     "DNK_EXPORTS_Q": {
-      "last_updated": "2026-04-15T21:53:32Z",
+      "last_updated": "2026-04-16T05:42:21Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2410,7 +2410,7 @@
       "status": "OK"
     },
     "DNK_IMPORTS_Q": {
-      "last_updated": "2026-04-15T21:53:33Z",
+      "last_updated": "2026-04-16T05:42:23Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2418,7 +2418,7 @@
       "status": "OK"
     },
     "DNK_UNEMP_M": {
-      "last_updated": "2026-04-15T21:53:35Z",
+      "last_updated": "2026-04-16T05:42:26Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -2426,7 +2426,7 @@
       "status": "OK"
     },
     "DNK_HICP_YOY_M": {
-      "last_updated": "2026-04-15T21:53:37Z",
+      "last_updated": "2026-04-16T05:42:28Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -2434,7 +2434,7 @@
       "status": "OK"
     },
     "DNK_HICP_INDEX_M": {
-      "last_updated": "2026-04-15T21:53:39Z",
+      "last_updated": "2026-04-16T05:42:30Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -2442,7 +2442,7 @@
       "status": "OK"
     },
     "DNK_PPI_M": {
-      "last_updated": "2026-04-15T21:53:40Z",
+      "last_updated": "2026-04-16T05:42:32Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -2450,7 +2450,7 @@
       "status": "OK"
     },
     "NOR_GDP_REAL_Q": {
-      "last_updated": "2026-04-15T21:53:42Z",
+      "last_updated": "2026-04-16T05:42:34Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2458,7 +2458,7 @@
       "status": "OK"
     },
     "NOR_GDP_NOM_Q": {
-      "last_updated": "2026-04-15T21:53:43Z",
+      "last_updated": "2026-04-16T05:42:36Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2466,7 +2466,7 @@
       "status": "OK"
     },
     "NOR_EXPORTS_Q": {
-      "last_updated": "2026-04-15T21:53:44Z",
+      "last_updated": "2026-04-16T05:42:37Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2474,7 +2474,7 @@
       "status": "OK"
     },
     "NOR_IMPORTS_Q": {
-      "last_updated": "2026-04-15T21:53:46Z",
+      "last_updated": "2026-04-16T05:42:39Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2482,7 +2482,7 @@
       "status": "OK"
     },
     "NOR_UNEMP_M": {
-      "last_updated": "2026-04-15T21:53:48Z",
+      "last_updated": "2026-04-16T05:42:41Z",
       "rows": 314,
       "start": null,
       "end": null,
@@ -2490,7 +2490,7 @@
       "status": "OK"
     },
     "NOR_HICP_YOY_M": {
-      "last_updated": "2026-04-15T21:53:50Z",
+      "last_updated": "2026-04-16T05:42:44Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -2498,7 +2498,7 @@
       "status": "OK"
     },
     "NOR_HICP_INDEX_M": {
-      "last_updated": "2026-04-15T21:53:52Z",
+      "last_updated": "2026-04-16T05:42:46Z",
       "rows": 312,
       "start": null,
       "end": null,
@@ -2506,7 +2506,7 @@
       "status": "OK"
     },
     "NOR_PPI_M": {
-      "last_updated": "2026-04-15T21:53:54Z",
+      "last_updated": "2026-04-16T05:42:48Z",
       "rows": 315,
       "start": null,
       "end": null,
@@ -2514,7 +2514,7 @@
       "status": "OK"
     },
     "CHE_GDP_REAL_Q": {
-      "last_updated": "2026-04-15T21:53:56Z",
+      "last_updated": "2026-04-16T05:42:50Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2522,7 +2522,7 @@
       "status": "OK"
     },
     "CHE_GDP_NOM_Q": {
-      "last_updated": "2026-04-15T21:53:57Z",
+      "last_updated": "2026-04-16T05:42:52Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2530,7 +2530,7 @@
       "status": "OK"
     },
     "CHE_EXPORTS_Q": {
-      "last_updated": "2026-04-15T21:53:59Z",
+      "last_updated": "2026-04-16T05:42:56Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2538,7 +2538,7 @@
       "status": "OK"
     },
     "CHE_IMPORTS_Q": {
-      "last_updated": "2026-04-15T21:54:01Z",
+      "last_updated": "2026-04-16T05:42:57Z",
       "rows": 104,
       "start": null,
       "end": null,
@@ -2546,7 +2546,7 @@
       "status": "OK"
     },
     "CHE_UNEMP_M": {
-      "last_updated": "2026-04-15T21:54:03Z",
+      "last_updated": "2026-04-16T05:42:59Z",
       "rows": 192,
       "start": null,
       "end": null,
@@ -2554,7 +2554,7 @@
       "status": "OK"
     },
     "CHE_HICP_YOY_M": {
-      "last_updated": "2026-04-15T21:54:05Z",
+      "last_updated": "2026-04-16T05:43:01Z",
       "rows": 241,
       "start": null,
       "end": null,
@@ -2562,7 +2562,7 @@
       "status": "OK"
     },
     "CHE_HICP_INDEX_M": {
-      "last_updated": "2026-04-15T21:54:07Z",
+      "last_updated": "2026-04-16T05:43:04Z",
       "rows": 253,
       "start": null,
       "end": null,
@@ -2570,7 +2570,7 @@
       "status": "OK"
     },
     "CHE_PPI_M": {
-      "last_updated": "2026-04-15T21:54:10Z",
+      "last_updated": "2026-04-16T05:43:06Z",
       "rows": 274,
       "start": null,
       "end": null,
@@ -2578,7 +2578,7 @@
       "status": "OK"
     },
     "JP_CURRENT_ACCOUNT": {
-      "last_updated": "2026-04-15T21:55:17Z",
+      "last_updated": "2026-04-16T05:44:25Z",
       "rows": 362,
       "start": "1996-01-01",
       "end": "2026-02-01",
@@ -2586,21 +2586,69 @@
       "status": "OK"
     },
     "UK_GILT_20Y": {
-      "last_updated": "2026-04-15T21:54:55Z",
+      "last_updated": "2026-04-16T05:44:00Z",
       "rows": 8634,
       "start": "1992-02-11",
       "end": "2026-04-13",
       "source": "boe:IUDLNZC",
       "status": "OK"
+    },
+    "DEU_HH_CREDIT": {
+      "last_updated": "2026-04-16T05:38:42Z",
+      "rows": 278,
+      "start": null,
+      "end": null,
+      "source": "ecb:BSI/M.DE.N.A.A20.A.1.U2.2250.Z01.E",
+      "status": "OK"
+    },
+    "DEU_NFC_CREDIT": {
+      "last_updated": "2026-04-16T05:38:47Z",
+      "rows": 278,
+      "start": null,
+      "end": null,
+      "source": "ecb:BSI/M.DE.N.A.A20.A.1.U2.2240.Z01.E",
+      "status": "OK"
+    },
+    "DEU_INDPRO_M": {
+      "last_updated": "2026-04-16T05:43:08Z",
+      "rows": 314,
+      "start": null,
+      "end": null,
+      "source": "eurostat:sts_inpr_m",
+      "status": "OK"
+    },
+    "BRA_POLICY_RATE": {
+      "last_updated": "2026-04-16T05:46:07Z",
+      "rows": 49,
+      "start": "2020-M01",
+      "end": "2024-M01",
+      "source": "imf:MFS_IR:BRA.MFS135_RT_PT_A_PT.M",
+      "status": "OK"
+    },
+    "BRA_EXCHANGE_RATE": {
+      "last_updated": "2026-04-16T05:46:09Z",
+      "rows": 75,
+      "start": "2020-M01",
+      "end": "2026-M03",
+      "source": "imf:ER:BRA.XDC_USD.PA_RT.M",
+      "status": "OK"
+    },
+    "BRA_BROAD_MONEY": {
+      "last_updated": "2026-04-16T05:46:11Z",
+      "rows": 72,
+      "start": "2020-M01",
+      "end": "2025-M12",
+      "source": "imf:MFS_MA:BRA.BM_MAI.XDC.M",
+      "status": "OK"
     }
   },
   "processed": {
     "daily": {
-      "rows": 18730,
+      "rows": 18731,
       "columns": 30,
       "path": "store/processed/daily.parquet",
       "start": "1954-07-01",
-      "end": "2026-04-15"
+      "end": "2026-04-16"
     },
     "weekly": {
       "rows": 3092,
@@ -2611,7 +2659,7 @@
     },
     "monthly": {
       "rows": 2424,
-      "columns": 154,
+      "columns": 160,
       "path": "store/processed/monthly.parquet",
       "start": "1913-01-01",
       "end": "2026-03-31"

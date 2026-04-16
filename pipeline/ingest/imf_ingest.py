@@ -195,6 +195,56 @@ def fetch_multi_country(freq: str, areas: list[str], indicator: str,
     return df
 
 
+def fetch_sdmx_series(flow: str, key: str,
+                      start_period: str | None = None,
+                      end_period: str | None = None,
+                      label: str | None = None,
+                      indicator: str | None = None) -> pd.DataFrame | None:
+    """
+    Fetch one IMF SDMX 2.1 series by exact dataflow and dimension key.
+
+    Use this for live-tested mappings whose current SDMX 2.1 keys do not fit
+    the older IFS-style {freq, area, indicator} helper.
+    """
+    url = f"{BASE_URL}/data/{flow}/{key}"
+    params = {}
+    if start_period:
+        params["startPeriod"] = start_period
+    if end_period:
+        params["endPeriod"] = end_period
+
+    _throttle()
+    try:
+        r = retry_call(
+            lambda: requests.get(
+                url,
+                params=params,
+                headers={"User-Agent": UA, "Accept": "text/csv, application/json"},
+                timeout=60,
+            ),
+            label=f"IMF {flow} {key}",
+        )
+        r.raise_for_status()
+        df = pd.read_csv(StringIO(r.text))
+    except Exception as e:
+        print(f"  [ERROR] IMF {flow} {key}: {e}", file=sys.stderr)
+        return None
+
+    if df.empty or "OBS_VALUE" not in df.columns:
+        return None
+    rows = _normalise_sdmx_csv(df, indicator or key)
+    if rows.empty:
+        return None
+
+    # Single promoted series should load into the processed layer as local_id,
+    # not as AREA_suffix fan-out used by multi-country IMF_EM files.
+    rows = rows[["date", "value"]].copy()
+    fname = label or re_safe_label(f"{flow}_{key}")
+    out_path = RAW_IMF / f"{fname}.csv"
+    rows.to_csv(out_path, index=False)
+    return rows
+
+
 def _normalise_sdmx_csv(df: pd.DataFrame, indicator: str) -> pd.DataFrame:
     country_col = "COUNTRY" if "COUNTRY" in df.columns else "REF_AREA"
     rows = pd.DataFrame({
@@ -204,6 +254,10 @@ def _normalise_sdmx_csv(df: pd.DataFrame, indicator: str) -> pd.DataFrame:
         "indicator": indicator,
     })
     return rows.dropna(subset=["date", "value"]).reset_index(drop=True)
+
+
+def re_safe_label(value: str) -> str:
+    return "".join(ch if ch.isalnum() or ch in ("_", "-") else "_" for ch in value)[:150]
 
 
 def list_datasets() -> list[str] | None:
@@ -256,16 +310,37 @@ ACTIVE_IFS_INDICATORS = [
 DISCOVERY_IFS_INDICATORS = [
     # These legacy IFS-style concepts need current SDMX 2.1 codelist mapping
     # before they should run in the default production update.
-    ("POLICY_RATE",  "M", "FPOLM_PA",          "Policy rate / money market rate"),
     ("LENDING_RATE", "M", "FILR_PA",           "Lending rate"),
     ("DEPOSIT_RATE", "M", "FIDR_PA",           "Deposit rate"),
     ("TBILL_RATE",   "M", "FITB_PA",           "Treasury bill rate"),
-    ("FX_USD",       "M", "ENDA_XDC_USD_RATE", "Exchange rate per USD, end of period"),
     ("REER",         "M", "EREER_IX",          "Real effective exchange rate, index"),
-    ("BROAD_MONEY",  "M", "FM3_XDC",           "Broad money (M3), national currency"),
     ("GDP_NOM",      "Q", "NGDP_XDC",          "Nominal GDP, national currency"),
     ("GDP_REAL",     "Q", "NGDP_R_XDC",        "Real GDP, national currency"),
     ("UNEMP",        "Q", "LUR_PT",            "Unemployment rate, %"),
+]
+
+IMF_SINGLE_SERIES = [
+    (
+        "BRA_POLICY_RATE",
+        "MFS_IR",
+        "BRA.MFS135_RT_PT_A_PT.M",
+        "2020",
+        "Brazil policy or money-market rate",
+    ),
+    (
+        "BRA_EXCHANGE_RATE",
+        "ER",
+        "BRA.XDC_USD.PA_RT.M",
+        "2020",
+        "Brazil local currency per USD, period average",
+    ),
+    (
+        "BRA_BROAD_MONEY",
+        "MFS_MA",
+        "BRA.BM_MAI.XDC.M",
+        "2020",
+        "Brazil broad money monetary aggregate",
+    ),
 ]
 
 # Full catalog: cross-product of countries × indicators

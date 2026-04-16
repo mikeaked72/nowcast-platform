@@ -130,6 +130,7 @@ def _mark_skipped(manifest, local_id, source_str, reason):
 def _mark_inactive_catalog_entries(manifest):
     if imf is not None:
         active_imf = {f"IMF_EM_{entry['suffix']}" for entry in imf.IMF_CATALOG}
+        active_imf.update(local_id for local_id, *_ in getattr(imf, "IMF_SINGLE_SERIES", []))
         for suffix, *_ in getattr(imf, "DISCOVERY_IFS_INDICATORS", []):
             local_id = f"IMF_EM_{suffix}"
             if local_id not in active_imf and local_id in manifest["series"]:
@@ -386,6 +387,17 @@ def main():
                 ok.append(local_id)
                 nc = df["area"].nunique() if "area" in df.columns else "?"
                 print(f"OK ({len(df):,} rows, {nc} countries)")
+            else:
+                fail.append(local_id)
+                print("FAILED")
+
+        print("\n[IMF SDMX - promoted single-country series]")
+        for local_id, flow, key, start, desc in getattr(imf, "IMF_SINGLE_SERIES", []):
+            print(f"  {local_id:22} {flow:8} ...", end=" ", flush=True)
+            df = imf.fetch_sdmx_series(flow, key, start_period=start, label=local_id)
+            if _record(manifest, local_id, df, f"imf:{flow}:{key}"):
+                ok.append(local_id)
+                print(f"OK ({len(df):,})")
             else:
                 fail.append(local_id)
                 print("FAILED")
