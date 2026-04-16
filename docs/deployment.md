@@ -36,6 +36,9 @@ If you also use private data APIs, store those credentials in GitHub secrets as 
 7. Validate the published contract.
 8. Validate `site/data/manifest.json` so deploy logs show the schema version
    and generated artifact inventory explicitly.
+9. Export `site/data/source_coverage.json` from `store/manifest.json` when the
+   data store is available, so the static dashboard can show source freshness
+   and coverage without opening model internals in the browser.
 9. Deploy `site/` to Cloudflare Pages.
 
 ## Branch model

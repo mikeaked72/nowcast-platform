@@ -8,6 +8,7 @@
     period: null,
     payload: null,
     overview: [],
+    sourceCoverage: null,
   };
 
   const elements = {
@@ -30,12 +31,14 @@
   };
 
   try {
-    const [countries, manifest] = await Promise.all([
+    const [countries, manifest, sourceCoverage] = await Promise.all([
       fetchJson("data/countries.json"),
       fetchOptionalJson("data/manifest.json"),
+      fetchOptionalJson("data/source_coverage.json"),
     ]);
     state.countries = countries.filter((country) => country.enabled);
     state.manifest = manifest;
+    state.sourceCoverage = sourceCoverage;
     if (!state.countries.length) {
       throw new Error("No enabled countries");
     }
@@ -489,6 +492,7 @@
         artifact.rows,
         artifact.purpose,
       ])),
+      sourceCoveragePanel(),
       provenancePanel(),
       list,
     );
@@ -509,8 +513,14 @@
       "release_impacts.csv": "news table",
       "metadata.json": "labels and methodology",
     };
-    return [
+    const rootArtifacts = [
       { file: "countries.json", path: "data/countries.json", format: "json", rows: state.countries.length, purpose: "country index" },
+    ];
+    if (state.sourceCoverage) {
+      rootArtifacts.push({ file: "source_coverage.json", path: "data/source_coverage.json", format: "json", rows: sourceCoverageRows(), purpose: "data-store coverage" });
+    }
+    return [
+      ...rootArtifacts,
       ...files.map((file) => ({
         file,
         path: `${state.payload.base}/${file}`,
@@ -542,6 +552,38 @@
     return section;
   }
 
+  function sourceCoveragePanel() {
+    if (!state.sourceCoverage) {
+      return emptyState("Source coverage is unavailable for this build.");
+    }
+    const selected = state.sourceCoverage.countries?.find((country) => country.code === state.country.code);
+    const processed = state.sourceCoverage.processed || [];
+    const statusCounts = state.sourceCoverage.status_counts || {};
+    return divWithChildren("source-coverage-panel", [
+      sectionIntro("Data Store Coverage", "Upstream macro series available to the model pipeline."),
+      divWithChildren("download-grid", [
+        card("Store refresh", state.sourceCoverage.store_last_full_update || "unavailable", "data manifest"),
+        card("Manifest series", String(state.sourceCoverage.series_count || 0), `${statusCounts.OK || 0} OK`),
+        card("Selected country", selected ? `${selected.ok_count}/${selected.series_count}` : "n/a", "OK series"),
+        card("Processed columns", String(processed.reduce((total, row) => total + Number(row.columns || 0), 0)), "all frequencies"),
+      ]),
+      table(["Frequency", "Rows", "Columns", "Range"], processed.map((row) => [
+        row.frequency,
+        String(row.rows),
+        String(row.columns),
+        `${row.start || "n/a"} to ${row.end || "n/a"}`,
+      ])),
+      selected
+        ? table(["Series", "Rows", "Status", "Source"], selected.top_series.map((row) => [
+            row.local_id,
+            String(row.rows),
+            statusBadge(row.status.toLowerCase()),
+            row.source,
+          ]))
+        : emptyState("No country-level source coverage matched this selection."),
+    ]);
+  }
+
   function statusText(snapshot, latest) {
     const build = siteBuildTime();
     const extra = build === "unavailable" ? "" : ` Site build ${build}.`;
@@ -558,6 +600,11 @@
 
   function totalSourceCount() {
     return unique(state.payload.releaseImpacts.map((row) => row.source).filter(Boolean)).length;
+  }
+
+  function sourceCoverageRows() {
+    if (!state.sourceCoverage) return "";
+    return state.sourceCoverage.series_count || "";
   }
 
   function topSourceLabel() {

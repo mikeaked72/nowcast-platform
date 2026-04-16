@@ -20,6 +20,7 @@ def test_site_serves_app_and_generated_payloads() -> None:
         assert _status(root + "/_headers") == 200
         assert _status(root + "/data/countries.json") == 200
         assert _status(root + "/data/manifest.json") == 200
+        assert _status(root + "/data/source_coverage.json") == 200
         assert _status(root + "/data/us/gdp/latest.json") == 200
         assert _status(root + "/data/us/gdp/history.csv") == 200
         assert _status(root + "/data/us/gdp/release_impacts.csv") == 200
@@ -33,6 +34,11 @@ def test_site_serves_app_and_generated_payloads() -> None:
         manifest = json.loads(_text(root + "/data/manifest.json"))
         assert manifest["schema_version"] == 1
         assert manifest["country_count"] >= 4
+        coverage = json.loads(_text(root + "/data/source_coverage.json"))
+        assert coverage["schema_version"] == 1
+        assert coverage["series_count"] >= 250
+        assert any(country["code"] == "br" for country in coverage["countries"])
+        assert any(country["code"] == "de" for country in coverage["countries"])
         latest = json.loads(_text(root + "/data/us/gdp/latest.json"))
         assert latest["schema_version"] == 1
         assert latest["model_version"]

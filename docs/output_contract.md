@@ -17,6 +17,10 @@ The root must include:
 - `site/data/countries.json`
 - `site/data/manifest.json`
 
+The root may also include:
+
+- `site/data/source_coverage.json`
+
 For every enabled country and indicator pair, the publish step must generate:
 
 - `site/data/{country_code}/{indicator_code}/latest.json`
@@ -77,6 +81,21 @@ Required fields:
 - `indicator_count`
 - `artifact_count`
 - `countries`: list of country entries with indicator artifact summaries
+
+## source_coverage.json
+
+This optional file summarises the macro data-store manifest for the dashboard downloads view.
+
+Required fields when present:
+
+- `schema_version`: integer, currently `1`
+- `generated_at_utc`: UTC timestamp in `YYYY-MM-DDTHH:MM:SSZ` form
+- `store_last_full_update`: timestamp copied from `store/manifest.json`
+- `series_count`: count of raw source series in the data-store manifest
+- `status_counts`: source-series counts by status
+- `source_counts`: source-series counts by provider
+- `processed`: list of processed parquet summaries by frequency
+- `countries`: list of enabled site countries with matched source-series summaries
 
 ## metadata.json
 

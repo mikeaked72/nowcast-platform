@@ -44,6 +44,12 @@ python scripts\run_all_countries.py --countries us,au,de,br --publish-dir site\d
 python scripts\validate_outputs.py --countries us,au,de,br --publish-dir site\data
 ```
 
+6. Refresh the optional source coverage file if `store/manifest.json` exists:
+
+```powershell
+python scripts\export_source_coverage.py --manifest-path store\manifest.json --publish-dir site\data
+```
+
 ## Model-output mapping
 
 Future model code should produce a country/indicator run object that maps cleanly into:

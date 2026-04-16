@@ -1,0 +1,328 @@
+{
+  "countries": [
+    {
+      "code": "au",
+      "name": "Australia",
+      "ok_count": 47,
+      "series_count": 47,
+      "skipped_count": 0,
+      "top_series": [
+        {
+          "local_id": "AUS_BUILDING_APPROVALS",
+          "rows": 3843504,
+          "source": "abs:ABS,BA_GCCSA",
+          "status": "OK"
+        },
+        {
+          "local_id": "AUS_BUILDING_ACTIVITY",
+          "rows": 422563,
+          "source": "abs:ABS,BUILDING_ACTIVITY",
+          "status": "OK"
+        },
+        {
+          "local_id": "AUS_LABOUR_FORCE",
+          "rows": 341124,
+          "source": "abs:ABS,LF",
+          "status": "OK"
+        },
+        {
+          "local_id": "AUS_CPI",
+          "rows": 299354,
+          "source": "abs:ABS,CPI",
+          "status": "OK"
+        },
+        {
+          "local_id": "AUS_RETAIL",
+          "rows": 284994,
+          "source": "abs:ABS,RT",
+          "status": "OK"
+        },
+        {
+          "local_id": "AUS_RETAIL_VOL",
+          "rows": 284994,
+          "source": "abs:ABS,RT",
+          "status": "OK"
+        },
+        {
+          "local_id": "AUS_BOP",
+          "rows": 187992,
+          "source": "abs:ABS,BOP",
+          "status": "OK"
+        },
+        {
+          "local_id": "AUS_BUS_INDICATORS",
+          "rows": 131241,
+          "source": "abs:ABS,QBIS",
+          "status": "OK"
+        },
+        {
+          "local_id": "AUS_CAPEX",
+          "rows": 118851,
+          "source": "abs:ABS,CAPEX",
+          "status": "OK"
+        },
+        {
+          "local_id": "AUS_MERCH_TRADE",
+          "rows": 68572,
+          "source": "abs:ABS,ITGS",
+          "status": "OK"
+        },
+        {
+          "local_id": "AUS_PPI",
+          "rows": 63905,
+          "source": "abs:ABS,PPI",
+          "status": "OK"
+        },
+        {
+          "local_id": "AUS_IT_PRICE",
+          "rows": 62996,
+          "source": "abs:ABS,ITPI_EXP",
+          "status": "OK"
+        }
+      ]
+    },
+    {
+      "code": "br",
+      "name": "Brazil",
+      "ok_count": 3,
+      "series_count": 3,
+      "skipped_count": 0,
+      "top_series": [
+        {
+          "local_id": "BRA_EXCHANGE_RATE",
+          "rows": 75,
+          "source": "imf:ER:BRA.XDC_USD.PA_RT.M",
+          "status": "OK"
+        },
+        {
+          "local_id": "BRA_BROAD_MONEY",
+          "rows": 72,
+          "source": "imf:MFS_MA:BRA.BM_MAI.XDC.M",
+          "status": "OK"
+        },
+        {
+          "local_id": "BRA_POLICY_RATE",
+          "rows": 49,
+          "source": "imf:MFS_IR:BRA.MFS135_RT_PT_A_PT.M",
+          "status": "OK"
+        }
+      ]
+    },
+    {
+      "code": "de",
+      "name": "Germany",
+      "ok_count": 16,
+      "series_count": 17,
+      "skipped_count": 1,
+      "top_series": [
+        {
+          "local_id": "DE_BUND10",
+          "rows": 5522,
+          "source": "ecb:YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_10Y",
+          "status": "OK"
+        },
+        {
+          "local_id": "DE_BUND_10Y",
+          "rows": 315,
+          "source": "buba:M.I.ZST.ZI.EUR.S1311.B.A604.R10XX.R.A.A._Z._Z.A",
+          "status": "OK"
+        },
+        {
+          "local_id": "DE_BUND_2Y",
+          "rows": 315,
+          "source": "buba:M.I.ZST.ZI.EUR.S1311.B.A604.R02XX.R.A.A._Z._Z.A",
+          "status": "OK"
+        },
+        {
+          "local_id": "DE_BUND_30Y",
+          "rows": 315,
+          "source": "buba:M.I.ZST.ZI.EUR.S1311.B.A604.R30XX.R.A.A._Z._Z.A",
+          "status": "OK"
+        },
+        {
+          "local_id": "DE_BUND_5Y",
+          "rows": 315,
+          "source": "buba:M.I.ZST.ZI.EUR.S1311.B.A604.R05XX.R.A.A._Z._Z.A",
+          "status": "OK"
+        },
+        {
+          "local_id": "DEU_INDPRO_M",
+          "rows": 314,
+          "source": "eurostat:sts_inpr_m",
+          "status": "OK"
+        },
+        {
+          "local_id": "DEU_PPI_M",
+          "rows": 314,
+          "source": "eurostat:sts_inpp_m",
+          "status": "OK"
+        },
+        {
+          "local_id": "DEU_UNEMP_M",
+          "rows": 314,
+          "source": "eurostat:une_rt_m",
+          "status": "OK"
+        },
+        {
+          "local_id": "DEU_HICP_INDEX_M",
+          "rows": 312,
+          "source": "eurostat:prc_hicp_midx",
+          "status": "OK"
+        },
+        {
+          "local_id": "DEU_HICP_YOY_M",
+          "rows": 312,
+          "source": "eurostat:prc_hicp_manr",
+          "status": "OK"
+        },
+        {
+          "local_id": "DEU_HH_CREDIT",
+          "rows": 278,
+          "source": "ecb:BSI/M.DE.N.A.A20.A.1.U2.2250.Z01.E",
+          "status": "OK"
+        },
+        {
+          "local_id": "DEU_NFC_CREDIT",
+          "rows": 278,
+          "source": "ecb:BSI/M.DE.N.A.A20.A.1.U2.2240.Z01.E",
+          "status": "OK"
+        }
+      ]
+    },
+    {
+      "code": "us",
+      "name": "United States",
+      "ok_count": 10,
+      "series_count": 10,
+      "skipped_count": 0,
+      "top_series": [
+        {
+          "local_id": "DFF",
+          "rows": 26220,
+          "source": "",
+          "status": "OK"
+        },
+        {
+          "local_id": "DGS1",
+          "rows": 16054,
+          "source": "",
+          "status": "OK"
+        },
+        {
+          "local_id": "DGS10",
+          "rows": 16054,
+          "source": "",
+          "status": "OK"
+        },
+        {
+          "local_id": "DGS5",
+          "rows": 16054,
+          "source": "",
+          "status": "OK"
+        },
+        {
+          "local_id": "DGS2",
+          "rows": 12462,
+          "source": "",
+          "status": "OK"
+        },
+        {
+          "local_id": "DGS30",
+          "rows": 12284,
+          "source": "",
+          "status": "OK"
+        },
+        {
+          "local_id": "DEXUSEU",
+          "rows": 6839,
+          "source": "",
+          "status": "OK"
+        },
+        {
+          "local_id": "CPIAUCSL",
+          "rows": 950,
+          "source": "",
+          "status": "OK"
+        },
+        {
+          "local_id": "UNRATE",
+          "rows": 938,
+          "source": "",
+          "status": "OK"
+        },
+        {
+          "local_id": "FEDFUNDS",
+          "rows": 861,
+          "source": "",
+          "status": "OK"
+        }
+      ]
+    }
+  ],
+  "generated_at_utc": "2026-04-16T12:06:55Z",
+  "processed": [
+    {
+      "columns": 437,
+      "end": "2025-12-31",
+      "frequency": "annual",
+      "path": "store/processed/annual.parquet",
+      "rows": 36,
+      "start": "1990-12-31"
+    },
+    {
+      "columns": 30,
+      "end": "2026-04-16",
+      "frequency": "daily",
+      "path": "store/processed/daily.parquet",
+      "rows": 18731,
+      "start": "1954-07-01"
+    },
+    {
+      "columns": 160,
+      "end": "2026-03-31",
+      "frequency": "monthly",
+      "path": "store/processed/monthly.parquet",
+      "rows": 2424,
+      "start": "1913-01-01"
+    },
+    {
+      "columns": 63,
+      "end": "2026-02-01",
+      "frequency": "quarterly",
+      "path": "store/processed/quarterly.parquet",
+      "rows": 206,
+      "start": "2000-03-31"
+    },
+    {
+      "columns": 1,
+      "end": "2026-04-04",
+      "frequency": "weekly",
+      "path": "store/processed/weekly.parquet",
+      "rows": 3092,
+      "start": "1967-01-07"
+    }
+  ],
+  "schema_version": 1,
+  "series_count": 294,
+  "source_counts": {
+    "abs": 19,
+    "bdf": 3,
+    "boc": 4,
+    "boe": 12,
+    "boj": 9,
+    "buba": 7,
+    "ecb": 10,
+    "eurostat": 134,
+    "imf": 15,
+    "ons": 9,
+    "rba": 28,
+    "statcan": 2,
+    "unknown": 27,
+    "wb": 15
+  },
+  "status_counts": {
+    "OK": 263,
+    "SKIPPED": 31
+  },
+  "store_last_full_update": "2026-04-16T05:49:26Z"
+}

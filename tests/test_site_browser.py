@@ -26,6 +26,7 @@ def test_dashboard_tabs_and_selectors_render_in_browser() -> None:
         page.get_by_role("button", name="Downloads").click()
         page.get_by_text("Artifact").wait_for()
         page.get_by_text("manifest").wait_for()
+        page.get_by_text("Data Store Coverage").wait_for()
 
         page.select_option("#country-select", "au")
         page.select_option("#indicator-select", "inflation")
