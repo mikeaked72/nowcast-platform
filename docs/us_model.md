@@ -41,6 +41,11 @@ The publisher then converts these rows into the country/indicator output contrac
 - `site/data/us/gdp/release_impacts.csv`
 - `site/data/us/gdp/metadata.json`
 
+The model run also writes diagnostics under `runs/input/us/`:
+- `model_summary.json`: model version, headline estimate, training windows, coefficients, latest component contributions, and release-status counts
+- `component_diagnostics.csv`: per-component fit diagnostics, training errors, latest forecasts, and latest contribution effects
+- `data_inventory.csv`: per-series freshness, role, frequency, target-quarter availability, and release-date approximation
+
 ## Current limitations
 - Approximate release lags are used for FRED source series; the model does not yet track official real-time release timestamps or vintages.
 - Missing within-quarter monthly observations are handled through the available quarterly average, not a vintage-aware ragged-edge method.

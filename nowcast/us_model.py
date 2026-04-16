@@ -15,7 +15,7 @@ from nowcast.fred import US_FRED_SERIES, download_us_fred_series, read_fred_seri
 
 TARGET_SERIES = "GDPC1"
 TRAINING_START_QUARTER = "1992Q1"
-MODEL_VERSION = "us_gdp_component_bridge_v0.2.0"
+MODEL_VERSION = "us_gdp_component_bridge_v0.3.0"
 
 
 @dataclass(frozen=True)
@@ -40,6 +40,8 @@ class BridgeModel:
     training_rows: int
     training_start: str
     training_end: str
+    training_rmse: float
+    training_mae: float
 
     @property
     def intercept(self) -> float:
@@ -122,6 +124,8 @@ def run_us_gdp_nowcast(
     output_path.parent.mkdir(parents=True, exist_ok=True)
     _write_model_input(output_path, rows)
     _write_summary(output_path.parent / "model_summary.json", models, target_quarter, rows)
+    _write_component_diagnostics(output_path.parent / "component_diagnostics.csv", models, rows)
+    _write_data_inventory(output_path.parent / "data_inventory.csv", series, target_quarter)
     return output_path
 
 
@@ -145,6 +149,8 @@ def _fit_component_model(
     feature_means = tuple(_average(row[index] for row in x_train) for index in range(len(component.features)))
     design = [[1.0, *row] for row in x_train]
     coefficients = _solve_ridge_normal_equations(design, y_train, ridge=0.50)
+    fitted = [_predict(coefficients, row) for row in x_train]
+    errors = [actual - predicted for actual, predicted in zip(y_train, fitted)]
     expected_component_value = coefficients[0] + sum(
         coefficient * expected
         for coefficient, expected in zip(coefficients[1:], feature_means)
@@ -160,6 +166,8 @@ def _fit_component_model(
         training_rows=len(y_train),
         training_start=training_quarters[0],
         training_end=training_quarters[-1],
+        training_rmse=math.sqrt(_average(error * error for error in errors)),
+        training_mae=_average(abs(error) for error in errors),
     )
 
 
@@ -336,6 +344,12 @@ def _release_date(series_id: str, period: date) -> date:
     return period + timedelta(days=SERIES_RELEASE_LAGS[series_id])
 
 
+def _series_release_date(series_id: str, period: date) -> date:
+    if series_id in SERIES_RELEASE_LAGS:
+        return _release_date(series_id, period)
+    return period
+
+
 def _write_model_input(path: Path, rows: list[dict[str, object]]) -> None:
     fieldnames = [
         "as_of_date",
@@ -357,6 +371,124 @@ def _write_model_input(path: Path, rows: list[dict[str, object]]) -> None:
         writer.writerows(rows)
 
 
+def _write_component_diagnostics(path: Path, models: list[BridgeModel], rows: list[dict[str, object]]) -> None:
+    latest_as_of_date = rows[-1]["as_of_date"]
+    latest_rows = {
+        str(row["series_code"]): row
+        for row in rows
+        if row["reference_period"] == rows[-1]["reference_period"] and row["as_of_date"] == latest_as_of_date
+    }
+    fieldnames = [
+        "component_code",
+        "component_name",
+        "target_series",
+        "category",
+        "features",
+        "aggregation_weight",
+        "training_rows",
+        "training_start",
+        "training_end",
+        "training_rmse",
+        "training_mae",
+        "expected_value",
+        "latest_forecast",
+        "latest_contribution",
+        "latest_release_date",
+        "latest_release_status",
+    ]
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        for model in models:
+            latest = latest_rows[model.component.code]
+            latest_forecast = float(latest["actual_value"])
+            expected_value = float(latest["expected_value"])
+            weight = float(latest["impact_weight"])
+            writer.writerow(
+                {
+                    "component_code": model.component.code,
+                    "component_name": model.component.name,
+                    "target_series": model.component.target_series,
+                    "category": model.component.category,
+                    "features": "|".join(model.feature_names),
+                    "aggregation_weight": round(model.aggregation_weight, 10),
+                    "training_rows": model.training_rows,
+                    "training_start": model.training_start,
+                    "training_end": model.training_end,
+                    "training_rmse": round(model.training_rmse, 10),
+                    "training_mae": round(model.training_mae, 10),
+                    "expected_value": round(expected_value, 10),
+                    "latest_forecast": round(latest_forecast, 10),
+                    "latest_contribution": round((latest_forecast - expected_value) * weight, 10),
+                    "latest_release_date": latest["release_date"],
+                    "latest_release_status": latest["release_status"],
+                }
+            )
+
+
+def _write_data_inventory(path: Path, series: dict[str, list[tuple[date, float]]], target_quarter: str) -> None:
+    component_targets = {component.target_series: component for component in COMPONENTS}
+    feature_components: dict[str, list[str]] = {}
+    for component in COMPONENTS:
+        for feature in component.features:
+            feature_components.setdefault(feature, []).append(component.code)
+
+    fieldnames = [
+        "series_id",
+        "name",
+        "role",
+        "components",
+        "frequency",
+        "category",
+        "rows",
+        "latest_observation_date",
+        "latest_observation_quarter",
+        "latest_release_date",
+        "target_quarter",
+        "target_quarter_observations",
+        "target_quarter_latest_period",
+        "target_quarter_latest_release_date",
+        "target_quarter_status",
+    ]
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        for series_id in sorted(series):
+            observations = sorted(series[series_id])
+            latest_period = observations[-1][0]
+            target_periods = [period for period, _ in observations if _quarter_label(period) == target_quarter]
+            target_latest_period = max(target_periods) if target_periods else None
+            target_latest_release = _series_release_date(series_id, target_latest_period) if target_latest_period else None
+            if series_id == TARGET_SERIES:
+                role = "headline_target"
+                components = ""
+            elif series_id in component_targets:
+                role = "component_target"
+                components = component_targets[series_id].code
+            else:
+                role = "bridge_feature"
+                components = "|".join(sorted(feature_components.get(series_id, [])))
+            writer.writerow(
+                {
+                    "series_id": series_id,
+                    "name": US_FRED_SERIES[series_id].name,
+                    "role": role,
+                    "components": components,
+                    "frequency": US_FRED_SERIES[series_id].frequency,
+                    "category": US_FRED_SERIES[series_id].category,
+                    "rows": len(observations),
+                    "latest_observation_date": latest_period.isoformat(),
+                    "latest_observation_quarter": _quarter_label(latest_period),
+                    "latest_release_date": _series_release_date(series_id, latest_period).isoformat(),
+                    "target_quarter": target_quarter,
+                    "target_quarter_observations": len(target_periods),
+                    "target_quarter_latest_period": target_latest_period.isoformat() if target_latest_period else "",
+                    "target_quarter_latest_release_date": target_latest_release.isoformat() if target_latest_release else "",
+                    "target_quarter_status": "released" if target_periods else "pending",
+                }
+            )
+
+
 def _write_summary(path: Path, models: list[BridgeModel], target_quarter: str, rows: list[dict[str, object]]) -> None:
     latest_as_of_date = rows[-1]["as_of_date"]
     latest_rows = [
@@ -368,6 +500,10 @@ def _write_summary(path: Path, models: list[BridgeModel], target_quarter: str, r
         (float(row["actual_value"]) - float(row["expected_value"])) * float(row["impact_weight"])
         for row in latest_rows
     )
+    release_status_counts: dict[str, int] = {}
+    for row in latest_rows:
+        status = str(row["release_status"])
+        release_status_counts[status] = release_status_counts.get(status, 0) + 1
     payload = {
         "model": MODEL_VERSION,
         "target": "GDPC1 real GDP QoQ saar",
@@ -378,6 +514,7 @@ def _write_summary(path: Path, models: list[BridgeModel], target_quarter: str, r
         "training_rows": min(model.training_rows for model in models),
         "training_start": min(model.training_start for model in models),
         "training_end": max(model.training_end for model in models),
+        "latest_release_status_counts": dict(sorted(release_status_counts.items())),
         "components": [
             {
                 "code": model.component.code,
@@ -385,8 +522,31 @@ def _write_summary(path: Path, models: list[BridgeModel], target_quarter: str, r
                 "features": list(model.feature_names),
                 "aggregation_weight": model.aggregation_weight,
                 "training_rows": model.training_rows,
+                "training_rmse": model.training_rmse,
+                "training_mae": model.training_mae,
+                "coefficients": {
+                    "intercept": model.intercept,
+                    **dict(zip(model.feature_names, model.coefficients[1:])),
+                },
             }
             for model in models
+        ],
+        "latest_components": [
+            {
+                "code": str(row["series_code"]),
+                "name": str(row["series_name"]),
+                "category": str(row["category"]),
+                "release_date": str(row["release_date"]),
+                "release_status": str(row["release_status"]),
+                "forecast_value": float(row["actual_value"]),
+                "expected_value": float(row["expected_value"]),
+                "aggregation_weight": float(row["impact_weight"]),
+                "contribution": round(
+                    (float(row["actual_value"]) - float(row["expected_value"])) * float(row["impact_weight"]),
+                    10,
+                ),
+            }
+            for row in latest_rows
         ],
     }
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -404,6 +564,10 @@ def _solve_ridge_normal_equations(x: list[list[float]], y: list[float], *, ridge
     for index in range(1, width):
         xtx[index][index] += ridge
     return _solve_linear_system(xtx, xty)
+
+
+def _predict(coefficients: list[float], features: list[float]) -> float:
+    return coefficients[0] + sum(coefficient * value for coefficient, value in zip(coefficients[1:], features))
 
 
 def _solve_linear_system(matrix: list[list[float]], vector: list[float]) -> list[float]:

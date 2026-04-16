@@ -19,7 +19,7 @@ from nowcast.model_input import ModelRun, load_model_run, resolve_model_input_pa
 from nowcast.schemas import SCHEMA_VERSION
 
 
-US_GDP_MODEL_VERSION = "us_gdp_component_bridge_v0.2.0"
+US_GDP_MODEL_VERSION = "us_gdp_component_bridge_v0.3.0"
 
 
 @dataclass(frozen=True)

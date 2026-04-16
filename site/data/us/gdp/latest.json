@@ -8,7 +8,7 @@
   "indicator_name": "GDP",
   "last_updated_utc": "2026-03-17T09:00:00Z",
   "model_status": "ok",
-  "model_version": "us_gdp_component_bridge_v0.2.0",
+  "model_version": "us_gdp_component_bridge_v0.3.0",
   "next_update_date": "2026-03-31",
   "prior_estimate_value": 1.5525092955,
   "reference_period": "2026Q1",

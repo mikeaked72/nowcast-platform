@@ -35,7 +35,23 @@ def test_us_model_writes_input_from_source_files(tmp_path: Path) -> None:
     assert summary["target"] == "GDPC1 real GDP QoQ saar"
     assert summary["latest_reference_period"] == "2026Q2"
     assert summary["training_rows"] >= 8
+    assert summary["latest_release_status_counts"]
     assert {component["code"] for component in summary["components"]} == {component.code for component in COMPONENTS}
+    assert {component["code"] for component in summary["latest_components"]} == {component.code for component in COMPONENTS}
+
+    with (input_dir / "component_diagnostics.csv").open(newline="", encoding="utf-8") as handle:
+        diagnostics = list(csv.DictReader(handle))
+    assert {row["component_code"] for row in diagnostics} == {component.code for component in COMPONENTS}
+    assert all(float(row["training_rmse"]) >= 0 for row in diagnostics)
+
+    with (input_dir / "data_inventory.csv").open(newline="", encoding="utf-8") as handle:
+        inventory = list(csv.DictReader(handle))
+    assert {row["series_id"] for row in inventory} == {
+        TARGET_SERIES,
+        *INDICATOR_SERIES,
+        *(component.target_series for component in COMPONENTS),
+    }
+    assert {row["role"] for row in inventory} >= {"headline_target", "component_target", "bridge_feature"}
 
 
 def _write_source_fixture(source_dir: Path) -> None:
