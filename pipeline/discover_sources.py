@@ -17,9 +17,11 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import logging
 import re
 import sys
 import zipfile
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from io import BytesIO, StringIO
@@ -81,31 +83,38 @@ class Candidate:
 
 
 SEED_CANDIDATES = [
+    # ── Brazil (IMF) ─────────────────────────────────────────────────────────
     Candidate("BRA", "cpi", "imf", "CPI", "BRA.CPI._T.IX.M", "monthly", "index", "fallback", notes="Current IMF SDMX 2.1 CPI pattern; good cross-country fallback."),
     Candidate("BRA", "inflation", "imf", "CPI", "BRA.CPI._T.YOY_PCH_PA_PT.M", "monthly", "percent_yoy", "fallback", notes="Current IMF SDMX 2.1 CPI percent-change pattern."),
-    Candidate("BRA", "policy_rate", "imf", "MFS_IR", "BRA.FPOLM_PA.M", "monthly", "percent_pa", "discovery", notes="Dimension map still provisional; expected to need codelist lookup."),
-    Candidate("BRA", "exchange_rate", "imf", "MFS_FMP", "BRA.ENDA_XDC_USD_RATE.M", "monthly", "local_per_usd", "discovery", notes="Dimension map still provisional; expected to need codelist lookup."),
-    Candidate("BRA", "unemployment", "imf", "IFS", "BRA.LUR_PT.M", "monthly", "percent", "discovery", notes="Dimension map still provisional; may move to a labour-specific IMF dataflow."),
+    Candidate("BRA", "policy_rate", "imf", "MFS_IR", "BRA.MFS135_RT_PT_A_PT.M", "monthly", "percent_pa", "candidate", notes="Verified 2026-04-16: MFS135 is the current SDMX 2.1 indicator for policy/money-market rate. Old FPOLM_PA key was invalid."),
+    Candidate("BRA", "exchange_rate", "imf", "ER", "BRA.XDC_USD.PA_RT.M", "monthly", "local_per_usd", "candidate", notes="Verified 2026-04-16: ER dataflow replaces MFS_FMP for exchange rates. PA_RT = period average rate."),
+    Candidate("BRA", "broad_money", "imf", "MFS_MA", "BRA.BM_MAI.XDC.M", "monthly", "local_currency", "candidate", notes="Verified 2026-04-16: BM_MAI = broad money, monetary aggregates index. 24 rows 2024-2025."),
+    Candidate("BRA", "unemployment", "imf", "IFS", "BRA.LUR_PT.M", "monthly", "percent", "discovery", notes="IFS returns 403; dataflow may be credential-gated or discontinued. Keep in discovery."),
+    Candidate("BRA", "real_gdp", "imf", "IFS", "BRA.NGDP_R_SA_XDC.Q", "quarterly", "local_currency", "discovery", notes="IFS returns 403; QGDP_WCA does not include BRA. Keep in discovery."),
+    # ── Germany (Bundesbank + ECB BSI) ───────────────────────────────────────
     Candidate("DEU", "government_yield_2y", "bundesbank", "BBSIS", "M.I.ZST.ZI.EUR.S1311.B.A604.R02XX.R.A.A._Z._Z.A", "monthly", "percent_pa", "preferred", notes="Verified BBSIS term-structure key."),
     Candidate("DEU", "government_yield_5y", "bundesbank", "BBSIS", "M.I.ZST.ZI.EUR.S1311.B.A604.R05XX.R.A.A._Z._Z.A", "monthly", "percent_pa", "preferred", notes="Verified BBSIS term-structure key."),
     Candidate("DEU", "government_yield_10y", "bundesbank", "BBSIS", "M.I.ZST.ZI.EUR.S1311.B.A604.R10XX.R.A.A._Z._Z.A", "monthly", "percent_pa", "preferred", notes="Verified BBSIS term-structure key."),
-    Candidate("DEU", "household_credit", "bundesbank", "BBKRT", "BBKRT.M.U.NS.A.A.A.AB.A.A.PUR.A.A", "monthly", "unknown", "discovery", notes="Legacy key fails; use discovery output to find current credit key."),
-    Candidate("DEU", "nfc_credit", "bundesbank", "BBKRT", "BBKRT.M.U.NS.A.A.A.NF.A.A.PUR.A.A", "monthly", "unknown", "discovery", notes="Legacy key fails; use discovery output to find current credit key."),
+    Candidate("DEU", "household_credit", "ecb", "BSI", "M.DE.N.A.A20.A.1.U2.2250.Z01.E", "monthly", "million_eur", "candidate", notes="Verified 2026-04-16: ECB BSI MFI balance sheet. Sector 2250 = households. BBKRT was wrong dataflow (national accounts)."),
+    Candidate("DEU", "nfc_credit", "ecb", "BSI", "M.DE.N.A.A20.A.1.U2.2240.Z01.E", "monthly", "million_eur", "candidate", notes="Verified 2026-04-16: ECB BSI MFI balance sheet. Sector 2240 = non-financial corporations."),
+    # ── Japan (BoJ) ──────────────────────────────────────────────────────────
     Candidate("JPN", "producer_prices", "boj_flatfile", "flatfile", "https://www.stat-search.boj.or.jp/info/cgpi_m_en.zip", "monthly", "index", "preferred", notes="Current public CGPI flat-file package."),
     Candidate("JPN", "current_account", "boj_flatfile", "flatfile", "https://www.stat-search.boj.or.jp/info/bp_m_en.zip", "monthly", "jpy", "candidate", notes="Current public BoP flat-file package; inspect columns before promotion."),
-    Candidate("JPN", "policy_rate", "boj_api", "search", "MADR1Z@D", "daily", "percent_pa", "discovery", notes="Legacy API code currently fails; replace with current API or flat-file package."),
-    Candidate("JPN", "money_base", "boj_api", "search", "MD01'MABASE1@M", "monthly", "jpy", "discovery", notes="Legacy API code currently fails; replace with current API or flat-file package."),
+    Candidate("JPN", "policy_rate", "boj_api", "search", "MADR1Z@D", "daily", "percent_pa", "discovery", notes="BoJ API 404; no flat-file package available for interest rates. Requires interactive portal access."),
+    Candidate("JPN", "money_base", "boj_api", "search", "MD01'MABASE1@M", "monthly", "jpy", "discovery", notes="BoJ API 404; no flat-file package available for monetary base. Requires interactive portal access."),
+    # ── United Kingdom (BoE) ─────────────────────────────────────────────────
     Candidate("GBR", "government_yield_5y", "boe", "IADB", "IUDSNZC", "daily", "percent_pa", "preferred", notes="Verified Bank of England IADB zero-coupon yield key."),
     Candidate("GBR", "government_yield_10y", "boe", "IADB", "IUDMNZC", "daily", "percent_pa", "preferred", notes="Verified Bank of England IADB zero-coupon yield key."),
     Candidate("GBR", "government_yield_20y", "boe", "IADB", "IUDLNZC", "daily", "percent_pa", "candidate", notes="Verified Bank of England IADB zero-coupon yield key; fills long-tenor curve until a current 30y key is identified."),
     Candidate("GBR", "government_yield_2y", "boe", "IADB", "TBD", "daily", "percent_pa", "discovery", "NEEDS_KEY", notes="Current IADB 2y code still needs discovery."),
     Candidate("GBR", "government_yield_30y", "boe", "IADB", "TBD", "daily", "percent_pa", "discovery", "NEEDS_KEY", notes="Current IADB 30y code still needs discovery."),
+    # ── Euro area (ECB + Eurostat) ───────────────────────────────────────────
     Candidate("EA", "policy_rate", "ecb", "FM", "D.U2.EUR.4F.KR.DFR.LEV", "daily", "percent_pa", "preferred", notes="ECB deposit facility rate."),
     Candidate("EA", "exchange_rate", "ecb", "EXR", "D.USD.EUR.SP00.A", "daily", "usd_per_eur", "preferred", notes="ECB EUR/USD reference rate."),
     Candidate("EA", "inflation", "ecb", "ICP", "M.U2.N.000000.4.ANR", "monthly", "percent_yoy", "preferred", notes="Euro area HICP all-items annual rate."),
     Candidate("EA", "real_gdp", "eurostat", "namq_10_gdp", "Q.CLV15_MEUR.SCA.B1GQ.EA20", "quarterly", "million_eur_chained", "preferred", notes="Euro area real GDP, chained volumes."),
     Candidate("EA", "unemployment", "eurostat", "une_rt_m", "M.SA.TOTAL.PC_ACT.T.EA20", "monthly", "percent", "preferred", notes="Eurostat monthly unemployment rate."),
-    Candidate("DEU", "industrial_production", "eurostat", "sts_inpr_m", "TBD", "monthly", "index", "discovery", notes="Flow candidate only; discover current dimensions before testing."),
+    Candidate("DEU", "industrial_production", "eurostat", "sts_inpr_m", "M.PRD.B-D.SCA.I21.DE", "monthly", "index_2021", "candidate", notes="Verified 2026-04-16: Production in industry, mining+mfg+energy, seasonally and calendar adjusted, index 2021=100."),
 ]
 
 
@@ -229,67 +238,112 @@ def get_text(url: str, *, params: dict | None = None, timeout: int = 60) -> requ
     return response
 
 
-def discover_metadata() -> dict:
-    summary: dict[str, object] = {"generated_at": now_iso(), "providers": {}}
-    providers = summary["providers"]
-
-    probes = {
-        "imf": ("https://api.imf.org/external/sdmx/2.1/dataflow/all/all/latest", ("CPI", "IFS", "MFS", "BOP", "labour", "financial")),
-        "ecb": ("https://data-api.ecb.europa.eu/service/dataflow/all/all/latest", ("FM", "EXR", "ICP", "BSI", "MIR", "MNA", "LFSI", "STS")),
-        "eurostat": ("https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/dataflow/ESTAT/all/latest", ("gdp", "hicp", "unemployment", "prices", "production", "trade")),
-    }
-    for name, (url, keywords) in probes.items():
-        try:
-            response = get_text(url, timeout=120)
-            providers[name] = {"status": "OK", **parse_sdmx_dataflows(response.text, keywords)}
-        except Exception as exc:
-            providers[name] = {"status": "ERROR", "error": str(exc)}
-
+def _probe_sdmx_provider(name: str, url: str, keywords: tuple, timeout: int) -> tuple[str, dict]:
+    """Probe a single SDMX provider for dataflow metadata."""
     try:
-        response = get_text("https://www.stat-search.boj.or.jp/info/dload_en.html", timeout=60)
+        response = get_text(url, timeout=timeout)
+        return name, {"status": "OK", **parse_sdmx_dataflows(response.text, keywords)}
+    except Exception as exc:
+        return name, {"status": "ERROR", "error": str(exc)}
+
+
+def _probe_boj(timeout: int) -> tuple[str, dict]:
+    """Probe BoJ download page for flat-file links."""
+    try:
+        response = get_text("https://www.stat-search.boj.or.jp/info/dload_en.html", timeout=timeout)
         links = sorted(set(re.findall(r'href="([^"]+\.(?:zip|csv))"', response.text, flags=re.I)))
         full_links = [
             link if link.startswith("http") else f"https://www.stat-search.boj.or.jp/info/{link.lstrip('./')}"
             for link in links
         ]
-        providers["boj"] = {"status": "OK", "download_links": full_links[:100], "count": len(full_links)}
+        return "boj", {"status": "OK", "download_links": full_links[:100], "count": len(full_links)}
     except Exception as exc:
-        providers["boj"] = {"status": "ERROR", "error": str(exc)}
+        return "boj", {"status": "ERROR", "error": str(exc)}
 
+
+def _probe_bundesbank(timeout: int) -> tuple[str, dict]:
+    """Probe Bundesbank data and metadata endpoints."""
+    result: dict = {}
     try:
-        response = get_text("https://api.statistiken.bundesbank.de/rest/data/BBSIS/M.I.ZST.ZI.EUR.S1311.B.A604.R10XX.R.A.A._Z._Z.A", params={"format": "csv", "lang": "en", "startPeriod": "2025-01"}, timeout=60)
-        providers["bundesbank"] = {"status": "OK", "probe": "BBSIS term-structure data endpoint", "bytes": len(response.text)}
+        response = get_text(
+            "https://api.statistiken.bundesbank.de/rest/data/BBSIS/M.I.ZST.ZI.EUR.S1311.B.A604.R10XX.R.A.A._Z._Z.A",
+            params={"format": "csv", "lang": "en", "startPeriod": "2025-01"},
+            timeout=timeout,
+        )
+        result = {"status": "OK", "probe": "BBSIS term-structure data endpoint", "bytes": len(response.text)}
     except Exception as exc:
-        providers["bundesbank"] = {"status": "ERROR", "error": str(exc)}
+        result = {"status": "ERROR", "error": str(exc)}
 
     try:
         base = "https://api.statistiken.bundesbank.de/rest/metadata"
-        dataflows = get_text(f"{base}/dataflow/BBK", timeout=60)
+        dataflows = get_text(f"{base}/dataflow/BBK", timeout=timeout)
         parsed = parse_sdmx_dataflows(dataflows.text, ("credit", "kredit", "loan", "lending", "banks", "BSI"))
         flow_details: list[dict] = []
         for flow_id in ("BBBK1", "BBBK10", "BBKRT"):
-            flow_response = get_text(f"{base}/dataflow/BBK/{flow_id}", timeout=60)
-            refs = parse_sdmx_dataflow_refs(flow_response.text)
-            detail = refs[0] if refs else {"id": flow_id}
-            structure_id = detail.get("structure_id", "")
-            if structure_id:
-                dsd_response = get_text(f"{base}/datastructure/BBK/{structure_id}", params={"references": "children"}, timeout=60)
-                detail["dimensions"] = parse_sdmx_dimensions(dsd_response.text)
-            flow_details.append(detail)
-        codelists = get_text(f"{base}/codelist/BBK", timeout=120)
+            try:
+                flow_response = get_text(f"{base}/dataflow/BBK/{flow_id}", timeout=timeout)
+                refs = parse_sdmx_dataflow_refs(flow_response.text)
+                detail = refs[0] if refs else {"id": flow_id}
+                structure_id = detail.get("structure_id", "")
+                if structure_id:
+                    dsd_response = get_text(
+                        f"{base}/datastructure/BBK/{structure_id}",
+                        params={"references": "children"},
+                        timeout=timeout,
+                    )
+                    detail["dimensions"] = parse_sdmx_dimensions(dsd_response.text)
+                flow_details.append(detail)
+            except Exception as exc:
+                flow_details.append({"id": flow_id, "error": str(exc)})
+        try:
+            codelists = get_text(f"{base}/codelist/BBK", timeout=timeout)
+            parsed["credit_codelist_matches"] = parse_sdmx_codelist_matches(
+                codelists.text,
+                ("loan", "loans", "credit", "kredit", "lending"),
+            )
+        except Exception as exc:
+            parsed["codelist_error"] = str(exc)
         parsed["metadata_endpoint"] = base
         parsed["flow_details"] = flow_details
-        parsed["credit_codelist_matches"] = parse_sdmx_codelist_matches(
-            codelists.text,
-            ("loan", "loans", "credit", "kredit", "lending"),
-        )
-        if providers.get("bundesbank", {}).get("status") == "OK":
-            providers["bundesbank"].update(parsed)
+        if result.get("status") == "OK":
+            result.update(parsed)
         else:
-            providers["bundesbank"] = {"status": "OK", **parsed}
+            result = {"status": "OK", **parsed}
     except Exception as exc:
-        providers.setdefault("bundesbank", {"status": "ERROR"})
-        providers["bundesbank"]["metadata_error"] = str(exc)
+        result.setdefault("status", "ERROR")
+        result["metadata_error"] = str(exc)
+
+    return "bundesbank", result
+
+
+def discover_metadata(*, timeout: int = 90, max_workers: int = 4) -> dict:
+    """Discover provider metadata with concurrent probes and per-provider isolation."""
+    logger = logging.getLogger("macro_data_store")
+    summary: dict[str, object] = {"generated_at": now_iso(), "providers": {}}
+    providers = summary["providers"]
+
+    sdmx_probes = {
+        "imf": ("https://api.imf.org/external/sdmx/2.1/dataflow/all/all/latest", ("CPI", "IFS", "MFS", "BOP", "labour", "financial")),
+        "ecb": ("https://data-api.ecb.europa.eu/service/dataflow/all/all/latest", ("FM", "EXR", "ICP", "BSI", "MIR", "MNA", "LFSI", "STS")),
+        "eurostat": ("https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/dataflow/ESTAT/all/latest", ("gdp", "hicp", "unemployment", "prices", "production", "trade")),
+    }
+
+    with ThreadPoolExecutor(max_workers=max_workers) as pool:
+        futures = {}
+        for name, (url, keywords) in sdmx_probes.items():
+            futures[pool.submit(_probe_sdmx_provider, name, url, keywords, timeout)] = name
+        futures[pool.submit(_probe_boj, timeout)] = "boj"
+        futures[pool.submit(_probe_bundesbank, timeout)] = "bundesbank"
+
+        for future in as_completed(futures):
+            provider_name = futures[future]
+            try:
+                name, result = future.result(timeout=timeout + 30)
+                providers[name] = result
+                logger.info("Provider %s: %s", name, result.get("status", "UNKNOWN"))
+            except Exception as exc:
+                providers[provider_name] = {"status": "ERROR", "error": f"Future timed out or failed: {exc}"}
+                logger.warning("Provider %s failed: %s", provider_name, exc)
 
     return summary
 
@@ -448,6 +502,8 @@ def main() -> int:
     parser.add_argument("--sources", default="", help="Comma-separated source filter, e.g. imf,bundesbank")
     parser.add_argument("--metadata-only", action="store_true", help="Only refresh source_discovery_summary.json")
     parser.add_argument("--no-network", action="store_true", help="Write seed table without live provider probes")
+    parser.add_argument("--timeout", type=int, default=90, help="Per-request timeout in seconds (default: 90)")
+    parser.add_argument("--parallel", type=int, default=4, help="Max parallel provider probes (default: 4)")
     add_common_args(parser)
     args = parser.parse_args()
     logger = configure_logging(args.verbose)
@@ -468,7 +524,7 @@ def main() -> int:
 
     if not args.no_network:
         logger.info("Refreshing provider metadata summary")
-        summary = discover_metadata()
+        summary = discover_metadata(timeout=args.timeout, max_workers=args.parallel)
         args.summary.parent.mkdir(parents=True, exist_ok=True)
         args.summary.write_text(json.dumps(summary, indent=2), encoding="utf-8")
 
