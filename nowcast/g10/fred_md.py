@@ -9,10 +9,44 @@ from typing import Literal
 
 import pandas as pd
 
+from nowcast.g10.raw_store import RawWriteResult, fetch_url_to_raw
 from nowcast.g10.vintage import validate_vintage_frame
 
 
 Frequency = Literal["M", "Q"]
+FRED_MD_CURRENT_URL = "https://files.stlouisfed.org/files/htdocs/fred-md/monthly/current.csv"
+FRED_QD_CURRENT_URL = "https://files.stlouisfed.org/files/htdocs/fred-qd/quarterly/current.csv"
+FRED_MD_MONTHLY_URL = "https://files.stlouisfed.org/files/htdocs/fred-md/monthly/{vintage}.csv"
+FRED_QD_QUARTERLY_URL = "https://files.stlouisfed.org/files/htdocs/fred-qd/quarterly/{vintage}.csv"
+
+
+def fred_vintage_url(dataset: Literal["fred_md", "fred_qd"], vintage: str | None = None) -> str:
+    """Return the public McCracken-Ng CSV URL for a vintage month or current."""
+
+    if dataset == "fred_md":
+        return FRED_MD_CURRENT_URL if vintage in {None, "current"} else FRED_MD_MONTHLY_URL.format(vintage=vintage)
+    if dataset == "fred_qd":
+        return FRED_QD_CURRENT_URL if vintage in {None, "current"} else FRED_QD_QUARTERLY_URL.format(vintage=vintage)
+    raise ValueError(f"unsupported FRED dataset {dataset}")
+
+
+def download_fred_vintage(
+    dataset: Literal["fred_md", "fred_qd"],
+    *,
+    vintage_date: date,
+    raw_root: Path | str = "data/raw",
+    vintage: str | None = None,
+) -> RawWriteResult:
+    """Download one FRED-MD or FRED-QD CSV into immutable raw storage."""
+
+    filename = "current.csv" if vintage in {None, "current"} else f"{vintage}.csv"
+    return fetch_url_to_raw(
+        fred_vintage_url(dataset, vintage),
+        root=raw_root,
+        source=dataset,
+        vintage_date=vintage_date,
+        filename=filename,
+    )
 
 
 def load_vintage_csv(
@@ -101,4 +135,3 @@ def _parse_float(value: str) -> float | None:
     if not item or item in {".", "NA", "NaN", "nan"}:
         return None
     return float(item)
-

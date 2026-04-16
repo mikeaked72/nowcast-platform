@@ -5,6 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
+import pandas as pd
+
 
 @dataclass(frozen=True)
 class DFMOptions:
@@ -61,10 +63,24 @@ def fit_dynamic_factor_mq(
     return model.fit(maxiter=resolved.maxiter, tolerance=resolved.tolerance, disp=False)
 
 
+def load_panel_and_fit(
+    *,
+    monthly_path: str,
+    quarterly_path: str | None = None,
+    series_blocks: dict[str, list[str]] | None = None,
+    options: DFMOptions | None = None,
+) -> Any:
+    """Load processed panel files and fit the approved DFM wrapper."""
+
+    monthly = pd.read_parquet(monthly_path)
+    quarterly = pd.read_parquet(quarterly_path) if quarterly_path else None
+    factors = build_factor_mapping(series_blocks or {column: [] for column in monthly.columns})
+    return fit_dynamic_factor_mq(monthly, quarterly=quarterly, factors=factors, options=options)
+
+
 def statsmodels_available() -> bool:
     try:
         from statsmodels.tsa.statespace.dynamic_factor_mq import DynamicFactorMQ  # noqa: F401
     except ImportError:
         return False
     return True
-

@@ -7,23 +7,21 @@ Codex updates this file after each coherent unit of work.
 The repository now blends two layers:
 
 - Existing nowcast platform: `nowcast/`, `country_packs/`, `site/`, generated static files under `site/data/`, and tests for the output contract.
-- New G10 DynamicFactorMQ direction: `docs/spec.md`, `docs/plan.md`, `config/`, `prompts/`, and initial `nowcast/g10/` data/model scaffolding.
+- New G10 DynamicFactorMQ direction: `docs/spec.md`, `docs/plan.md`, `config/`, `prompts/`, and initial `nowcast/g10/` data/model scaffolding. The imported spec uses the standalone-package name `g10nowcast` in examples; in this blended repository, production code lives under `nowcast/g10/`.
 
 The website-facing US GDP output remains the component bridge model for now. The new G10 work is scaffolded alongside it and does not yet replace the published site model.
 
 ## What Changed Last
 
-- Added the G10 spec, plan, decisions, status, prompt, and config files from the new operating package.
-- Added `config/model.yaml`, `config/blocks.yaml`, and `config/countries/US.yaml`.
-- Added `nowcast/g10/` with:
-  - FRED transformation-code utilities
-  - vintage integrity checks
-  - FRED-MD/FRED-QD vintage CSV parsing into the tidy long schema
-  - a lazy `statsmodels.DynamicFactorMQ` wrapper
-  - config-loading helpers
-- Added `Makefile` targets that preserve existing site validation while reserving daily/replay/refit entrypoints for the G10 path.
-- Updated project dependencies in `pyproject.toml`, `requirements.txt`, and `requirements-dev.txt`.
-- Updated `AGENTS.md` to reflect the blended architecture and the current static site contract.
+- Implemented the first US G10 data vertical:
+  - immutable raw storage helpers under `nowcast/g10/raw_store.py`
+  - FRED-MD/FRED-QD public vintage URL and download helpers
+  - US vintage assembly from raw FRED-MD/QD CSVs into `data/vintages/US/<date>.parquet`
+  - processed panel builder that applies FRED tcode transformations and writes monthly/quarterly matrices
+  - CLI command `python -m nowcast.cli g10-assemble-us --vintage-date YYYY-MM-DD`
+- Added offline FRED-MD/QD fixtures for two US vintages.
+- Added a DFM processed-panel fit entrypoint that runs when `statsmodels` is installed and cleanly reports missing dependency otherwise.
+- Added a DFM-to-site adapter scaffold so future DFM outputs can flow through the existing `ModelRun` publisher boundary.
 
 ## Validation Status
 
@@ -32,6 +30,8 @@ Latest validation should include:
 - `python -m py_compile nowcast\g10\transforms.py nowcast\g10\vintage.py nowcast\g10\fred_md.py nowcast\g10\dfm.py nowcast\g10\config.py nowcast\cli.py`
 - `python scripts\validate_outputs.py --countries us,au,de,br --publish-dir site\data`
 - `python -m pytest -q --basetemp tmp\pytest`
+- `make test-vintage`
+- `make test-replay-smoke`
 
 ## Current Risks
 
@@ -42,8 +42,7 @@ Latest validation should include:
 
 ## Next Steps
 
-1. Finish M1 US data vertical: download/cache FRED-MD and FRED-QD vintages, parse transformation headers, and assemble `data/vintages/US/<vintage>.parquet`.
-2. Add a processed-panel builder that applies tcode transforms and splits monthly versus quarterly panels for `DynamicFactorMQ`.
-3. Add a tiny US fixture with two or three vintages so `make test-vintage` can run without network access.
-4. Only then start M2: fit a small `DynamicFactorMQ` smoke model and map its outputs back into the existing site contract.
-
+1. Install declared G10 dependencies in the local venv and run `python -m nowcast.cli g10-check-config --iso US`.
+2. Run a live `g10-assemble-us --download` for the latest FRED-MD/QD current vintage and inspect row counts.
+3. Expand the US country YAML toward the full FRED-MD/FRED-QD panel.
+4. Implement M2 smoke fitting against a pinned vintage once the real panel is available.

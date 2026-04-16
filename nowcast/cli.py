@@ -28,6 +28,14 @@ def main(argv: list[str] | None = None) -> int:
     g10_check_parser = subparsers.add_parser("g10-check-config", help="Validate one G10 country config")
     g10_check_parser.add_argument("--iso", default="US", help="ISO country code, for example US")
 
+    g10_assemble_parser = subparsers.add_parser("g10-assemble-us", help="Assemble a US G10 vintage and processed panel")
+    g10_assemble_parser.add_argument("--vintage-date", required=True, help="Vintage date in YYYY-MM-DD form")
+    g10_assemble_parser.add_argument("--vintage-month", help="FRED-MD/QD vintage month in YYYY-MM form; omit for current.csv")
+    g10_assemble_parser.add_argument("--raw-root", default="data/raw", help="Raw source root")
+    g10_assemble_parser.add_argument("--vintage-root", default="data/vintages", help="Vintage parquet root")
+    g10_assemble_parser.add_argument("--processed-root", default="data/processed", help="Processed panel root")
+    g10_assemble_parser.add_argument("--download", action="store_true", help="Download FRED-MD/QD raw files first")
+
     g10_daily_parser = subparsers.add_parser("g10-daily", help="Future G10 daily DynamicFactorMQ loop")
     g10_daily_parser.add_argument("--iso", help="Optional ISO country code")
 
@@ -72,6 +80,35 @@ def main(argv: list[str] | None = None) -> int:
             print(f"g10 config check failed: {exc}", file=sys.stderr)
             return 1
         print(f"loaded {config['iso']} config with {len(config.get('targets', {}))} targets")
+        return 0
+
+    if args.command == "g10-assemble-us":
+        try:
+            from nowcast.g10.assemble import assemble_us_vintage
+            from nowcast.g10.panel import build_processed_panel
+
+            vintage_date = parse_as_of(args.vintage_date)
+            if vintage_date is None:
+                raise ValueError("--vintage-date is required")
+            vintage_path = assemble_us_vintage(
+                vintage_date,
+                raw_root=Path(args.raw_root),
+                vintage_root=Path(args.vintage_root),
+                download=args.download,
+                vintage_month=args.vintage_month,
+            )
+            panel_paths = build_processed_panel(
+                "US",
+                vintage_date,
+                vintage_root=Path(args.vintage_root),
+                processed_root=Path(args.processed_root),
+            )
+        except Exception as exc:
+            print(f"g10 US assembly failed: {exc}", file=sys.stderr)
+            return 1
+        print(f"vintage {vintage_path}")
+        print(f"monthly panel {panel_paths.monthly}")
+        print(f"quarterly panel {panel_paths.quarterly}")
         return 0
 
     if args.command in {"g10-daily", "g10-replay", "g10-refit"}:
