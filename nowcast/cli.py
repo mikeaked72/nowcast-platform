@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -59,6 +60,21 @@ def main(argv: list[str] | None = None) -> int:
     g10_publish_parser.add_argument("--artifact-root", default="artifacts", help="DFM artifact root")
     g10_publish_parser.add_argument("--publish-dir", default="site/data", help="Publish data root")
     g10_publish_parser.add_argument("--packs-dir", default="country_packs", help="Country packs directory")
+
+    g10_run_experimental_parser = subparsers.add_parser(
+        "g10-run-experimental-us",
+        help="Assemble, smoke-fit, publish, and validate the experimental US G10 GDP output",
+    )
+    g10_run_experimental_parser.add_argument("--vintage-date", required=True, help="Vintage date in YYYY-MM-DD form")
+    g10_run_experimental_parser.add_argument("--vintage-month", help="FRED-MD/QD vintage month in YYYY-MM form; omit for current.csv")
+    g10_run_experimental_parser.add_argument("--raw-root", default="data/raw", help="Raw source root")
+    g10_run_experimental_parser.add_argument("--vintage-root", default="data/vintages", help="Vintage parquet root")
+    g10_run_experimental_parser.add_argument("--processed-root", default="data/processed", help="Processed panel root")
+    g10_run_experimental_parser.add_argument("--artifact-root", default="artifacts", help="DFM artifact root")
+    g10_run_experimental_parser.add_argument("--publish-dir", default="site/data", help="Publish data root")
+    g10_run_experimental_parser.add_argument("--packs-dir", default="country_packs", help="Country packs directory")
+    g10_run_experimental_parser.add_argument("--download", action="store_true", help="Download FRED-MD/QD raw files first")
+    g10_run_experimental_parser.add_argument("--no-smoke", action="store_true", help="Skip the DFM smoke fit")
 
     g10_daily_parser = subparsers.add_parser("g10-daily", help="Future G10 daily DynamicFactorMQ loop")
     g10_daily_parser.add_argument("--iso", help="Optional ISO country code")
@@ -198,6 +214,71 @@ def main(argv: list[str] | None = None) -> int:
             print(f"g10 experimental publish failed: {exc}", file=sys.stderr)
             return 1
         print(f"published {result.country_code}/{result.indicator_code} to {result.indicator_dir}")
+        return 0
+
+    if args.command == "g10-run-experimental-us":
+        try:
+            from nowcast.g10.assemble import assemble_us_vintage
+            from nowcast.g10.experimental_publish import publish_experimental_g10_gdp
+            from nowcast.g10.panel import build_processed_panel
+            from nowcast.g10.smoke import run_dfm_smoke
+            from nowcast.schemas import validate_publish_dir
+
+            vintage_date = parse_as_of(args.vintage_date)
+            if vintage_date is None:
+                raise ValueError("--vintage-date is required")
+            vintage_path = assemble_us_vintage(
+                vintage_date,
+                raw_root=Path(args.raw_root),
+                vintage_root=Path(args.vintage_root),
+                download=args.download,
+                vintage_month=args.vintage_month,
+            )
+            panel_paths = build_processed_panel(
+                "US",
+                vintage_date,
+                vintage_root=Path(args.vintage_root),
+                processed_root=Path(args.processed_root),
+            )
+            smoke_artifact = None
+            if not args.no_smoke:
+                smoke_artifact = run_dfm_smoke(
+                    "US",
+                    vintage_date.isoformat(),
+                    processed_root=Path(args.processed_root),
+                    artifact_root=Path(args.artifact_root),
+                    maxiter=2,
+                )
+            publish_result = publish_experimental_g10_gdp(
+                "US",
+                vintage_date=vintage_date,
+                processed_root=Path(args.processed_root),
+                vintage_root=Path(args.vintage_root),
+                artifact_root=Path(args.artifact_root),
+                publish_dir=Path(args.publish_dir),
+                packs_dir=Path(args.packs_dir),
+            )
+            validation = validate_publish_dir(Path(args.publish_dir), countries=["us"])
+            if not validation.ok:
+                for error in validation.errors:
+                    print(error, file=sys.stderr)
+                return 1
+        except Exception as exc:
+            print(f"g10 experimental run failed: {exc}", file=sys.stderr)
+            return 1
+        print(f"vintage {vintage_path}")
+        print(f"monthly panel {panel_paths.monthly}")
+        print(f"quarterly panel {panel_paths.quarterly}")
+        print(f"smoke artifact {smoke_artifact.path if smoke_artifact is not None else 'skipped'}")
+        print(f"published {publish_result.country_code}/{publish_result.indicator_code} to {publish_result.indicator_dir}")
+        latest = json.loads((publish_result.indicator_dir / "latest.json").read_text(encoding="utf-8"))
+        summary = json.loads((publish_result.indicator_dir / "g10_experimental_summary.json").read_text(encoding="utf-8"))
+        print(
+            "estimate "
+            f"{latest['estimate_value']} {latest['unit']} "
+            f"(prior {latest['prior_estimate_value']}, delta {latest['delta_vs_prior']}, method {summary['method']})"
+        )
+        print("validation ok")
         return 0
 
     if args.command in {"g10-daily", "g10-replay", "g10-refit"}:

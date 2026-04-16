@@ -129,8 +129,17 @@ def _write_provenance_artifacts(
     artifact_root: Path,
 ) -> None:
     processed_manifest = processed_root / iso / f"panel_{vintage_date.isoformat()}.json"
+    processed_monthly = processed_root / iso / f"monthly_{vintage_date.isoformat()}.parquet"
+    processed_quarterly = processed_root / iso / f"quarterly_{vintage_date.isoformat()}.parquet"
+    vintage_parquet = vintage_root / iso / f"{vintage_date.isoformat()}.parquet"
     vintage_manifest = vintage_root / iso / f"{vintage_date.isoformat()}.json"
     smoke_artifact = artifact_root / iso / f"dfm_smoke_{vintage_date.isoformat()}.json"
+    artifact_sources = {
+        "g10_smoke.json": smoke_artifact,
+        "g10_vintage_manifest.json": vintage_manifest,
+        "g10_processed_manifest.json": processed_manifest,
+    }
+    smoke_payload = _read_optional_json(smoke_artifact)
     summary = {
         "iso": iso,
         "indicator_code": "gdp_experimental",
@@ -140,8 +149,16 @@ def _write_provenance_artifacts(
         "nowcast_value": nowcast_value,
         "prior_nowcast_value": prior_nowcast_value,
         "processed_manifest": str(processed_manifest),
+        "processed_monthly": str(processed_monthly),
+        "processed_quarterly": str(processed_quarterly),
+        "vintage_parquet": str(vintage_parquet),
         "vintage_manifest": str(vintage_manifest),
         "smoke_artifact": str(smoke_artifact),
+        "copied_artifacts": sorted(name for name, source in artifact_sources.items() if source.exists()),
+        "missing_artifacts": sorted(name for name, source in artifact_sources.items() if not source.exists()),
+        "smoke_converged": smoke_payload.get("converged") if smoke_payload else None,
+        "smoke_llf": smoke_payload.get("llf") if smoke_payload else None,
+        "smoke_maxiter": smoke_payload.get("maxiter") if smoke_payload else None,
         "limitations": [
             "development proxy, not a production GDPNow-equivalent estimate",
             "DFM target extraction and historical replay are not complete",
@@ -152,9 +169,8 @@ def _write_provenance_artifacts(
         json.dumps(summary, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
-    _copy_if_exists(smoke_artifact, indicator_dir / "g10_smoke.json")
-    _copy_if_exists(vintage_manifest, indicator_dir / "g10_vintage_manifest.json")
-    _copy_if_exists(processed_manifest, indicator_dir / "g10_processed_manifest.json")
+    for filename, source in artifact_sources.items():
+        _copy_if_exists(source, indicator_dir / filename)
 
 
 def _experimental_news(
@@ -236,6 +252,16 @@ def _series_label(series_id: str) -> str:
 def _copy_if_exists(source: Path, destination: Path) -> None:
     if source.exists():
         copyfile(source, destination)
+
+
+def _read_optional_json(path: Path) -> dict[str, object] | None:
+    if not path.exists():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    return payload if isinstance(payload, dict) else None
 
 
 @dataclass(frozen=True)
