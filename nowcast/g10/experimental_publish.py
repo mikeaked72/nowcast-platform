@@ -240,9 +240,6 @@ def _write_provenance_artifacts(
     artifact_root: Path,
 ) -> None:
     processed_manifest = processed_root / iso / f"panel_{vintage_date.isoformat()}.json"
-    processed_monthly = processed_root / iso / f"monthly_{vintage_date.isoformat()}.parquet"
-    processed_quarterly = processed_root / iso / f"quarterly_{vintage_date.isoformat()}.parquet"
-    vintage_parquet = vintage_root / iso / f"{vintage_date.isoformat()}.parquet"
     vintage_manifest = vintage_root / iso / f"{vintage_date.isoformat()}.json"
     smoke_artifact = artifact_root / iso / f"dfm_smoke_{vintage_date.isoformat()}.json"
     artifact_sources = {
@@ -266,12 +263,9 @@ def _write_provenance_artifacts(
             processed_root=processed_root,
             total_impact=total_impact,
         ),
-        "processed_manifest": str(processed_manifest),
-        "processed_monthly": str(processed_monthly),
-        "processed_quarterly": str(processed_quarterly),
-        "vintage_parquet": str(vintage_parquet),
-        "vintage_manifest": str(vintage_manifest),
-        "smoke_artifact": str(smoke_artifact),
+        "processed_manifest": "g10_processed_manifest.json" if processed_manifest.exists() else None,
+        "vintage_manifest": "g10_vintage_manifest.json" if vintage_manifest.exists() else None,
+        "smoke_artifact": "g10_smoke.json" if smoke_artifact.exists() else None,
         "copied_artifacts": sorted(name for name, source in artifact_sources.items() if source.exists()),
         "missing_artifacts": sorted(name for name, source in artifact_sources.items() if not source.exists()),
         "smoke_converged": smoke_payload.get("converged") if smoke_payload else None,
