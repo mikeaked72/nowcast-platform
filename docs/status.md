@@ -30,6 +30,10 @@ The website-facing US GDP output remains the component bridge model for now. The
   - source-level release-impact rows from the largest monthly/quarterly panel movers
   - optional provenance artifacts listed in `metadata.json`
 - Improved the dashboard to label G10 outputs as experimental, group comparison impacts, and show optional G10 provenance without failing when optional diagnostics are absent or malformed.
+- Expanded the US G10 fixture panel to 17 series:
+  - 12 monthly FRED-MD-style series covering production, income, labour, prices, and wages
+  - 5 quarterly FRED-QD-style targets covering GDP, investment, profits, imports, and exports
+  - current fixture coverage ratio is 75.76% against the seed US config because several financial, external, housing, and sentiment panel inputs remain absent
 
 ## Validation Status
 
@@ -43,6 +47,7 @@ Latest validation should include:
 - `make test-replay-smoke`
 - `python -m nowcast.cli g10-dfm-smoke --iso US --vintage-date 2026-04-01 --processed-root <processed-root> --artifact-root <artifact-root> --maxiter 2`
 - `python -m nowcast.cli g10-publish-experimental --iso US --vintage-date 2026-04-01 --processed-root <processed-root> --vintage-root <vintage-root> --artifact-root <artifact-root> --publish-dir <site-data-root>`
+- `python -m nowcast.cli g10-check-coverage --iso US --vintage-date 2026-04-01 --vintage-root <vintage-root> --matrix-output <coverage.csv>`
 
 ## Current Risks
 
@@ -50,12 +55,12 @@ Latest validation should include:
 - The G10 daily/replay/refit commands are scaffolded but intentionally not implemented.
 - The existing US component bridge is still the website-backed US GDP model until the DFM replay path is proven.
 - The `gdp_experimental` estimate is a development proxy, not a production GDPNow-equivalent DFM extraction.
-- The fixture coverage check intentionally reports missing configured US target/panel series until the fixture panel is expanded toward the full country pack.
+- The fixture coverage check now covers all configured US targets but still reports missing panel series including financial, external, housing, and sentiment inputs.
 - Non-US G10 vintage construction remains the largest engineering risk.
 
 ## Next Steps
 
 1. Add an end-to-end convenience command that assembles, smokes, publishes, and validates `gdp_experimental`.
 2. Run a live `g10-assemble-us --download` for the latest FRED-MD/FRED-QD current vintage and inspect row counts.
-3. Expand the US country YAML and fixture panel toward the full FRED-MD/FRED-QD coverage.
+3. Add the remaining seed-panel fixture series: `DGS10`, `TB3MS`, `BAA`, `S&P 500`, `EXUSUKx`, `EXJPUSx`, `HOUST`, and `UMCSENTx`.
 4. Promote the single-vintage experimental output into a replay artifact with vintage-to-vintage news deltas.

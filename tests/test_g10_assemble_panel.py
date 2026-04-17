@@ -24,14 +24,23 @@ def test_assemble_us_vintage_and_build_processed_panel(tmp_path: Path) -> None:
     assert set(frame["freq"]) == {"M", "Q"}
     assert set(frame["vintage_kind"]) == {"real"}
     assert set(frame["series_id"]) == {
+        "AWHMAN",
+        "CES0500000003",
         "INDPRO",
+        "IPMANSICS",
+        "CUMFNS",
+        "ICSA",
         "PAYEMS",
+        "PPIACO",
         "CPIAUCSL",
         "RPI",
         "UNRATE",
         "CPILFESL",
+        "CPATAX",
+        "EXPGS",
         "GDPC1",
         "GPDIC1",
+        "IMPGS",
     }
 
     paths = build_processed_panel(
@@ -44,14 +53,27 @@ def test_assemble_us_vintage_and_build_processed_panel(tmp_path: Path) -> None:
     quarterly = pd.read_parquet(paths.quarterly)
     manifest = json.loads(paths.manifest.read_text(encoding="utf-8"))
 
-    assert list(monthly.columns) == ["CPIAUCSL", "CPILFESL", "INDPRO", "PAYEMS", "RPI", "UNRATE"]
-    assert list(quarterly.columns) == ["GDPC1", "GPDIC1"]
-    assert manifest["monthly_series"] == 6
-    assert manifest["quarterly_series"] == 2
+    assert list(monthly.columns) == [
+        "AWHMAN",
+        "CES0500000003",
+        "CPIAUCSL",
+        "CPILFESL",
+        "CUMFNS",
+        "ICSA",
+        "INDPRO",
+        "IPMANSICS",
+        "PAYEMS",
+        "PPIACO",
+        "RPI",
+        "UNRATE",
+    ]
+    assert list(quarterly.columns) == ["CPATAX", "EXPGS", "GDPC1", "GPDIC1", "IMPGS"]
+    assert manifest["monthly_series"] == 12
+    assert manifest["quarterly_series"] == 5
     assert manifest["monthly_rows"] > 0
     assert manifest["quarterly_rows"] > 0
     assert monthly.index.is_monotonic_increasing
 
     vintage_manifest = json.loads(vintage_path.with_suffix(".json").read_text(encoding="utf-8"))
-    assert vintage_manifest["series_count"] == 8
+    assert vintage_manifest["series_count"] == 17
     assert vintage_manifest["sources"]["fred_md"].endswith("current.csv")

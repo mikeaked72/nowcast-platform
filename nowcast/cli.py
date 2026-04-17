@@ -41,6 +41,7 @@ def main(argv: list[str] | None = None) -> int:
     g10_coverage_parser.add_argument("--iso", default="US", help="ISO country code")
     g10_coverage_parser.add_argument("--vintage-date", required=True, help="Vintage date in YYYY-MM-DD form")
     g10_coverage_parser.add_argument("--vintage-root", default="data/vintages", help="Vintage parquet root")
+    g10_coverage_parser.add_argument("--matrix-output", help="Optional CSV path for the coverage matrix")
 
     g10_smoke_parser = subparsers.add_parser("g10-dfm-smoke", help="Fit and persist a tiny G10 DFM smoke run")
     g10_smoke_parser.add_argument("--iso", default="US", help="ISO country code")
@@ -153,7 +154,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "g10-check-coverage":
         try:
-            from nowcast.g10.coverage import check_config_coverage
+            from nowcast.g10.coverage import check_config_coverage, write_coverage_matrix
 
             vintage_date = parse_as_of(args.vintage_date)
             if vintage_date is None:
@@ -163,14 +164,25 @@ def main(argv: list[str] | None = None) -> int:
                 vintage_date,
                 vintage_root=Path(args.vintage_root),
             )
+            matrix_path = None
+            if args.matrix_output:
+                matrix_path = write_coverage_matrix(
+                    args.iso,
+                    vintage_date,
+                    Path(args.matrix_output),
+                    vintage_root=Path(args.vintage_root),
+                )
         except Exception as exc:
             print(f"g10 coverage check failed: {exc}", file=sys.stderr)
             return 1
         print(
             f"{coverage.iso} coverage: {coverage.available_series} available series, "
             f"{len(coverage.missing_targets)} missing targets, "
-            f"{len(coverage.missing_panel_series)} missing panel series"
+            f"{len(coverage.missing_panel_series)} missing panel series, "
+            f"ratio {coverage.coverage_ratio:.2%}, status {coverage.status()}"
         )
+        if matrix_path is not None:
+            print(f"coverage matrix {matrix_path}")
         if not coverage.ok:
             print(f"missing targets: {', '.join(coverage.missing_targets) or 'none'}")
             print(f"missing panel series: {', '.join(coverage.missing_panel_series) or 'none'}")

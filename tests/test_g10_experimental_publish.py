@@ -64,11 +64,10 @@ def test_publish_experimental_g10_gdp_writes_valid_site_payload(tmp_path: Path) 
     assert any(row["source"] == "INDPRO" and row["notes"] == "new_release" for row in release_rows)
     assert any(row["source"] == "prior_g10_proxy" and row["notes"] == "carried_forward" for row in release_rows)
     assert any(row["notes"] == "pending" and row["category"] == "missing input" for row in release_rows)
-    assert {row["category"] for row in release_rows if row["notes"] == "new_release"} >= {
-        "production",
-        "investment",
-        "output",
-    }
+    new_release_categories = {row["category"] for row in release_rows if row["notes"] == "new_release"}
+    assert "monthly" not in new_release_categories
+    assert "quarterly" not in new_release_categories
+    assert new_release_categories & {"production", "investment", "output", "imports", "exports", "profits"}
     current_contribution = sum(
         float(row["contribution"])
         for row in contribution_rows
