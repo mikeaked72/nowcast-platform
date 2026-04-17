@@ -11,7 +11,7 @@ from pathlib import Path
 import pandas as pd
 
 from nowcast.g10.site_adapter import G10NewsImpact, G10NowcastPoint, g10_points_to_model_run
-from nowcast.publish import publish_model_run_indicator
+from nowcast.publish import load_existing_site_packs, publish_model_run_indicator, write_countries_json
 
 
 MODEL_VERSION = "g10_dfm_experimental_v0.1.0"
@@ -127,6 +127,7 @@ def publish_experimental_g10_gdp(
         vintage_root=Path(vintage_root),
         artifact_root=Path(artifact_root),
     )
+    write_countries_json(Path(publish_dir), load_existing_site_packs(publish_dir, packs_dir))
     return ExperimentalPublishResult(
         indicator_dir=indicator_dir,
         country_code=country_code,
@@ -215,6 +216,7 @@ def publish_experimental_g10_gdp_replay(
         artifact_root=Path(artifact_root),
     )
     _append_replay_summary(indicator_dir, ordered_dates, estimates)
+    write_countries_json(Path(publish_dir), load_existing_site_packs(publish_dir, packs_dir))
     return ExperimentalPublishResult(
         indicator_dir=indicator_dir,
         country_code=country_code,

@@ -1,0 +1,112 @@
+{
+  "copied_artifacts": [
+    "g10_processed_manifest.json",
+    "g10_smoke.json",
+    "g10_vintage_manifest.json"
+  ],
+  "impact_by_frequency": [
+    {
+      "frequency": "monthly",
+      "impact": -0.4018
+    }
+  ],
+  "indicator_code": "gdp_experimental",
+  "iso": "US",
+  "limitations": [
+    "development proxy, not a production GDPNow-equivalent estimate",
+    "DFM target extraction and historical replay are not complete",
+    "tiny smoke runs may not converge and should be interpreted as pipeline checks"
+  ],
+  "method": "replay:blend:GDPC1+monthly_activity",
+  "missing_artifacts": [],
+  "model_version": "g10_dfm_experimental_v0.1.0",
+  "nowcast_value": 0.9469,
+  "prior_nowcast_value": 1.3487,
+  "processed_manifest": "tmp\\site_replay_processed\\US\\panel_2026-04-01.json",
+  "processed_monthly": "tmp\\site_replay_processed\\US\\monthly_2026-04-01.parquet",
+  "processed_quarterly": "tmp\\site_replay_processed\\US\\quarterly_2026-04-01.parquet",
+  "proxy_details": {
+    "monthly_method": "monthly:activity_mean",
+    "monthly_prior_score": 1.0558,
+    "monthly_score": 0.8909,
+    "quarterly_prior_score": 1.4742,
+    "quarterly_score": 0.9709,
+    "quarterly_series": "GDPC1",
+    "weights": {
+      "monthly": 0.3,
+      "quarterly": 0.7
+    }
+  },
+  "replay_estimates": [
+    {
+      "method": "blend:GDPC1+monthly_activity",
+      "nowcast_value": 1.3487,
+      "prior_nowcast_value": 0.9495,
+      "vintage_date": "2026-03-01"
+    },
+    {
+      "method": "blend:GDPC1+monthly_activity",
+      "nowcast_value": 0.9469,
+      "prior_nowcast_value": 1.3487,
+      "vintage_date": "2026-04-01"
+    }
+  ],
+  "replay_vintages": [
+    "2026-03-01",
+    "2026-04-01"
+  ],
+  "smoke_artifact": "tmp\\site_replay_artifacts\\US\\dfm_smoke_2026-04-01.json",
+  "smoke_converged": false,
+  "smoke_llf": -13.415549582339501,
+  "smoke_maxiter": 2,
+  "source_availability": [
+    {
+      "actual": 78.6,
+      "category": "production",
+      "expected": 78.3,
+      "frequency": "monthly",
+      "series_id": "CUMFNS",
+      "series_name": "CUMFNS",
+      "status": "available"
+    },
+    {
+      "actual": 40.6,
+      "category": "labour market",
+      "expected": 40.5,
+      "frequency": "monthly",
+      "series_id": "AWHMAN",
+      "series_name": "AWHMAN",
+      "status": "available"
+    },
+    {
+      "actual": -0.14,
+      "category": "financial",
+      "expected": -0.08,
+      "frequency": "monthly",
+      "series_id": "DGS10",
+      "series_name": "10-year Treasury yield",
+      "status": "available"
+    },
+    {
+      "actual": -0.13,
+      "category": "financial",
+      "expected": -0.08,
+      "frequency": "monthly",
+      "series_id": "BAA",
+      "series_name": "BAA corporate bond yield",
+      "status": "available"
+    },
+    {
+      "actual": -0.12,
+      "category": "financial",
+      "expected": -0.08,
+      "frequency": "monthly",
+      "series_id": "TB3MS",
+      "series_name": "3-month Treasury bill",
+      "status": "available"
+    }
+  ],
+  "vintage_date": "2026-04-01",
+  "vintage_manifest": "tmp\\site_replay_vintages\\US\\2026-04-01.json",
+  "vintage_parquet": "tmp\\site_replay_vintages\\US\\2026-04-01.parquet"
+}

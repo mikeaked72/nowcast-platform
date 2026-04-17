@@ -73,6 +73,10 @@
         "display_name": "GDP"
       },
       {
+        "code": "gdp_experimental",
+        "display_name": "GDP Experimental"
+      },
+      {
         "code": "inflation",
         "display_name": "Inflation"
       },

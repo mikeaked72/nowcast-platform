@@ -1,0 +1,19 @@
+{
+  "converged": false,
+  "created_at_utc": "2026-04-17T08:09:17Z",
+  "fitted_monthly_series_cap": 8,
+  "fitted_quarterly_series_cap": 5,
+  "iso": "US",
+  "llf": -13.415549582339501,
+  "maxiter": 2,
+  "model_class": "statsmodels.tsa.statespace.DynamicFactorMQ",
+  "monthly_shape": [
+    6,
+    20
+  ],
+  "quarterly_shape": [
+    3,
+    5
+  ],
+  "vintage_date": "2026-04-01"
+}

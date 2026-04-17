@@ -1,5 +1,5 @@
 {
-  "artifact_count": 75,
+  "artifact_count": 84,
   "countries": [
     {
       "code": "au",
@@ -148,7 +148,7 @@
     {
       "code": "us",
       "enabled": true,
-      "indicator_count": 4,
+      "indicator_count": 5,
       "indicators": [
         {
           "artifact_count": 8,
@@ -164,6 +164,22 @@
           ],
           "code": "gdp",
           "display_name": "GDP"
+        },
+        {
+          "artifact_count": 9,
+          "artifacts": [
+            "contributions.csv",
+            "g10_experimental_summary.json",
+            "g10_processed_manifest.json",
+            "g10_smoke.json",
+            "g10_vintage_manifest.json",
+            "history.csv",
+            "latest.json",
+            "metadata.json",
+            "release_impacts.csv"
+          ],
+          "code": "gdp_experimental",
+          "display_name": "GDP Experimental"
         },
         {
           "artifact_count": 5,
@@ -206,7 +222,7 @@
     }
   ],
   "country_count": 4,
-  "generated_at_utc": "2026-04-16T14:21:23Z",
-  "indicator_count": 14,
+  "generated_at_utc": "2026-04-17T08:09:31Z",
+  "indicator_count": 15,
   "schema_version": 1
 }

@@ -1,0 +1,34 @@
+{
+  "country_code": "us",
+  "country_name": "United States",
+  "decimals": 2,
+  "default_chart_type": "line",
+  "default_period": "2026Q2",
+  "display_name": "GDP Experimental",
+  "downloads": [
+    "latest.json",
+    "history.csv",
+    "contributions.csv",
+    "release_impacts.csv",
+    "metadata.json",
+    "g10_experimental_summary.json",
+    "g10_smoke.json",
+    "g10_vintage_manifest.json",
+    "g10_processed_manifest.json"
+  ],
+  "explanatory_text": "An experimental GDP nowcast path used to validate the G10 mixed-frequency model pipeline.",
+  "faq": [
+    {
+      "answer": "No. It is an automated nowcast intended for monitoring and development use.",
+      "question": "Is this an official forecast?"
+    },
+    {
+      "answer": "Updated when a G10 vintage run is published",
+      "question": "When does it update?"
+    }
+  ],
+  "indicator_code": "gdp_experimental",
+  "methodology": "This experimental GDP path validates the G10 mixed-frequency DynamicFactorMQ pipeline. It uses assembled FRED-MD and FRED-QD vintage inputs, processed monthly and quarterly panels, and a small DFM smoke fit. The current published value is a deterministic development proxy until the full replay and production DFM target extraction are complete.",
+  "unit": "percent QoQ SAAR",
+  "update_cadence_label": "Updated when a G10 vintage run is published"
+}

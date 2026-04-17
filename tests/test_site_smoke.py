@@ -27,6 +27,10 @@ def test_site_serves_app_and_generated_payloads() -> None:
         assert _status(root + "/data/us/gdp/model_summary.json") == 200
         assert _status(root + "/data/us/gdp/component_diagnostics.csv") == 200
         assert _status(root + "/data/us/gdp/data_inventory.csv") == 200
+        assert _status(root + "/data/us/gdp_experimental/latest.json") == 200
+        assert _status(root + "/data/us/gdp_experimental/history.csv") == 200
+        assert _status(root + "/data/us/gdp_experimental/g10_experimental_summary.json") == 200
+        assert _status(root + "/data/us/gdp_experimental/g10_smoke.json") == 200
         assert _status(root + "/data/au/inflation/metadata.json") == 200
         assert _status(root + "/data/de/gdp/latest.json") == 200
         assert _status(root + "/data/br/inflation/latest.json") == 200
@@ -44,6 +48,10 @@ def test_site_serves_app_and_generated_payloads() -> None:
         manifest = json.loads(_text(root + "/data/manifest.json"))
         assert manifest["schema_version"] == 1
         assert manifest["country_count"] >= 4
+        us_manifest = next(country for country in manifest["countries"] if country["code"] == "us")
+        g10_manifest = next(indicator for indicator in us_manifest["indicators"] if indicator["code"] == "gdp_experimental")
+        assert "g10_experimental_summary.json" in g10_manifest["artifacts"]
+        assert "g10_smoke.json" in g10_manifest["artifacts"]
         coverage = json.loads(_text(root + "/data/source_coverage.json"))
         assert coverage["schema_version"] == 1
         assert coverage["series_count"] >= 250
@@ -64,6 +72,13 @@ def test_site_serves_app_and_generated_payloads() -> None:
         tracking_latest = json.loads(_text(root + "/data/au/inflation/latest.json"))
         assert tracking_latest["model_status"] == "warning"
         assert tracking_latest["model_version"] == "tracking-0.1.0"
+        g10_latest = json.loads(_text(root + "/data/us/gdp_experimental/latest.json"))
+        assert g10_latest["model_version"] == "g10_dfm_experimental_v0.1.0"
+        g10_history = _text(root + "/data/us/gdp_experimental/history.csv").splitlines()
+        assert any("2026-03-01" in row for row in g10_history)
+        assert any("2026-04-01" in row for row in g10_history)
+        g10_summary = json.loads(_text(root + "/data/us/gdp_experimental/g10_experimental_summary.json"))
+        assert g10_summary["replay_vintages"] == ["2026-03-01", "2026-04-01"]
         release_header = _text(root + "/data/us/gdp/release_impacts.csv").splitlines()[0]
         assert "source" in release_header
         assert "source_url" in release_header

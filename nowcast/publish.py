@@ -127,6 +127,23 @@ def load_country_pack(country_code: str, packs_dir: Path | str = "country_packs"
     )
 
 
+def load_existing_site_packs(
+    publish_dir: Path | str,
+    packs_dir: Path | str = "country_packs",
+    *,
+    include: CountryPack | None = None,
+) -> list[CountryPack]:
+    """Load packs for countries already present in a publish directory."""
+
+    root = Path(publish_dir)
+    codes = {include.code} if include is not None else set()
+    if root.exists():
+        for child in root.iterdir():
+            if child.is_dir() and (Path(packs_dir) / child.name / "country.json").exists():
+                codes.add(child.name)
+    return [load_country_pack(code, packs_dir) for code in sorted(codes)]
+
+
 def validate_country_pack(country_code: str, packs_dir: Path | str = "country_packs") -> None:
     """Validate that a country pack can be loaded."""
 
@@ -236,7 +253,7 @@ def publish_model_run_indicator(
     )
     indicator_dir = country_dir / indicator_code
     _write_indicator_payload(indicator_dir, payload)
-    write_countries_json(root, [pack])
+    write_countries_json(root, load_existing_site_packs(root, packs_dir, include=pack))
     return indicator_dir
 
 

@@ -1,0 +1,12 @@
+as_of_date,component_code,component_name,reference_period,contribution,direction,category,unit
+2026-03-01,UMCSENTx,Consumer sentiment,2026Q1,0.0,neutral,sentiment,percent QoQ SAAR
+2026-03-01,CUMFNS,CUMFNS,2026Q1,-0.0,neutral,production,percent QoQ SAAR
+2026-03-01,AWHMAN,AWHMAN,2026Q1,-0.0,neutral,labour market,percent QoQ SAAR
+2026-03-01,DGS10,10-year Treasury yield,2026Q1,-0.0,neutral,financial,percent QoQ SAAR
+2026-03-01,BAA,BAA corporate bond yield,2026Q1,-0.0,neutral,financial,percent QoQ SAAR
+2026-04-01,CUMFNS,CUMFNS,2026Q2,-0.48216,negative,production,percent QoQ SAAR
+2026-04-01,AWHMAN,AWHMAN,2026Q2,-0.16072,negative,labour market,percent QoQ SAAR
+2026-04-01,DGS10,10-year Treasury yield,2026Q2,0.096432,positive,financial,percent QoQ SAAR
+2026-04-01,BAA,BAA corporate bond yield,2026Q2,0.08036,positive,financial,percent QoQ SAAR
+2026-04-01,TB3MS,3-month Treasury bill,2026Q2,0.064288,positive,financial,percent QoQ SAAR
+2026-04-01,prior_g10_proxy,Prior G10 experimental proxy,2026Q2,0.0,neutral,prior estimate,percent QoQ SAAR

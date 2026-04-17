@@ -1,0 +1,15 @@
+{
+  "iso": "US",
+  "monthly_series": 20,
+  "quarterly_series": 5,
+  "row_count": 140,
+  "series_count": 25,
+  "sources": {
+    "fred_md": "tests\\fixtures\\g10_us\\fred_md\\2026-04-01\\current.csv",
+    "fred_qd": "tests\\fixtures\\g10_us\\fred_qd\\2026-04-01\\current.csv"
+  },
+  "vintage_date": "2026-04-01",
+  "vintage_kind": [
+    "real"
+  ]
+}

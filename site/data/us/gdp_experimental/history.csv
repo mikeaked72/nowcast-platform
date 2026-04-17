@@ -1,0 +1,3 @@
+as_of_date,reference_period,estimate_value,prior_estimate_value,delta_vs_prior,model_status,model_version
+2026-03-01,2026Q1,1.3487,,,warning,g10_dfm_experimental_v0.1.0
+2026-04-01,2026Q2,0.9469,1.3487,-0.4018,warning,g10_dfm_experimental_v0.1.0

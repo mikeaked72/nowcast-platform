@@ -1,0 +1,14 @@
+{
+  "end": "2026-03-01",
+  "iso": "US",
+  "monthly_rows": 100,
+  "monthly_series": 20,
+  "quarterly_rows": 15,
+  "quarterly_series": 5,
+  "row_count": 115,
+  "start": "2025-09-01",
+  "vintage_date": "2026-04-01",
+  "vintage_kind": [
+    "real"
+  ]
+}
