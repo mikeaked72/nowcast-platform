@@ -1,4 +1,4 @@
-.PHONY: help install daily replay refit test lint typecheck ci test-vintage test-replay-smoke site-preview validate clean
+.PHONY: help install daily replay refit test lint typecheck ci test-vintage test-replay-smoke g10-site-replay site-preview validate clean
 
 help:
 	@echo "Targets:"
@@ -10,6 +10,7 @@ help:
 	@echo "  lint                 ruff check ."
 	@echo "  typecheck            mypy nowcast"
 	@echo "  validate             validate generated site outputs"
+	@echo "  g10-site-replay      regenerate fixture-backed US G10 site replay output"
 	@echo "  site-preview         python -m http.server 3000 -d site"
 
 install:
@@ -40,6 +41,9 @@ test-vintage:
 
 test-replay-smoke:
 	pytest -q -m "not slow and not network" tests/test_g10_dfm.py tests/test_g10_smoke.py tests/test_g10_site_adapter.py tests/test_g10_experimental_publish.py
+
+g10-site-replay:
+	python -m nowcast.cli g10-replay-experimental-us --vintage-dates 2026-03-01,2026-04-01 --raw-root tests/fixtures/g10_us --vintage-root tmp/site_replay_vintages --processed-root tmp/site_replay_processed --artifact-root tmp/site_replay_artifacts --publish-dir site/data
 
 validate:
 	python scripts/validate_outputs.py --countries us,au,de,br --publish-dir site/data
