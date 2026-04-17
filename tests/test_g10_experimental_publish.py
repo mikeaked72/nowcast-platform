@@ -8,8 +8,10 @@ import sys
 from datetime import date
 from pathlib import Path
 
+import pytest
+
 from nowcast.g10.assemble import assemble_us_vintage
-from nowcast.g10.experimental_publish import estimate_experimental_gdp_proxy, publish_experimental_g10_gdp
+from nowcast.g10.experimental_publish import ProxyWeights, estimate_experimental_gdp_proxy, publish_experimental_g10_gdp
 from nowcast.g10.panel import build_processed_panel
 from nowcast.g10.smoke import run_dfm_smoke
 from nowcast.publish import publish_sample_country
@@ -46,17 +48,36 @@ def test_publish_experimental_g10_gdp_writes_valid_site_payload(tmp_path: Path) 
     summary = json.loads((result.indicator_dir / "g10_experimental_summary.json").read_text(encoding="utf-8"))
     with (result.indicator_dir / "release_impacts.csv").open(newline="", encoding="utf-8") as handle:
         release_rows = list(csv.DictReader(handle))
+    with (result.indicator_dir / "contributions.csv").open(newline="", encoding="utf-8") as handle:
+        contribution_rows = list(csv.DictReader(handle))
 
     assert latest["indicator_code"] == "gdp_experimental"
     assert latest["model_status"] == "warning"
-    assert latest["estimate_value"] == 0.9709
+    assert latest["estimate_value"] == 0.9469
     assert "g10_experimental_summary.json" in metadata["downloads"]
-    assert summary["method"] == "quarterly:GDPC1"
+    assert summary["method"] == "blend:GDPC1+monthly_activity"
+    assert summary["proxy_details"]["quarterly_series"] == "GDPC1"
+    assert summary["proxy_details"]["weights"] == {"monthly": 0.3, "quarterly": 0.7}
+    assert any(item["series_id"] == "INDPRO" and item["status"] == "available" for item in summary["source_availability"])
+    assert {item["frequency"] for item in summary["impact_by_frequency"]} == {"monthly", "quarterly"}
     assert (result.indicator_dir / "g10_smoke.json").exists()
     assert any(row["source"] == "INDPRO" and row["notes"] == "new_release" for row in release_rows)
+    assert any(row["source"] == "prior_g10_proxy" and row["notes"] == "carried_forward" for row in release_rows)
+    assert any(row["notes"] == "pending" and row["category"] == "missing input" for row in release_rows)
+    assert {row["category"] for row in release_rows if row["notes"] == "new_release"} >= {
+        "production",
+        "investment",
+        "output",
+    }
+    current_contribution = sum(
+        float(row["contribution"])
+        for row in contribution_rows
+        if row["as_of_date"] == latest["as_of_date"]
+    )
+    assert current_contribution == pytest.approx(latest["delta_vs_prior"])
 
 
-def test_estimate_experimental_gdp_proxy_prefers_quarterly_gdp(tmp_path: Path) -> None:
+def test_estimate_experimental_gdp_proxy_blends_quarterly_gdp_and_monthly_activity(tmp_path: Path) -> None:
     raw_root = tmp_path / "raw"
     vintage_root = tmp_path / "vintages"
     processed_root = tmp_path / "processed"
@@ -66,9 +87,28 @@ def test_estimate_experimental_gdp_proxy_prefers_quarterly_gdp(tmp_path: Path) -
 
     estimate = estimate_experimental_gdp_proxy("US", vintage_date=date(2026, 4, 1), processed_root=processed_root)
 
+    assert estimate.nowcast_value == 0.9469
+    assert estimate.prior_nowcast_value == 1.3487
+    assert estimate.method == "blend:GDPC1+monthly_activity"
+
+
+def test_estimate_experimental_gdp_proxy_accepts_custom_weights(tmp_path: Path) -> None:
+    raw_root = tmp_path / "raw"
+    vintage_root = tmp_path / "vintages"
+    processed_root = tmp_path / "processed"
+    shutil.copytree(FIXTURE_ROOT, raw_root)
+    assemble_us_vintage(date(2026, 4, 1), raw_root=raw_root, vintage_root=vintage_root)
+    build_processed_panel("US", date(2026, 4, 1), vintage_root=vintage_root, processed_root=processed_root)
+
+    estimate = estimate_experimental_gdp_proxy(
+        "US",
+        vintage_date=date(2026, 4, 1),
+        processed_root=processed_root,
+        weights=ProxyWeights(quarterly=1.0, monthly=0.0),
+    )
+
     assert estimate.nowcast_value == 0.9709
     assert estimate.prior_nowcast_value == 1.4742
-    assert estimate.method == "quarterly:GDPC1"
 
 
 def test_publish_experimental_does_not_overwrite_existing_us_gdp(tmp_path: Path) -> None:
@@ -175,4 +215,4 @@ def test_g10_run_experimental_us_cli_creates_valid_payload(tmp_path: Path) -> No
     assert "validation ok" in result.stdout
     assert validate_publish_dir(publish_root, countries=["us"]).errors == ()
     latest = json.loads((publish_root / "us" / "gdp_experimental" / "latest.json").read_text(encoding="utf-8"))
-    assert latest["estimate_value"] == 0.9709
+    assert latest["estimate_value"] == 0.9469
