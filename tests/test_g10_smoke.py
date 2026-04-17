@@ -31,6 +31,7 @@ def test_run_dfm_smoke_writes_artifact(tmp_path: Path) -> None:
 
     assert payload["iso"] == "US"
     assert payload["model_class"].endswith("DynamicFactorMQ")
-    assert payload["monthly_shape"][1] == 6
-    assert payload["quarterly_shape"][1] == 2
-
+    assert payload["monthly_shape"][1] == 20
+    assert payload["quarterly_shape"][1] == 5
+    assert payload["fitted_monthly_series_cap"] == 8
+    assert payload["fitted_quarterly_series_cap"] == 5
