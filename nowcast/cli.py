@@ -92,6 +92,7 @@ def main(argv: list[str] | None = None) -> int:
     g10_replay_experimental_parser.add_argument("--artifact-root", default="artifacts", help="DFM artifact root")
     g10_replay_experimental_parser.add_argument("--publish-dir", default="site/data", help="Publish data root")
     g10_replay_experimental_parser.add_argument("--packs-dir", default="country_packs", help="Country packs directory")
+    g10_replay_experimental_parser.add_argument("--smoke-latest", action="store_true", help="Run a DFM smoke fit for the latest replay vintage before publishing")
 
     g10_daily_parser = subparsers.add_parser("g10-daily", help="Future G10 daily DynamicFactorMQ loop")
     g10_daily_parser.add_argument("--iso", help="Optional ISO country code")
@@ -318,6 +319,7 @@ def main(argv: list[str] | None = None) -> int:
             from nowcast.g10.assemble import assemble_us_vintage
             from nowcast.g10.experimental_publish import publish_experimental_g10_gdp_replay
             from nowcast.g10.panel import build_processed_panel
+            from nowcast.g10.smoke import run_dfm_smoke
             from nowcast.schemas import validate_publish_dir
 
             vintage_dates = []
@@ -337,6 +339,14 @@ def main(argv: list[str] | None = None) -> int:
                     vintage_date,
                     vintage_root=Path(args.vintage_root),
                     processed_root=Path(args.processed_root),
+                )
+            if args.smoke_latest:
+                run_dfm_smoke(
+                    "US",
+                    max(vintage_dates).isoformat(),
+                    processed_root=Path(args.processed_root),
+                    artifact_root=Path(args.artifact_root),
+                    maxiter=2,
                 )
             publish_result = publish_experimental_g10_gdp_replay(
                 "US",

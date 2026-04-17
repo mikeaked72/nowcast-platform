@@ -51,7 +51,7 @@ jobs:
 
       - name: Smoke G10 replay publish for US
         run: |
-          python -m nowcast.cli g10-replay-experimental-us --vintage-dates 2026-03-01,2026-04-01 --raw-root tests/fixtures/g10_us --vintage-root runs/g10/vintages --processed-root runs/g10/processed --artifact-root runs/g10/artifacts --publish-dir runs/publish
+          python -m nowcast.cli g10-replay-experimental-us --vintage-dates 2026-03-01,2026-04-01 --raw-root tests/fixtures/g10_us --vintage-root runs/g10/vintages --processed-root runs/g10/processed --artifact-root runs/g10/artifacts --publish-dir runs/publish --smoke-latest
 
       - name: Validate published outputs
         run: |

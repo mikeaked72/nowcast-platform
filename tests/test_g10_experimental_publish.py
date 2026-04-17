@@ -275,6 +275,7 @@ def test_g10_replay_experimental_us_cli_creates_multi_vintage_payload(tmp_path: 
             str(tmp_path / "artifacts"),
             "--publish-dir",
             str(publish_root),
+            "--smoke-latest",
         ],
         check=False,
         capture_output=True,
@@ -286,3 +287,4 @@ def test_g10_replay_experimental_us_cli_creates_multi_vintage_payload(tmp_path: 
     with (publish_root / "us" / "gdp_experimental" / "history.csv").open(newline="", encoding="utf-8") as handle:
         history_rows = list(csv.DictReader(handle))
     assert [row["as_of_date"] for row in history_rows] == ["2026-03-01", "2026-04-01"]
+    assert (publish_root / "us" / "gdp_experimental" / "g10_smoke.json").exists()

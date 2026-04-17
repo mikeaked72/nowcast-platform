@@ -43,7 +43,7 @@ test-replay-smoke:
 	pytest -q -m "not slow and not network" tests/test_g10_dfm.py tests/test_g10_smoke.py tests/test_g10_site_adapter.py tests/test_g10_experimental_publish.py
 
 g10-site-replay:
-	python -m nowcast.cli g10-replay-experimental-us --vintage-dates 2026-03-01,2026-04-01 --raw-root tests/fixtures/g10_us --vintage-root tmp/site_replay_vintages --processed-root tmp/site_replay_processed --artifact-root tmp/site_replay_artifacts --publish-dir site/data
+	python -m nowcast.cli g10-replay-experimental-us --vintage-dates 2026-03-01,2026-04-01 --raw-root tests/fixtures/g10_us --vintage-root tmp/site_replay_vintages --processed-root tmp/site_replay_processed --artifact-root tmp/site_replay_artifacts --publish-dir site/data --smoke-latest
 
 validate:
 	python scripts/validate_outputs.py --countries us,au,de,br --publish-dir site/data

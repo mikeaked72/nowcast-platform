@@ -30,7 +30,7 @@ Regenerate the fixture-backed US G10 experimental GDP replay published under
 `site/data/us/gdp_experimental/`:
 
 ```powershell
-python -m nowcast.cli g10-replay-experimental-us --vintage-dates 2026-03-01,2026-04-01 --raw-root tests\fixtures\g10_us --vintage-root tmp\site_replay_vintages --processed-root tmp\site_replay_processed --artifact-root tmp\site_replay_artifacts --publish-dir site\data
+python -m nowcast.cli g10-replay-experimental-us --vintage-dates 2026-03-01,2026-04-01 --raw-root tests\fixtures\g10_us --vintage-root tmp\site_replay_vintages --processed-root tmp\site_replay_processed --artifact-root tmp\site_replay_artifacts --publish-dir site\data --smoke-latest
 ```
 
 Macro data-store commands:
