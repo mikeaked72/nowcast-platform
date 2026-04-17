@@ -36,6 +36,8 @@ def main(argv: list[str] | None = None) -> int:
     g10_assemble_parser.add_argument("--vintage-root", default="data/vintages", help="Vintage parquet root")
     g10_assemble_parser.add_argument("--processed-root", default="data/processed", help="Processed panel root")
     g10_assemble_parser.add_argument("--download", action="store_true", help="Download FRED-MD/QD raw files first")
+    g10_assemble_parser.add_argument("--download-timeout", type=int, default=60, help="Per-request download timeout in seconds")
+    g10_assemble_parser.add_argument("--download-retries", type=int, default=3, help="Download retry attempts")
 
     g10_coverage_parser = subparsers.add_parser("g10-check-coverage", help="Check country config against a vintage parquet")
     g10_coverage_parser.add_argument("--iso", default="US", help="ISO country code")
@@ -75,6 +77,8 @@ def main(argv: list[str] | None = None) -> int:
     g10_run_experimental_parser.add_argument("--publish-dir", default="site/data", help="Publish data root")
     g10_run_experimental_parser.add_argument("--packs-dir", default="country_packs", help="Country packs directory")
     g10_run_experimental_parser.add_argument("--download", action="store_true", help="Download FRED-MD/QD raw files first")
+    g10_run_experimental_parser.add_argument("--download-timeout", type=int, default=60, help="Per-request download timeout in seconds")
+    g10_run_experimental_parser.add_argument("--download-retries", type=int, default=3, help="Download retry attempts")
     g10_run_experimental_parser.add_argument("--no-smoke", action="store_true", help="Skip the DFM smoke fit")
 
     g10_daily_parser = subparsers.add_parser("g10-daily", help="Future G10 daily DynamicFactorMQ loop")
@@ -137,6 +141,8 @@ def main(argv: list[str] | None = None) -> int:
                 vintage_root=Path(args.vintage_root),
                 download=args.download,
                 vintage_month=args.vintage_month,
+                download_timeout=args.download_timeout,
+                download_retries=args.download_retries,
             )
             panel_paths = build_processed_panel(
                 "US",
@@ -245,6 +251,8 @@ def main(argv: list[str] | None = None) -> int:
                 vintage_root=Path(args.vintage_root),
                 download=args.download,
                 vintage_month=args.vintage_month,
+                download_timeout=args.download_timeout,
+                download_retries=args.download_retries,
             )
             panel_paths = build_processed_panel(
                 "US",

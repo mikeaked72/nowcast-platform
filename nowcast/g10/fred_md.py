@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import csv
+import re
 from datetime import date
 from pathlib import Path
 from typing import Literal
+from urllib.parse import urlparse
+from urllib.request import Request, urlopen
 
 import pandas as pd
 
@@ -14,10 +17,13 @@ from nowcast.g10.vintage import validate_vintage_frame
 
 
 Frequency = Literal["M", "Q"]
-FRED_MD_CURRENT_URL = "https://files.stlouisfed.org/files/htdocs/fred-md/monthly/current.csv"
-FRED_QD_CURRENT_URL = "https://files.stlouisfed.org/files/htdocs/fred-qd/quarterly/current.csv"
-FRED_MD_MONTHLY_URL = "https://files.stlouisfed.org/files/htdocs/fred-md/monthly/{vintage}.csv"
-FRED_QD_QUARTERLY_URL = "https://files.stlouisfed.org/files/htdocs/fred-qd/quarterly/{vintage}.csv"
+FRED_BASE_URL = "https://www.stlouisfed.org/-/media/project/frbstl/stlouisfed/research/fred-md"
+FRED_INDEX_URL = "https://www.stlouisfed.org/research/economists/mccracken/fred-databases"
+FRED_MD_CURRENT_URL = f"{FRED_BASE_URL}/monthly/current-md.csv"
+FRED_QD_CURRENT_URL = f"{FRED_BASE_URL}/quarterly/current-qd.csv"
+FRED_MD_MONTHLY_URL = f"{FRED_BASE_URL}/monthly/{{vintage}}-md.csv"
+FRED_QD_QUARTERLY_URL = f"{FRED_BASE_URL}/quarterly/{{vintage}}-qd.csv"
+_FRED_DOWNLOAD_HEADERS = {"User-Agent": "nowcast-platform/0.1"}
 
 
 def fred_vintage_url(dataset: Literal["fred_md", "fred_qd"], vintage: str | None = None) -> str:
@@ -30,22 +36,81 @@ def fred_vintage_url(dataset: Literal["fred_md", "fred_qd"], vintage: str | None
     raise ValueError(f"unsupported FRED dataset {dataset}")
 
 
+def fred_vintage_filename(dataset: Literal["fred_md", "fred_qd"], vintage: str | None = None) -> str:
+    """Return the local raw filename matching the public FRED-MD/QD download."""
+
+    if dataset == "fred_md":
+        return "current-md.csv" if vintage in {None, "current"} else f"{vintage}-md.csv"
+    if dataset == "fred_qd":
+        return "current-qd.csv" if vintage in {None, "current"} else f"{vintage}-qd.csv"
+    raise ValueError(f"unsupported FRED dataset {dataset}")
+
+
+def fred_fallback_current_vintage(as_of: date) -> str:
+    """Return the prior calendar-month vintage used if live index discovery fails."""
+
+    year = as_of.year
+    month = as_of.month - 1
+    if month == 0:
+        year -= 1
+        month = 12
+    return f"{year:04d}-{month:02d}"
+
+
+def discover_current_fred_vintage_urls(timeout: int = 60) -> dict[Literal["fred_md", "fred_qd"], str]:
+    """Discover current FRED-MD/QD CSV URLs from the St. Louis Fed index page."""
+
+    request = Request(FRED_INDEX_URL, headers=_FRED_DOWNLOAD_HEADERS)
+    with urlopen(request, timeout=timeout) as response:
+        html = response.read().decode("utf-8", errors="replace")
+    monthly = _first_csv_href(html, "monthly", "md")
+    quarterly = _first_csv_href(html, "quarterly", "qd")
+    return {"fred_md": monthly, "fred_qd": quarterly}
+
+
+def _first_csv_href(html: str, section: Literal["monthly", "quarterly"], suffix: Literal["md", "qd"]) -> str:
+    pattern = re.compile(
+        rf"https://www\.stlouisfed\.org/-/media/project/frbstl/stlouisfed/research/fred-md/{section}/"
+        rf"(?:current|\d{{4}}-\d{{2}})-{suffix}\.csv",
+        flags=re.IGNORECASE,
+    )
+    match = pattern.search(html)
+    if match:
+        return match.group(0)
+    # The public page currently labels links as current.csv and dated .csv,
+    # but the href targets include -md/-qd suffixes. Keep this explicit so a
+    # changed page fails early instead of silently constructing a stale URL.
+    raise ValueError(f"could not find FRED {section} {suffix} CSV link on {FRED_INDEX_URL}")
+
+
 def download_fred_vintage(
     dataset: Literal["fred_md", "fred_qd"],
     *,
     vintage_date: date,
     raw_root: Path | str = "data/raw",
     vintage: str | None = None,
+    timeout: int = 60,
+    retries: int = 3,
+    backoff_seconds: float = 1.0,
 ) -> RawWriteResult:
     """Download one FRED-MD or FRED-QD CSV into immutable raw storage."""
 
-    filename = "current.csv" if vintage in {None, "current"} else f"{vintage}.csv"
+    url = fred_vintage_url(dataset, vintage)
+    if vintage in {None, "current"}:
+        try:
+            url = discover_current_fred_vintage_urls(timeout=timeout)[dataset]
+        except Exception:
+            url = fred_vintage_url(dataset, fred_fallback_current_vintage(vintage_date))
+    filename = Path(urlparse(url).path).name or fred_vintage_filename(dataset, vintage)
     return fetch_url_to_raw(
-        fred_vintage_url(dataset, vintage),
+        url,
         root=raw_root,
         source=dataset,
         vintage_date=vintage_date,
         filename=filename,
+        timeout=timeout,
+        retries=retries,
+        backoff_seconds=backoff_seconds,
     )
 
 
@@ -69,7 +134,6 @@ def load_vintage_csv(
     headers = [item.strip() for item in rows[0]]
     if not headers:
         raise ValueError(f"{path}: missing header")
-    date_column = headers[0]
     series_ids = headers[1:]
     tcode_row = rows[1]
     has_tcodes = _looks_like_tcode_row(tcode_row, len(headers))

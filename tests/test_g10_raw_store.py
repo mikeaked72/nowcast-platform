@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 from datetime import date
+from urllib.error import URLError
 
-from nowcast.g10.raw_store import write_raw_bytes
+import pytest
+
+from nowcast.g10.raw_store import RawFetchError, _fetch_url, write_raw_bytes
 
 
 def test_raw_store_does_not_overwrite_changed_payload(tmp_path) -> None:
@@ -18,3 +21,18 @@ def test_raw_store_does_not_overwrite_changed_payload(tmp_path) -> None:
     assert revised.path.read_bytes() == b"two"
     assert first.path.read_bytes() == b"one"
 
+
+def test_fetch_url_retries_and_reports_source_url(monkeypatch) -> None:
+    calls = []
+
+    def fail(*args, **kwargs):
+        calls.append((args, kwargs))
+        raise URLError("blocked")
+
+    monkeypatch.setattr("nowcast.g10.raw_store.urlopen", fail)
+    monkeypatch.setattr("nowcast.g10.raw_store.sleep", lambda seconds: None)
+
+    with pytest.raises(RawFetchError, match="https://example.test/current.csv"):
+        _fetch_url("https://example.test/current.csv", timeout=1, retries=3, backoff_seconds=0)
+
+    assert len(calls) == 3
