@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import shutil
 import csv
+import shutil
 from datetime import date
 from pathlib import Path
 
@@ -12,7 +12,7 @@ from nowcast.g10.coverage import check_config_coverage, write_coverage_matrix
 FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "g10_us"
 
 
-def test_config_coverage_reports_missing_series(tmp_path: Path) -> None:
+def test_config_coverage_reports_complete_fixture_panel(tmp_path: Path) -> None:
     raw_root = tmp_path / "raw"
     vintage_root = tmp_path / "vintages"
     shutil.copytree(FIXTURE_ROOT, raw_root)
@@ -20,13 +20,14 @@ def test_config_coverage_reports_missing_series(tmp_path: Path) -> None:
 
     coverage = check_config_coverage("US", date(2026, 4, 1), vintage_root=vintage_root)
 
-    assert coverage.available_series == 17
+    assert coverage.available_series == 25
     assert coverage.missing_targets == ()
     assert "IPMANSICS" not in coverage.missing_panel_series
-    assert "DGS10" in coverage.missing_panel_series
-    assert coverage.coverage_ratio == 0.7576
-    assert coverage.status() == "error"
-    assert coverage.status(warning_threshold=0.7) == "warning"
+    assert "DGS10" not in coverage.missing_panel_series
+    assert coverage.missing_panel_series == ()
+    assert coverage.coverage_ratio == 1.0
+    assert coverage.status() == "ok"
+    assert coverage.status(warning_threshold=0.7) == "ok"
 
 
 def test_write_coverage_matrix(tmp_path: Path) -> None:
@@ -40,4 +41,4 @@ def test_write_coverage_matrix(tmp_path: Path) -> None:
         rows = list(csv.DictReader(handle))
 
     assert any(row["role"] == "target" and row["series"] == "GDPC1" and row["status"] == "present" for row in rows)
-    assert any(row["role"] == "panel" and row["series"] == "DGS10" and row["status"] == "missing" for row in rows)
+    assert any(row["role"] == "panel" and row["series"] == "DGS10" and row["status"] == "present" for row in rows)

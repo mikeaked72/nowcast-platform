@@ -36,11 +36,19 @@ def test_assemble_us_vintage_and_build_processed_panel(tmp_path: Path) -> None:
         "RPI",
         "UNRATE",
         "CPILFESL",
+        "DGS10",
+        "EXJPUSx",
+        "EXUSUKx",
+        "HOUST",
         "CPATAX",
         "EXPGS",
         "GDPC1",
         "GPDIC1",
         "IMPGS",
+        "S&P 500",
+        "BAA",
+        "TB3MS",
+        "UMCSENTx",
     }
 
     paths = build_processed_panel(
@@ -55,25 +63,33 @@ def test_assemble_us_vintage_and_build_processed_panel(tmp_path: Path) -> None:
 
     assert list(monthly.columns) == [
         "AWHMAN",
+        "BAA",
         "CES0500000003",
         "CPIAUCSL",
         "CPILFESL",
         "CUMFNS",
+        "DGS10",
+        "EXJPUSx",
+        "EXUSUKx",
+        "HOUST",
         "ICSA",
         "INDPRO",
         "IPMANSICS",
         "PAYEMS",
         "PPIACO",
         "RPI",
+        "S&P 500",
+        "TB3MS",
+        "UMCSENTx",
         "UNRATE",
     ]
     assert list(quarterly.columns) == ["CPATAX", "EXPGS", "GDPC1", "GPDIC1", "IMPGS"]
-    assert manifest["monthly_series"] == 12
+    assert manifest["monthly_series"] == 20
     assert manifest["quarterly_series"] == 5
     assert manifest["monthly_rows"] > 0
     assert manifest["quarterly_rows"] > 0
     assert monthly.index.is_monotonic_increasing
 
     vintage_manifest = json.loads(vintage_path.with_suffix(".json").read_text(encoding="utf-8"))
-    assert vintage_manifest["series_count"] == 17
+    assert vintage_manifest["series_count"] == 25
     assert vintage_manifest["sources"]["fred_md"].endswith("current.csv")

@@ -96,12 +96,18 @@ def load_country_panel_and_fit(
     processed_root: Path | str = "data/processed",
     config_dir: Path | str = "config/countries",
     options: DFMOptions | None = None,
+    max_monthly_series: int | None = None,
+    max_quarterly_series: int | None = None,
 ) -> Any:
     root = Path(processed_root) / iso.upper()
     monthly_path = root / f"monthly_{vintage_date}.parquet"
     quarterly_path = root / f"quarterly_{vintage_date}.parquet"
     monthly = _monthly_index(pd.read_parquet(monthly_path))
     quarterly = _quarterly_index(pd.read_parquet(quarterly_path)) if quarterly_path.exists() else None
+    if max_monthly_series is not None:
+        monthly = monthly.iloc[:, :max_monthly_series]
+    if quarterly is not None and max_quarterly_series is not None:
+        quarterly = quarterly.iloc[:, :max_quarterly_series]
     config = load_country_config(iso, config_dir)
     series_blocks = series_blocks_from_country_config(config, list(monthly.columns) + ([] if quarterly is None else list(quarterly.columns)))
     return fit_dynamic_factor_mq(

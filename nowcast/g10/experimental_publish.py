@@ -350,6 +350,14 @@ def _series_label(series_id: str) -> str:
         "CPILFESL": "Core consumer prices",
         "RPI": "Real personal income",
         "UNRATE": "Unemployment rate",
+        "DGS10": "10-year Treasury yield",
+        "TB3MS": "3-month Treasury bill",
+        "BAA": "BAA corporate bond yield",
+        "S&P 500": "S&P 500",
+        "EXUSUKx": "US dollar / British pound exchange rate",
+        "EXJPUSx": "Yen / US dollar exchange rate",
+        "HOUST": "Housing starts",
+        "UMCSENTx": "Consumer sentiment",
     }
     return labels.get(series_id, series_id)
 
@@ -373,6 +381,14 @@ def _series_category(series_id: str, fallback: str) -> str:
         "PPIACO": "prices",
         "RPI": "income",
         "UNRATE": "labour market",
+        "DGS10": "financial",
+        "TB3MS": "financial",
+        "BAA": "financial",
+        "S&P 500": "financial",
+        "EXUSUKx": "external",
+        "EXJPUSx": "external",
+        "HOUST": "housing",
+        "UMCSENTx": "sentiment",
     }
     return categories.get(series_id, fallback)
 

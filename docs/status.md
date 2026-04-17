@@ -30,10 +30,10 @@ The website-facing US GDP output remains the component bridge model for now. The
   - source-level release-impact rows from the largest monthly/quarterly panel movers
   - optional provenance artifacts listed in `metadata.json`
 - Improved the dashboard to label G10 outputs as experimental, group comparison impacts, and show optional G10 provenance without failing when optional diagnostics are absent or malformed.
-- Expanded the US G10 fixture panel to 17 series:
-  - 12 monthly FRED-MD-style series covering production, income, labour, prices, and wages
+- Expanded the US G10 fixture panel to 25 series:
+  - 20 monthly FRED-MD-style series covering production, income, labour, prices, wages, financial, external, housing, and sentiment inputs
   - 5 quarterly FRED-QD-style targets covering GDP, investment, profits, imports, and exports
-  - current fixture coverage ratio is 75.76% against the seed US config because several financial, external, housing, and sentiment panel inputs remain absent
+  - current fixture coverage ratio is 100% against the seed US config
 - Repaired the live FRED-MD/FRED-QD URL path:
   - current downloads now discover the St. Louis Fed index-page CSV targets when possible
   - explicit vintage downloads use the current `YYYY-MM-md.csv` / `YYYY-MM-qd.csv` media paths
@@ -60,7 +60,7 @@ Latest validation should include:
 - The G10 daily/replay/refit commands are scaffolded but intentionally not implemented.
 - The existing US component bridge is still the website-backed US GDP model until the DFM replay path is proven.
 - The `gdp_experimental` estimate is a development proxy, not a production GDPNow-equivalent DFM extraction.
-- The fixture coverage check now covers all configured US targets but still reports missing panel series including financial, external, housing, and sentiment inputs.
+- The fixture coverage check now covers all configured US targets and seed panel series; the values are synthetic fixture data for plumbing, not live FRED observations.
 - Live FRED-MD/FRED-QD access from this Windows environment timed out against the official St. Louis Fed host on 2026-04-17, including escalated direct dated-vintage attempts. The downloader now fails clearly, but a successful live pull still needs to be verified from a network path that can reach the host.
 - Non-US G10 vintage construction remains the largest engineering risk.
 
@@ -68,5 +68,5 @@ Latest validation should include:
 
 1. Add an end-to-end convenience command that assembles, smokes, publishes, and validates `gdp_experimental`.
 2. Re-test live `g10-assemble-us --download --vintage-month 2026-03 --download-timeout 180` from a network path that can reach St. Louis Fed CSV media URLs, then inspect row counts.
-3. Add the remaining seed-panel fixture series: `DGS10`, `TB3MS`, `BAA`, `S&P 500`, `EXUSUKx`, `EXJPUSx`, `HOUST`, and `UMCSENTx`.
-4. Promote the single-vintage experimental output into a replay artifact with vintage-to-vintage news deltas.
+3. Promote the single-vintage experimental output into a replay artifact with vintage-to-vintage news deltas.
+4. Add a live-source bypass or alternate mirror strategy if St. Louis Fed CSV access remains unavailable from the runtime network.

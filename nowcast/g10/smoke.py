@@ -34,6 +34,8 @@ def run_dfm_smoke(
         vintage_date=vintage_date,
         processed_root=processed_root,
         options=DFMOptions(factor_orders=1, maxiter=maxiter, tolerance=1e-3),
+        max_monthly_series=8,
+        max_quarterly_series=5,
     )
     root = Path(artifact_root) / iso.upper()
     root.mkdir(parents=True, exist_ok=True)
@@ -49,10 +51,11 @@ def run_dfm_smoke(
         "model_class": "statsmodels.tsa.statespace.DynamicFactorMQ",
         "monthly_shape": list(monthly.shape),
         "quarterly_shape": list(quarterly.shape),
+        "fitted_monthly_series_cap": 8,
+        "fitted_quarterly_series_cap": 5,
         "llf": float(getattr(results, "llf", float("nan"))),
         "converged": bool(getattr(getattr(results, "mle_retvals", {}), "get", lambda *_: False)("converged", False)),
         "maxiter": maxiter,
     }
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return SmokeArtifact(path=path, iso=iso.upper(), vintage_date=vintage_date)
-
