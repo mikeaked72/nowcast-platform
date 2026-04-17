@@ -625,10 +625,28 @@
       card("Reference period", latest.reference_period, latest.unit),
       card("Model", latest.model_version, latest.model_status),
       g10Summary ? card("G10 method", g10Summary.method || "n/a", g10Summary.vintage_date || latest.as_of_date) : document.createDocumentFragment(),
+      g10Summary?.replay_vintages ? card("Replay vintages", String(g10Summary.replay_vintages.length), g10Summary.replay_vintages.join(" to ")) : document.createDocumentFragment(),
       g10Processed ? card("Panel coverage", `${g10Processed.monthly_series || 0}M / ${g10Processed.quarterly_series || 0}Q`, `${g10Processed.start || "n/a"} to ${g10Processed.end || "n/a"}`) : document.createDocumentFragment(),
       card("Top source", topSourceLabel(), "largest absolute impact"),
+      replayProvenanceTable(g10Summary),
     );
     return section;
+  }
+
+  function replayProvenanceTable(g10Summary) {
+    const estimates = g10Summary?.replay_estimates || [];
+    if (!estimates.length) {
+      return document.createDocumentFragment();
+    }
+    return divWithChildren("overview-wide", [
+      sectionIntro("Replay Path", "Experimental G10 vintages published for this indicator."),
+      table(["Vintage", "Estimate", "Prior", "Method"], estimates.map((row) => [
+        row.vintage_date,
+        formatValue(row.nowcast_value, state.payload.metadata),
+        formatValue(row.prior_nowcast_value, state.payload.metadata),
+        row.method,
+      ])),
+    ]);
   }
 
   function sourceCoveragePanel() {

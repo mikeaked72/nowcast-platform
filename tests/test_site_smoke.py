@@ -42,6 +42,8 @@ def test_site_serves_app_and_generated_payloads() -> None:
         assert "Experimental G10 model path" in _text(root + "/app.js")
         assert "releaseImpactGroups" in _text(root + "/app.js")
         assert "G10 estimate provenance" in _text(root + "/app.js")
+        assert "Replay vintages" in _text(root + "/app.js")
+        assert "Replay Path" in _text(root + "/app.js")
         assert "model-status-badge" in _text(root + "/styles.css")
         assert "model-notice" in _text(root + "/styles.css")
         assert "diagnostics-panel" in _text(root + "/styles.css")
