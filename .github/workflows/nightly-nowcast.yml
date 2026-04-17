@@ -41,6 +41,10 @@ jobs:
         run: |
           python scripts/run_all_countries.py --countries "${{ steps.countries.outputs.countries }}" --publish-dir site/data
 
+      - name: Publish US G10 experimental replay
+        run: |
+          python -m nowcast.cli g10-replay-experimental-us --vintage-dates 2026-03-01,2026-04-01 --raw-root tests/fixtures/g10_us --vintage-root runs/g10/vintages --processed-root runs/g10/processed --artifact-root runs/g10/artifacts --publish-dir site/data
+
       - name: Validate published outputs
         run: |
           python scripts/validate_outputs.py --countries "${{ steps.countries.outputs.countries }}" --publish-dir site/data
