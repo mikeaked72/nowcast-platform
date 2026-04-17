@@ -135,6 +135,94 @@ def publish_experimental_g10_gdp(
     )
 
 
+def publish_experimental_g10_gdp_replay(
+    iso: str,
+    *,
+    vintage_dates: list[date],
+    processed_root: Path | str = "data/processed",
+    vintage_root: Path | str = "data/vintages",
+    artifact_root: Path | str = "artifacts",
+    proxy_weights: ProxyWeights | None = None,
+    publish_dir: Path | str = "site/data",
+    packs_dir: Path | str = "country_packs",
+) -> ExperimentalPublishResult:
+    """Publish an experimental multi-vintage G10 GDP replay."""
+
+    ordered_dates = sorted(dict.fromkeys(vintage_dates))
+    if not ordered_dates:
+        raise ValueError("at least one vintage date is required")
+    estimates = [
+        estimate_experimental_gdp_proxy(
+            iso,
+            vintage_date=vintage,
+            processed_root=processed_root,
+            weights=proxy_weights,
+        )
+        for vintage in ordered_dates
+    ]
+    points = [
+        G10NowcastPoint(
+            iso=iso.upper(),
+            target="gdp_experimental",
+            vintage_date=vintage,
+            impact_date=_reference_quarter(vintage),
+            nowcast=estimate.nowcast_value,
+        )
+        for vintage, estimate in zip(ordered_dates, estimates, strict=True)
+    ]
+    news: dict[date, list[G10NewsImpact]] = {}
+    previous_value: float | None = None
+    for vintage, estimate in zip(ordered_dates, estimates, strict=True):
+        total_impact = 0.0 if previous_value is None else estimate.nowcast_value - previous_value
+        impacts = _experimental_news(
+            iso.upper(),
+            vintage_date=vintage,
+            processed_root=Path(processed_root),
+            total_impact=total_impact,
+        )
+        impacts.extend(_carried_forward_impacts(vintage_date=vintage, prior_nowcast_value=previous_value))
+        impacts.extend(_pending_impacts(iso.upper(), vintage_date=vintage, vintage_root=Path(vintage_root)))
+        if impacts:
+            news[vintage] = impacts
+        previous_value = estimate.nowcast_value
+    model_run = g10_points_to_model_run(points, news=news)
+    country_code = iso.lower()
+    indicator_dir = publish_model_run_indicator(
+        country_code,
+        "gdp_experimental",
+        model_run,
+        publish_dir,
+        packs_dir=packs_dir,
+        model_status="warning",
+        model_version=MODEL_VERSION,
+        methodology=METHODOLOGY,
+        extra_downloads=DOWNLOADS,
+    )
+    latest_date = ordered_dates[-1]
+    latest_estimate = estimates[-1]
+    prior_estimate = estimates[-2].nowcast_value if len(estimates) > 1 else latest_estimate.prior_nowcast_value
+    _write_provenance_artifacts(
+        indicator_dir,
+        iso=iso.upper(),
+        vintage_date=latest_date,
+        method=f"replay:{latest_estimate.method}",
+        proxy_details=latest_estimate.details or {},
+        total_impact=0.0 if prior_estimate is None else latest_estimate.nowcast_value - prior_estimate,
+        nowcast_value=latest_estimate.nowcast_value,
+        prior_nowcast_value=prior_estimate,
+        processed_root=Path(processed_root),
+        vintage_root=Path(vintage_root),
+        artifact_root=Path(artifact_root),
+    )
+    _append_replay_summary(indicator_dir, ordered_dates, estimates)
+    return ExperimentalPublishResult(
+        indicator_dir=indicator_dir,
+        country_code=country_code,
+        indicator_code="gdp_experimental",
+        vintage_date=latest_date.isoformat(),
+    )
+
+
 def _write_provenance_artifacts(
     indicator_dir: Path,
     *,
@@ -200,6 +288,22 @@ def _write_provenance_artifacts(
     )
     for filename, source in artifact_sources.items():
         _copy_if_exists(source, indicator_dir / filename)
+
+
+def _append_replay_summary(indicator_dir: Path, vintage_dates: list[date], estimates: list[ExperimentalEstimate]) -> None:
+    path = indicator_dir / "g10_experimental_summary.json"
+    payload = _read_optional_json(path) or {}
+    payload["replay_vintages"] = [item.isoformat() for item in vintage_dates]
+    payload["replay_estimates"] = [
+        {
+            "vintage_date": vintage.isoformat(),
+            "nowcast_value": estimate.nowcast_value,
+            "prior_nowcast_value": estimate.prior_nowcast_value,
+            "method": estimate.method,
+        }
+        for vintage, estimate in zip(vintage_dates, estimates, strict=True)
+    ]
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def _experimental_news(

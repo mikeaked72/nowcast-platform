@@ -39,6 +39,10 @@ The website-facing US GDP output remains the component bridge model for now. The
   - explicit vintage downloads use the current `YYYY-MM-md.csv` / `YYYY-MM-qd.csv` media paths
   - raw downloads retry with a clearer `RawFetchError` instead of surfacing a low-level timeout trace
   - `g10-assemble-us` and `g10-run-experimental-us` accept `--download-timeout` and `--download-retries`
+- Added an experimental US G10 replay publish path:
+  - `publish_experimental_g10_gdp_replay()` publishes multiple vintages into normal site `history.csv`, `contributions.csv`, and `release_impacts.csv`
+  - CLI command `g10-replay-experimental-us --vintage-dates YYYY-MM-DD,YYYY-MM-DD` assembles, processes, publishes, and validates replay output
+  - `g10_experimental_summary.json` records replay vintages and estimates for provenance
 
 ## Validation Status
 
@@ -52,6 +56,7 @@ Latest validation should include:
 - `make test-replay-smoke`
 - `python -m nowcast.cli g10-dfm-smoke --iso US --vintage-date 2026-04-01 --processed-root <processed-root> --artifact-root <artifact-root> --maxiter 2`
 - `python -m nowcast.cli g10-publish-experimental --iso US --vintage-date 2026-04-01 --processed-root <processed-root> --vintage-root <vintage-root> --artifact-root <artifact-root> --publish-dir <site-data-root>`
+- `python -m nowcast.cli g10-replay-experimental-us --vintage-dates 2026-03-01,2026-04-01 --raw-root tests/fixtures/g10_us --publish-dir <site-data-root>`
 - `python -m nowcast.cli g10-check-coverage --iso US --vintage-date 2026-04-01 --vintage-root <vintage-root> --matrix-output <coverage.csv>`
 
 ## Current Risks
@@ -68,5 +73,5 @@ Latest validation should include:
 
 1. Add an end-to-end convenience command that assembles, smokes, publishes, and validates `gdp_experimental`.
 2. Re-test live `g10-assemble-us --download --vintage-month 2026-03 --download-timeout 180` from a network path that can reach St. Louis Fed CSV media URLs, then inspect row counts.
-3. Promote the single-vintage experimental output into a replay artifact with vintage-to-vintage news deltas.
-4. Add a live-source bypass or alternate mirror strategy if St. Louis Fed CSV access remains unavailable from the runtime network.
+3. Add a live-source bypass or alternate mirror strategy if St. Louis Fed CSV access remains unavailable from the runtime network.
+4. Extend replay beyond two fixture vintages once live FRED-MD/QD access or checked-in replay fixtures are available.

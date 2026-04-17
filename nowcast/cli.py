@@ -81,6 +81,18 @@ def main(argv: list[str] | None = None) -> int:
     g10_run_experimental_parser.add_argument("--download-retries", type=int, default=3, help="Download retry attempts")
     g10_run_experimental_parser.add_argument("--no-smoke", action="store_true", help="Skip the DFM smoke fit")
 
+    g10_replay_experimental_parser = subparsers.add_parser(
+        "g10-replay-experimental-us",
+        help="Assemble and publish a multi-vintage experimental US G10 GDP replay",
+    )
+    g10_replay_experimental_parser.add_argument("--vintage-dates", required=True, help="Comma-separated vintage dates in YYYY-MM-DD form")
+    g10_replay_experimental_parser.add_argument("--raw-root", default="data/raw", help="Raw source root")
+    g10_replay_experimental_parser.add_argument("--vintage-root", default="data/vintages", help="Vintage parquet root")
+    g10_replay_experimental_parser.add_argument("--processed-root", default="data/processed", help="Processed panel root")
+    g10_replay_experimental_parser.add_argument("--artifact-root", default="artifacts", help="DFM artifact root")
+    g10_replay_experimental_parser.add_argument("--publish-dir", default="site/data", help="Publish data root")
+    g10_replay_experimental_parser.add_argument("--packs-dir", default="country_packs", help="Country packs directory")
+
     g10_daily_parser = subparsers.add_parser("g10-daily", help="Future G10 daily DynamicFactorMQ loop")
     g10_daily_parser.add_argument("--iso", help="Optional ISO country code")
 
@@ -298,6 +310,52 @@ def main(argv: list[str] | None = None) -> int:
             f"{latest['estimate_value']} {latest['unit']} "
             f"(prior {latest['prior_estimate_value']}, delta {latest['delta_vs_prior']}, method {summary['method']})"
         )
+        print("validation ok")
+        return 0
+
+    if args.command == "g10-replay-experimental-us":
+        try:
+            from nowcast.g10.assemble import assemble_us_vintage
+            from nowcast.g10.experimental_publish import publish_experimental_g10_gdp_replay
+            from nowcast.g10.panel import build_processed_panel
+            from nowcast.schemas import validate_publish_dir
+
+            vintage_dates = []
+            for raw in args.vintage_dates.split(","):
+                vintage_date = parse_as_of(raw.strip())
+                if vintage_date is None:
+                    raise ValueError(f"invalid vintage date {raw!r}")
+                vintage_dates.append(vintage_date)
+            for vintage_date in sorted(dict.fromkeys(vintage_dates)):
+                assemble_us_vintage(
+                    vintage_date,
+                    raw_root=Path(args.raw_root),
+                    vintage_root=Path(args.vintage_root),
+                )
+                build_processed_panel(
+                    "US",
+                    vintage_date,
+                    vintage_root=Path(args.vintage_root),
+                    processed_root=Path(args.processed_root),
+                )
+            publish_result = publish_experimental_g10_gdp_replay(
+                "US",
+                vintage_dates=vintage_dates,
+                processed_root=Path(args.processed_root),
+                vintage_root=Path(args.vintage_root),
+                artifact_root=Path(args.artifact_root),
+                publish_dir=Path(args.publish_dir),
+                packs_dir=Path(args.packs_dir),
+            )
+            validation = validate_publish_dir(Path(args.publish_dir), countries=["us"])
+            if not validation.ok:
+                for error in validation.errors:
+                    print(error, file=sys.stderr)
+                return 1
+        except Exception as exc:
+            print(f"g10 experimental replay failed: {exc}", file=sys.stderr)
+            return 1
+        print(f"published replay {publish_result.country_code}/{publish_result.indicator_code} to {publish_result.indicator_dir}")
         print("validation ok")
         return 0
 

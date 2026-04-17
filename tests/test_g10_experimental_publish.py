@@ -11,7 +11,12 @@ from pathlib import Path
 import pytest
 
 from nowcast.g10.assemble import assemble_us_vintage
-from nowcast.g10.experimental_publish import ProxyWeights, estimate_experimental_gdp_proxy, publish_experimental_g10_gdp
+from nowcast.g10.experimental_publish import (
+    ProxyWeights,
+    estimate_experimental_gdp_proxy,
+    publish_experimental_g10_gdp,
+    publish_experimental_g10_gdp_replay,
+)
 from nowcast.g10.panel import build_processed_panel
 from nowcast.g10.smoke import run_dfm_smoke
 from nowcast.publish import publish_sample_country
@@ -184,6 +189,39 @@ def test_publish_experimental_reports_missing_processed_manifest(tmp_path: Path)
     assert not (result.indicator_dir / "g10_processed_manifest.json").exists()
 
 
+def test_publish_experimental_replay_writes_multi_vintage_history(tmp_path: Path) -> None:
+    raw_root = tmp_path / "raw"
+    vintage_root = tmp_path / "vintages"
+    processed_root = tmp_path / "processed"
+    publish_root = tmp_path / "site-data"
+    shutil.copytree(FIXTURE_ROOT, raw_root)
+    for vintage in (date(2026, 3, 1), date(2026, 4, 1)):
+        assemble_us_vintage(vintage, raw_root=raw_root, vintage_root=vintage_root)
+        build_processed_panel("US", vintage, vintage_root=vintage_root, processed_root=processed_root)
+
+    result = publish_experimental_g10_gdp_replay(
+        "US",
+        vintage_dates=[date(2026, 4, 1), date(2026, 3, 1)],
+        processed_root=processed_root,
+        vintage_root=vintage_root,
+        artifact_root=tmp_path / "artifacts",
+        publish_dir=publish_root,
+    )
+
+    validation = validate_publish_dir(publish_root, countries=["us"])
+    assert validation.errors == ()
+    with (result.indicator_dir / "history.csv").open(newline="", encoding="utf-8") as handle:
+        history_rows = list(csv.DictReader(handle))
+    with (result.indicator_dir / "release_impacts.csv").open(newline="", encoding="utf-8") as handle:
+        impact_rows = list(csv.DictReader(handle))
+    summary = json.loads((result.indicator_dir / "g10_experimental_summary.json").read_text(encoding="utf-8"))
+
+    assert [row["as_of_date"] for row in history_rows] == ["2026-03-01", "2026-04-01"]
+    assert history_rows[-1]["prior_estimate_value"] == history_rows[0]["estimate_value"]
+    assert any(row["latest_as_of_date"] == "2026-04-01" and row["prior_as_of_date"] == "2026-03-01" for row in impact_rows)
+    assert summary["replay_vintages"] == ["2026-03-01", "2026-04-01"]
+
+
 def test_g10_run_experimental_us_cli_creates_valid_payload(tmp_path: Path) -> None:
     publish_root = tmp_path / "site-data"
     result = subprocess.run(
@@ -215,3 +253,36 @@ def test_g10_run_experimental_us_cli_creates_valid_payload(tmp_path: Path) -> No
     assert validate_publish_dir(publish_root, countries=["us"]).errors == ()
     latest = json.loads((publish_root / "us" / "gdp_experimental" / "latest.json").read_text(encoding="utf-8"))
     assert latest["estimate_value"] == 0.9469
+
+
+def test_g10_replay_experimental_us_cli_creates_multi_vintage_payload(tmp_path: Path) -> None:
+    publish_root = tmp_path / "site-data"
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "nowcast.cli",
+            "g10-replay-experimental-us",
+            "--vintage-dates",
+            "2026-03-01,2026-04-01",
+            "--raw-root",
+            "tests/fixtures/g10_us",
+            "--vintage-root",
+            str(tmp_path / "vintages"),
+            "--processed-root",
+            str(tmp_path / "processed"),
+            "--artifact-root",
+            str(tmp_path / "artifacts"),
+            "--publish-dir",
+            str(publish_root),
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 0, result.stderr
+    assert "validation ok" in result.stdout
+    with (publish_root / "us" / "gdp_experimental" / "history.csv").open(newline="", encoding="utf-8") as handle:
+        history_rows = list(csv.DictReader(handle))
+    assert [row["as_of_date"] for row in history_rows] == ["2026-03-01", "2026-04-01"]
