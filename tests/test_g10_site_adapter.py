@@ -23,6 +23,7 @@ def test_g10_points_to_model_run_preserves_nowcast_and_news() -> None:
                     expected_value=0.1,
                     impact=0.4,
                     category="real",
+                    source_url="https://fred.stlouisfed.org/series/INDPRO",
                 )
             ]
         },
@@ -32,3 +33,4 @@ def test_g10_points_to_model_run_preserves_nowcast_and_news() -> None:
     assert run.latest.delta_vs_prior == pytest.approx(0.4)
     assert run.latest.source_observations[0].series_code == "INDPRO"
     assert run.latest.source_observations[0].impact_on_nowcast == 0.4
+    assert run.latest.source_observations[0].source_url == "https://fred.stlouisfed.org/series/INDPRO"

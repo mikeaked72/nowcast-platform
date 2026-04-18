@@ -324,6 +324,7 @@ def _experimental_news(
             impact=round(total_impact * float(item["change"]) / weight_total, 10),
             category=item["category"],
             status="new_release",
+            source_url=_series_source_url(str(item["series_id"])),
         )
         for item in movers
     ]
@@ -347,6 +348,7 @@ def _pending_impacts(iso: str, *, vintage_date: date, vintage_root: Path) -> lis
             impact=0.0,
             category="missing input",
             status="pending",
+            source_url=_series_source_url(series_id),
         )
         for series_id in sorted(dict.fromkeys(missing))[:8]
     ]
@@ -491,6 +493,14 @@ def _series_category(series_id: str, fallback: str) -> str:
         "UMCSENTx": "sentiment",
     }
     return categories.get(series_id, fallback)
+
+
+def _series_source_url(series_id: str) -> str:
+    if series_id == "S&P 500":
+        return "https://fred.stlouisfed.org/series/SP500"
+    if series_id == "prior_g10_proxy":
+        return ""
+    return f"https://fred.stlouisfed.org/series/{series_id}"
 
 
 def _copy_if_exists(source: Path, destination: Path) -> None:

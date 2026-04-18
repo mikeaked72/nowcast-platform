@@ -28,6 +28,7 @@ class G10NewsImpact:
     impact: float
     category: str = "dfm news"
     status: str = "new_release"
+    source_url: str = ""
 
 
 def g10_points_to_model_run(
@@ -77,6 +78,7 @@ def g10_points_to_model_run(
                 category=impact.category,
                 units="percentage points",
                 release_status=impact.status,
+                source_url=impact.source_url,
             )
             for impact in impacts
         )

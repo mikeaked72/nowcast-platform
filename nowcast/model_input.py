@@ -37,6 +37,7 @@ class SourceObservation:
     category: str
     units: str
     release_status: str = "released"
+    source_url: str = ""
 
     @property
     def surprise(self) -> float:
@@ -170,6 +171,7 @@ def _row_to_observation(path: Path, index: int, row: dict[str, str]) -> SourceOb
             category=_required_text(path, index, row, "category"),
             units=_required_text(path, index, row, "units"),
             release_status=row.get("release_status", "released").strip() or "released",
+            source_url=row.get("source_url", "").strip(),
         )
     except ValueError as exc:
         raise ValueError(f"{path}: row {index} has invalid data: {exc}") from exc

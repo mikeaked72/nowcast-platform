@@ -428,7 +428,7 @@ def _payload_from_model_run(
                 "unit": observation.units,
                 "notes": observation.release_status,
                 "source": observation.series_code,
-                "source_url": "",
+                "source_url": observation.source_url,
             }
             for snapshot in model_run.snapshots
             for observation in snapshot.source_observations

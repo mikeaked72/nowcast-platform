@@ -67,6 +67,7 @@ def test_publish_experimental_g10_gdp_writes_valid_site_payload(tmp_path: Path) 
     assert {item["frequency"] for item in summary["impact_by_frequency"]} >= {"monthly"}
     assert (result.indicator_dir / "g10_smoke.json").exists()
     assert any(row["notes"] == "new_release" for row in release_rows)
+    assert any(row["source"] == "DGS10" and row["source_url"] == "https://fred.stlouisfed.org/series/DGS10" for row in release_rows)
     assert any(row["source"] == "prior_g10_proxy" and row["notes"] == "carried_forward" for row in release_rows)
     assert not any(row["notes"] == "pending" and row["category"] == "missing input" for row in release_rows)
     new_release_categories = {row["category"] for row in release_rows if row["notes"] == "new_release"}
